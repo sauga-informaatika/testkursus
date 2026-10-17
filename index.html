@@ -469,7 +469,7 @@ footer p{margin:0;max-width:80ch}
   <div class="chapter-head">
     <div class="num">Teema 2 · ülesanded 4–7</div>
     <h2>Tegelane liigub</h2>
-    <p>Paned tegelase liikuma klaviatuuri ja hiirega ning saadad ta täpselt määratud kohta.</p>
+    <p>Paned tegelase liikuma klaviatuuriga, lisad hiirega juhitava liblika ja saadad tegelase täpselt määratud kohta.</p>
   </div>
 
   <div class="theory">
@@ -542,23 +542,27 @@ muuda x (10) võrra</pre>
   <article class="task" id="u5">
     <div class="task-head">
       <div class="task-no">5</div>
-      <h3>Tegelane jälitab hiirt</h3>
-      <div class="chips"><span class="chip k-events">Sündmused</span><span class="chip k-control">Juhtimine</span><span class="chip k-motion">Liikumine</span><span class="chip time">10 min</span></div>
+      <h3>Liblikas jälitab hiirt</h3>
+      <div class="chips"><span class="chip k-events">Sündmused</span><span class="chip k-control">Juhtimine</span><span class="chip k-motion">Liikumine</span><span class="chip time">10–15 min</span></div>
     </div>
-    <div class="mission"><b>Ülesanne:</b> tegelane jälitab hiirekursorit.</div>
+    <div class="mission"><b>Ülesanne:</b> lisa parki uus tegelane, liblikas, ja pane ta jälitama hiirekursorit.</div>
+    <p class="note">Miks uus tegelane? Tegelast juhid juba W, A, S ja D klahviga. Kui paneksid hiire jälitamise samale spraidile, segaksid kaks skripti teineteist. Nii on igal tegelasel oma juhtimine: Tegelane liigub klahvidega ja Liblikas hiirega.</p>
     <div class="cols">
       <div>
         <div class="label">Kuidas teha</div>
         <ol class="steps">
+          <li>Lisa galeriist liblikas: vajuta spraitide alas kassi-ikoonile (<span class="ui">Vali sprait</span>), kirjuta otsingusse <b>butterfly</b> ja klõpsa liblikal.</li>
+          <li>Pane spraidile nimeks <b>Liblikas</b> ja suuruseks umbes <b>50</b>.</li>
+          <li>Vaata, et spraitide alas oleks valitud <b>Liblikas</b>. Kood läheb alati sellele spraidile, mis on parajasti valitud.</li>
           <li>Võta <b>kui klõpsata 🏁</b> (rohelise lipuga) plokk.</li>
           <li><span class="blk k-control">Juhtimine</span> alt lisa <b>korda lõputult</b>. Kõik, mis on selle sees, toimub uuesti ja uuesti.</li>
           <li>Pane kordusesse <b>osuta hiirekursor-le</b> ja <b>liigu 5 punkti</b>.</li>
-          <li>Vajuta rohelist lippu ja liiguta hiirt laval. Peatamiseks vajuta stoppnuppu.</li>
+          <li>Vajuta rohelist lippu ja liiguta hiirt laval. Proovi samal ajal ka Tegelast W, A, S ja D klahviga juhtida. Peatamiseks vajuta stoppnuppu.</li>
         </ol>
-        <p class="note">Kui tegelane läheb pea alaspidi, ava spraidi alas <span class="ui">Suund</span> ja vali <span class="ui">vasak/parem</span>.</p>
+        <p class="note">Kui liblikas läheb pea alaspidi, ava spraidi alas <span class="ui">Suund</span> ja vali <span class="ui">vasak/parem</span>.</p>
       </div>
       <div class="code">
-        <p class="who">Tegelane</p>
+        <p class="who">Liblikas</p>
 <pre class="blocks">kui klõpsata @greenFlag
 korda lõputult
 osuta (hiirekursor v)-le
@@ -566,7 +570,7 @@ liigu (5) punkti
 end</pre>
       </div>
     </div>
-    <div class="extra"><p><b>Kiirematele:</b> tegelane jääb vahetult enne kursorini jõudmist seisma. Liigu ainult siis, kui kaugus kursorist on suurem kui 10. Seda <b>kui … siis</b> plokki õpid lähemalt teemas 8.</p></div>
+    <div class="extra"><p><b>Kiirematele:</b> liblikas jääb vahetult enne kursorini jõudmist seisma. Liigu ainult siis, kui kaugus kursorist on suurem kui 10. Seda <b>kui … siis</b> plokki õpid lähemalt teemas 8.</p></div>
     <div class="code">
 <pre class="blocks">kui klõpsata @greenFlag
 korda lõputult
@@ -578,7 +582,8 @@ end</pre>
     </div>
     <div class="check" data-task="5">
       <div class="label">Kontrolli</div>
-      <label><input type="checkbox" id="c5a"> Tegelane liigub hiire poole ja peatub stoppnupuga.</label>
+      <label><input type="checkbox" id="c5a"> Liblikas liigub hiire poole ja peatub stoppnupuga.</label>
+      <label><input type="checkbox" id="c5b"> Tegelane liigub endiselt W, A, S ja D klahviga.</label>
     </div>
   </article>
 
