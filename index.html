@@ -108,6 +108,13 @@ ol.steps li::marker{font-family:var(--font-display);font-weight:700;color:var(--
 .code .who:not(:first-child){margin-top:14px}
 pre.blocks{margin:0;font-size:13px;white-space:pre}
 .note{font-size:15px;color:var(--muted);margin:0}
+.lang-box{background:var(--tip);border:1px solid var(--tip-line);border-radius:var(--radius);padding:20px 22px;margin:0 0 36px;display:grid;gap:14px}
+.lang-box h2{font-family:var(--font-display);font-size:28px;margin:0;line-height:1.2}
+.lang-box p{margin:0}
+.lang-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start}
+.lang-grid h3{font-size:17px;margin:0 0 8px}
+.lang-grid ol{margin:0 0 12px;padding-left:22px}
+.lang-grid img{display:block;max-width:100%;height:auto;border-radius:10px;border:1px solid var(--line);background:#fff}
 .check{display:grid;gap:4px}
 .check label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
 .check input{width:20px;height:20px;margin-top:3px;accent-color:var(--accent);flex:none}
@@ -187,6 +194,33 @@ footer p{margin:0;max-width:80ch}
 
 <main>
 
+<!-- keel -->
+<section class="lang-box" id="keel">
+  <h2>Muuda Scratch eesti keelde</h2>
+  <p>Kui Scratch on inglise keeles, muuda keel enne alustamist eestikeelseks. Seda saab teha kahes kohas. Vali see, kus sa parajasti oled.</p>
+  <div class="lang-grid">
+    <div>
+      <h3>Scratchi veebilehel</h3>
+      <ol>
+        <li>Keri lehe <b>kõige lõppu</b>.</li>
+        <li>Klõpsa keelekastil, kus on kirjas <b>English</b>.</li>
+        <li>Vali loendist <b>Eesti</b>.</li>
+      </ol>
+      <img src="pildid/keel_veebileht.jpg" alt="Scratchi veebilehe lõpus on keelekast, kus on kirjas English." width="800" height="281" loading="lazy">
+    </div>
+    <div>
+      <h3>Projekti sees</h3>
+      <ol>
+        <li>Klõpsa üleval vasakul <b>hammasratta</b> ikoonil.</li>
+        <li>Vii hiir sõna <b>Language</b> peale.</li>
+        <li>Vali loendist <b>Eesti</b>. Keeled on tähestiku järjekorras ja Eesti on kohe Deutsch'i järel.</li>
+      </ol>
+      <img src="pildid/keel_redaktor.jpg" alt="Projekti sees: hammasratas, siis Language ja loendist Eesti." width="500" height="640" loading="lazy">
+    </div>
+  </div>
+  <p class="note">Tavaliselt jätab brauser keele meelde. Kui Scratch on järgmisel korral jälle inglise keeles, tee sama uuesti.</p>
+</section>
+
 <!-- alusta -->
 <section class="chapter" id="alusta">
   <div class="chapter-head">
@@ -251,7 +285,7 @@ footer p{margin:0;max-width:80ch}
     </div>
     <ol class="steps">
       <li>Mine aadressile <b>scratch.mit.edu</b> ja vajuta üleval paremal <span class="ui">Logi sisse</span> (inglise keeles <span class="ui">Sign in</span>). Kasutajanime ja parooli saad õpetajalt.</li>
-      <li>Kui leht on inglise keeles, keri lehe lõppu ja vali keeleks <b>Eesti</b>.</li>
+      <li>Kui leht on inglise keeles, muuda see eesti keelde. Kuidas seda teha, vaata <a href="#keel">lehe algusest</a>.</li>
       <li>Vajuta üleval <span class="ui">Loo</span> (inglise keeles <span class="ui">Create</span>). Avaneb uus projekt, kus on kass.</li>
       <li>Kirjuta projekti nimi üleval asuvasse kasti: <b>park</b>. Oma päris nime pealkirja ära kirjuta, sest Scratchis on jagatud projektid kõigile nähtavad.</li>
       <li>Salvesta tihti: <span class="ui">Fail</span> → <span class="ui">Salvesta nüüd</span>. Scratch salvestab sisse logitud kasutajal ka ise, kuid kindlam on vajutada.</li>
