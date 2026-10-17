@@ -1,0 +1,2167 @@
+<title>Scratchi algkursus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Lexend:wght@400;500;600&display=swap">
+<style>
+/* Layout: õpiku-leht. Laial ekraanil kleepuv sisukord vasakul, kitsal sisukord üleval. Iga teema = peatükk, iga ülesanne = kaart. Värvikoodid on Scratchi plokikategooriate omad. */
+:root{
+  --bg:#f4f5fb; --surface:#ffffff; --fg:#1d2033; --muted:#5b6078; --line:#dfe1ee;
+  --accent:#855cd6; --accent-ink:#5b38a8; --accent-soft:#efe9fc;
+  --theory:#fff7e0; --theory-line:#f0c75a; --tip:#e7f6f1; --tip-line:#3fae8c;
+  --c-motion:#4c97ff; --c-looks:#9966ff; --c-events:#e6a800; --c-control:#ffab19; --c-sensing:#4aa8cc; --c-operators:#59c059; --c-variables:#ff8c1a; --c-draw:#d65cad; --c-pen:#0fbd8c;
+  --solo-soft:#ddf1fb; --solo-ink:#0f5f86; --solo-line:#9fd3ec;
+  --font-display:"Baloo 2","Trebuchet MS",system-ui,sans-serif;
+  --font-body:"Lexend",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --radius:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#15161f; --surface:#1e2030; --fg:#eceefa; --muted:#a3a8c3; --line:#33364c;
+  --accent:#a98bf0; --accent-ink:#c7b4ff; --accent-soft:#2a2442;
+  --theory:#2e2814; --theory-line:#a8862c; --tip:#15302a; --tip-line:#3fae8c; --c-events:#ffbf00;
+  --solo-soft:#123447; --solo-ink:#8fd3f5; --solo-line:#24536b;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#15161f; --surface:#1e2030; --fg:#eceefa; --muted:#a3a8c3; --line:#33364c;
+  --accent:#a98bf0; --accent-ink:#c7b4ff; --accent-soft:#2a2442;
+  --theory:#2e2814; --theory-line:#a8862c; --tip:#15302a; --tip-line:#3fae8c; --c-events:#ffbf00;
+  --solo-soft:#123447; --solo-ink:#8fd3f5; --solo-line:#24536b;
+  color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:16px}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.6;padding-inline:16px;padding-block:0 48px}
+a{color:var(--accent-ink)}
+a:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+h1,h2,h3,h4{font-family:var(--font-display);line-height:1.15;text-wrap:balance;margin:0}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:250px minmax(0,1fr);gap:40px}
+@media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr);gap:0}}
+
+/* Päis */
+.hero{max-width:1180px;margin:0 auto;padding-block:40px 28px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end}
+.hero .eyebrow{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.hero h1{font-size:clamp(40px,7vw,68px);font-weight:800;color:var(--fg);margin-top:6px}
+.hero h1 span{color:var(--accent)}
+.hero p{max-width:60ch;color:var(--muted);margin:10px 0 0}
+.hero-blocks{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.pill{font-family:var(--font-body);font-weight:600;font-size:14px;color:#fff;padding:6px 14px 6px 12px;border-radius:6px 18px 18px 6px;white-space:nowrap}
+@media (max-width:700px){.hero{grid-template-columns:minmax(0,1fr)}.hero-blocks{flex-direction:row;flex-wrap:wrap}}
+
+/* Sisukord */
+nav.toc{position:sticky;top:env(safe-area-inset-top,0px);align-self:start;max-height:100vh;overflow:auto;padding-block:8px 24px}
+nav.toc h2{font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-family:var(--font-body);font-weight:600;margin-bottom:10px}
+nav.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+nav.toc a{display:grid;grid-template-columns:28px 1fr;gap:6px;text-decoration:none;color:var(--fg);padding:6px 8px;border-radius:8px;font-size:15px;line-height:1.35}
+nav.toc a:hover{background:var(--accent-soft)}
+nav.toc .n{font-family:var(--font-display);font-weight:700;color:var(--accent)}
+.toc-toggle{display:none}
+@media (max-width:900px){
+  nav.toc{position:static;max-height:none;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:4px 14px;margin-bottom:24px}
+  nav.toc h2{display:none}
+  .toc-toggle{display:block;width:100%;text-align:left;background:none;border:0;color:var(--fg);font:600 16px var(--font-body);padding:12px 0;cursor:pointer}
+  .toc-toggle::after{content:" ▾";color:var(--accent)}
+  nav.toc:not(.open) ol{display:none}
+  nav.toc ol{padding-bottom:10px}
+}
+
+main{min-width:0;display:grid;gap:56px}
+
+/* Peatükk */
+.chapter{display:grid;gap:22px}
+.chapter-head{display:grid;gap:8px;border-bottom:2px solid var(--line);padding-bottom:14px}
+.chapter-head .num{font-family:var(--font-display);font-weight:700;color:var(--accent);font-size:18px}
+.chapter-head h2{font-size:clamp(30px,4.4vw,42px);font-weight:800}
+.chapter-head p{margin:0;color:var(--muted);max-width:65ch}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:13px;font-weight:600;color:#fff;padding:2px 10px;border-radius:999px;line-height:1.6}
+.chip.time{background:transparent;color:var(--muted);border:1px solid var(--line);font-variant-numeric:tabular-nums}
+.k-motion{background:var(--c-motion)}.k-looks{background:var(--c-looks)}.k-events{background:var(--c-events);color:#3a2b00}.k-control{background:var(--c-control);color:#3a2400}.k-sensing{background:var(--c-sensing)}.k-operators{background:var(--c-operators);color:#0f2e0f}.k-variables{background:var(--c-variables);color:#3a1d00}.k-draw{background:var(--c-draw)}.k-pen{background:var(--c-pen);color:#062d22}
+
+/* Teooria */
+.theory{background:var(--theory);border:1px solid var(--theory-line);border-radius:var(--radius);padding:20px 22px;display:grid;gap:10px}
+.theory h3{font-size:24px}
+.theory h3 small{display:block;font-family:var(--font-body);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:2px}
+.theory p{margin:0;max-width:68ch}
+.theory ul{margin:0;padding-left:1.2em;display:grid;gap:4px;max-width:68ch}
+dl.terms{margin:0;display:grid;gap:8px}
+dl.terms div{display:grid;grid-template-columns:minmax(110px,max-content) 1fr;gap:12px}
+dl.terms dt{font-weight:600}
+dl.terms dd{margin:0}
+@media (max-width:520px){dl.terms div{grid-template-columns:1fr;gap:0}}
+
+/* Ülesanne */
+.task{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px;display:grid;gap:16px;min-width:0}
+.task-head{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:start}
+.task-no{grid-row:span 2;width:46px;height:46px;border-radius:12px;background:var(--accent-soft);color:var(--accent-ink);font-family:var(--font-display);font-weight:800;font-size:24px;display:grid;place-items:center}
+.task-head h3{font-size:24px;font-weight:700}
+.goal{font-size:15px;color:var(--muted)}
+.mission{background:var(--accent-soft);border-radius:10px;padding:12px 16px;font-weight:500}
+.mission b{color:var(--accent-ink)}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
+@media (max-width:760px){.cols{grid-template-columns:minmax(0,1fr)}}
+.label{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:6px}
+ol.steps{margin:0;padding-left:1.4em;display:grid;gap:8px}
+ol.steps li::marker{font-family:var(--font-display);font-weight:700;color:var(--accent)}
+.ui{font-weight:600;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:0 6px;white-space:nowrap}
+.blk{font-weight:600;color:#fff;border-radius:5px;padding:1px 7px;white-space:nowrap;font-size:.92em}
+.code{min-width:0;overflow-x:auto;background:var(--bg);border-radius:10px;padding:14px}
+.code .who{font-size:13px;font-weight:600;color:var(--muted);margin:0 0 4px}
+.code .who:not(:first-child){margin-top:14px}
+pre.blocks{margin:0;font-size:13px;white-space:pre}
+.note{font-size:15px;color:var(--muted);margin:0}
+.check{display:grid;gap:4px}
+.check label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.check input{width:20px;height:20px;margin-top:3px;accent-color:var(--accent);flex:none}
+.extra{background:var(--tip);border-left:4px solid var(--tip-line);border-radius:0 10px 10px 0;padding:10px 14px}
+.extra p{margin:0}
+
+/* Iseseisvad */
+.solo-head{display:grid;gap:6px;margin-top:12px;padding-top:18px;border-top:2px dashed var(--line)}
+.solo-head h3{font-size:26px;font-weight:800;color:var(--solo-ink)}
+.solo-head p{margin:0;color:var(--muted);max-width:68ch}
+.task.solo{border-color:var(--solo-line)}
+.task.solo .task-no{background:var(--solo-soft);color:var(--solo-ink)}
+.chip.solo-chip{background:var(--solo-soft);color:var(--solo-ink)}
+details.hint{background:var(--bg);border-radius:10px;padding:8px 14px}
+details.hint summary{cursor:pointer;font-weight:600;color:var(--solo-ink)}
+details.hint p{margin:6px 0 2px}
+.share{background:var(--accent-soft);border-radius:10px;padding:12px 16px}
+.task ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
+.task > p{margin:0}
+
+/* Kordamine */
+.review{display:grid;gap:8px}
+.review h3{font-size:22px}
+.review details{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.review summary{cursor:pointer;font-weight:500}
+.review details p{margin:8px 0 2px;color:var(--fg)}
+.review details[open] summary{color:var(--accent-ink)}
+.more{font-size:15px;color:var(--muted)}
+.more a{font-weight:500}
+
+/* Scratchi aken ja koordinaadid */
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px;overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto;min-width:320px}
+.figure figcaption{font-size:14px;color:var(--muted);margin-top:8px}
+figure{margin:0}
+.svg-fg{fill:var(--fg)}.svg-muted{fill:var(--muted)}.svg-line{stroke:var(--line)}.svg-surface{fill:var(--bg)}.svg-accent{fill:var(--accent)}
+
+footer{max-width:1180px;margin:56px auto 0;border-top:1px solid var(--line);padding-top:18px;font-size:14px;color:var(--muted);display:grid;gap:6px}
+footer p{margin:0;max-width:80ch}
+</style>
+
+<header class="hero">
+  <div>
+    <div class="eyebrow">5. klass · Scratch 3 · eesti keeles</div>
+    <h1>Scratchi <span>algkursus</span></h1>
+    <p>Siin on kõik tunnis koos tehtud ülesanded koos õpetuse ja teooriaga ning iga teema lõpus iseseisvad ülesanded. Kui sa puudusid või tahad kodus korrata, loe teema teooria, tee ülesanne samm-sammult ja kontrolli lõpus linnukestega, kas kõik töötab.</p>
+  </div>
+  <div class="hero-blocks" aria-hidden="true">
+    <span class="pill k-events">kui klõpsata 🏁</span>
+    <span class="pill k-motion">liigu 10 punkti</span>
+    <span class="pill k-looks">ütle Tere!</span>
+    <span class="pill k-control">korda 10 korda</span>
+  </div>
+</header>
+
+<div class="wrap">
+<nav class="toc" aria-label="Sisukord">
+  <h2>Sisukord</h2>
+  <button type="button" class="toc-toggle" id="toc-toggle" aria-expanded="false" aria-controls="toc-list">Sisukord</button>
+  <ol id="toc-list">
+    <li><a href="#alusta"><span class="n">0</span><span>Enne alustamist</span></a></li>
+    <li><a href="#pilt"><span class="n">1</span><span>Pilt ja tegelased</span></a></li>
+    <li><a href="#liikumine"><span class="n">2</span><span>Tegelane liigub</span></a></li>
+    <li><a href="#valimus"><span class="n">3</span><span>Kostüümid, peitmine ja näitamine</span></a></li>
+    <li><a href="#taustad"><span class="n">4</span><span>Taustade vahetamine</span></a></li>
+    <li><a href="#dialoog"><span class="n">5</span><span>Dialoog ja teated</span></a></li>
+    <li><a href="#kordused"><span class="n">6</span><span>Kordused</span></a></li>
+    <li><a href="#pliiats"><span class="n">7</span><span>Joonistamine pliiatsiga</span></a></li>
+    <li><a href="#tingimused"><span class="n">8</span><span>Tingimused</span></a></li>
+    <li><a href="#kysimused"><span class="n">9</span><span>Küsimine, arvutamine ja võrdlemine</span></a></li>
+    <li><a href="#muutuja"><span class="n">10</span><span>Muutuja</span></a></li>
+    <li><a href="#juhuslikkus"><span class="n">11</span><span>Juhuslikkus</span></a></li>
+    <li><a href="#vead"><span class="n">12</span><span>Vigade otsimine</span></a></li>
+    <li><a href="#sonastik"><span class="n">?</span><span>Sõnastik</span></a></li>
+  </ol>
+</nav>
+
+<main>
+
+<!-- alusta -->
+<section class="chapter" id="alusta">
+  <div class="chapter-head">
+    <div class="num">Teema 0</div>
+    <h2>Enne alustamist</h2>
+    <p>Mis on programm, mis on Scratch ja kuidas Scratchi aken välja näeb.</p>
+  </div>
+
+  <div class="theory">
+    <h3><small>Teooria</small>Mis on programm?</h3>
+    <p>Arvuti ei mõtle ise. Ta teeb täpselt seda, mida talle öeldakse, ja täpselt selles järjekorras. <b>Algoritm</b> on samm-sammuline juhend mingi töö tegemiseks. Hommikune riietumine, võileiva tegemine ja koolitee on kõik algoritmid.</p>
+    <p><b>Programm</b> on algoritm, mis on kirjutatud nii, et arvuti saab sellest aru ja oskab seda täita. Programmi kirjutamist nimetatakse <b>programmeerimiseks</b>.</p>
+    <p><b>Scratch</b> on programmeerimiskeel, kus käske ei trükita, vaid need lohistatakse kokku värvilistest plokkidest nagu Lego klotsid. Plokid sobivad kokku ainult nii, nagu need sobima peavad, nii et vigu on raskem teha.</p>
+    <dl class="terms">
+      <div><dt>Lava</dt><dd>Valge ala paremal üleval. Seal näed, mida sinu programm teeb.</dd></div>
+      <div><dt>Sprait</dt><dd>Tegelane või asi laval (näiteks kass, õun, päike). Igal spraidil on oma programm.</dd></div>
+      <div><dt>Taust</dt><dd>Pilt lava taga.</dd></div>
+      <div><dt>Plokk</dt><dd>Üks käsk. Plokid on jagatud värvi järgi rühmadesse: <span class="blk k-motion">Liikumine</span> <span class="blk k-looks">Välimus</span> <span class="blk k-events">Sündmused</span> <span class="blk k-control">Juhtimine</span> <span class="blk k-sensing">Andurid</span> <span class="blk k-operators">Tehted</span> <span class="blk k-variables">Muutujad</span></dd></div>
+      <div><dt>Skript</dt><dd>Kokku pandud plokkide virn. Scratch täidab seda ülevalt alla.</dd></div>
+    </dl>
+  </div>
+
+  <figure class="figure">
+    <svg viewBox="0 0 640 330" role="img" aria-label="Scratchi akna osad: plokipalett vasakul, skriptiala keskel, lava paremal üleval ja spraitide ala paremal all">
+      <rect x="1" y="1" width="638" height="328" rx="10" class="svg-surface" stroke="var(--line)" stroke-width="2"/>
+      <rect x="1" y="1" width="638" height="34" rx="10" fill="var(--accent)"/>
+      <text x="16" y="23" fill="#fff" font-size="13" font-family="Lexend, sans-serif" font-weight="600">Fail   Redigeeri   ·   Kood   Kostüümid   Helid</text>
+      <rect x="14" y="46" width="120" height="272" rx="6" fill="var(--surface)" stroke="var(--line)"/>
+      <rect x="26" y="60" width="90" height="16" rx="4" fill="#4c97ff"/>
+      <rect x="26" y="82" width="70" height="16" rx="4" fill="#4c97ff"/>
+      <rect x="26" y="110" width="96" height="16" rx="4" fill="#9966ff"/>
+      <rect x="26" y="132" width="60" height="16" rx="4" fill="#9966ff"/>
+      <rect x="26" y="160" width="84" height="16" rx="4" fill="#ffbf00"/>
+      <rect x="26" y="188" width="74" height="16" rx="4" fill="#ffab19"/>
+      <text x="74" y="300" text-anchor="middle" class="svg-fg" font-size="13" font-family="Lexend, sans-serif" font-weight="600">1. Plokipalett</text>
+      <rect x="146" y="46" width="250" height="272" rx="6" fill="var(--surface)" stroke="var(--line)"/>
+      <rect x="180" y="90" width="120" height="20" rx="8" fill="#ffbf00"/>
+      <rect x="180" y="110" width="110" height="18" rx="4" fill="#ffab19"/>
+      <rect x="194" y="128" width="96" height="18" rx="4" fill="#4c97ff"/>
+      <rect x="180" y="146" width="40" height="10" rx="4" fill="#ffab19"/>
+      <text x="271" y="300" text-anchor="middle" class="svg-fg" font-size="13" font-family="Lexend, sans-serif" font-weight="600">2. Skriptiala</text>
+      <rect x="408" y="46" width="218" height="150" rx="6" fill="#ffffff" stroke="var(--line)"/>
+      <circle cx="420" cy="58" r="6" fill="#59c059"/>
+      <rect x="432" y="52" width="12" height="12" rx="2" fill="#ec5959"/>
+      <circle cx="517" cy="128" r="18" fill="#ffab19"/>
+      <text x="517" y="186" text-anchor="middle" fill="#5b6078" font-size="13" font-family="Lexend, sans-serif" font-weight="600">3. Lava</text>
+      <rect x="408" y="206" width="218" height="112" rx="6" fill="var(--surface)" stroke="var(--line)"/>
+      <rect x="420" y="218" width="44" height="44" rx="6" class="svg-surface" stroke="var(--accent)" stroke-width="2"/>
+      <rect x="472" y="218" width="44" height="44" rx="6" class="svg-surface" stroke="var(--line)"/>
+      <circle cx="596" cy="290" r="14" fill="var(--accent)"/>
+      <text x="596" y="295" text-anchor="middle" fill="#fff" font-size="16" font-family="Lexend, sans-serif">+</text>
+      <text x="490" y="300" text-anchor="middle" class="svg-fg" font-size="13" font-family="Lexend, sans-serif" font-weight="600">4. Spraidid</text>
+    </svg>
+    <figcaption>Scratchi aken. <b>1</b> plokid, mida saad kasutada · <b>2</b> siia lohistad plokid kokku · <b>3</b> lava, rohelise lipu ja punase stoppnupuga · <b>4</b> sinu spraidid ja nupp uue spraidi lisamiseks.</figcaption>
+  </figure>
+
+  <article class="task" id="u0">
+    <div class="task-head">
+      <div class="task-no">0</div>
+      <h3>Logi sisse ja tee uus projekt</h3>
+      <div class="chips"><span class="chip time">5 min</span></div>
+    </div>
+    <ol class="steps">
+      <li>Mine aadressile <b>scratch.mit.edu</b> ja vajuta üleval paremal <span class="ui">Logi sisse</span> (inglise keeles <span class="ui">Sign in</span>). Kasutajanime ja parooli saad õpetajalt.</li>
+      <li>Kui leht on inglise keeles, keri lehe lõppu ja vali keeleks <b>Eesti</b>.</li>
+      <li>Vajuta üleval <span class="ui">Loo</span> (inglise keeles <span class="ui">Create</span>). Avaneb uus projekt, kus on kass.</li>
+      <li>Kirjuta projekti nimi üleval asuvasse kasti: <b>park</b>. Oma päris nime pealkirja ära kirjuta, sest Scratchis on jagatud projektid kõigile nähtavad.</li>
+      <li>Salvesta tihti: <span class="ui">Fail</span> → <span class="ui">Salvesta nüüd</span>. Scratch salvestab sisse logitud kasutajal ka ise, kuid kindlam on vajutada.</li>
+    </ol>
+    <p class="note">Programmi käivitab <b>roheline lipp</b> lava kohal. <b>Punane stoppnupp</b> peatab kõik.</p>
+  </article>
+
+  <article class="task" id="jagamine">
+    <div class="task-head">
+      <div class="task-no">↗</div>
+      <h3>Kaks projekti ja töö jagamine õpetajale</h3>
+      <div class="chips"><span class="chip time">loe enne alustamist</span></div>
+    </div>
+    <p>Sul on kursusel kaks projekti:</p>
+    <ul>
+      <li><b>park</b>: siin teeme ülesandeid koos õpetajaga. Õpetaja näitab ette ja sina teed järgi.</li>
+      <li><b>meri</b>: siin teed iga teema lõpus <b>iseseisvad ülesanded</b> (veealune maailm). Tee uus projekt nimega <b>meri</b>, kui jõuad esimese iseseisva ülesandeni.</li>
+    </ul>
+    <div>
+      <div class="label">Kuidas oma töö õpetajale jagada</div>
+      <ol class="steps">
+        <li>Kui teema ülesanded on tehtud, vali menüüst <span class="ui">Fail</span> → <span class="ui">Salvesta koopiana</span>.</li>
+        <li>Pane koopiale nimeks teema number ja projekt, näiteks <b>T2 park</b> või <b>T2 meri</b>.</li>
+        <li>Vajuta üleval <span class="ui">Jaga</span>.</li>
+        <li>Vajuta <span class="ui">Vaata projektilehte</span> ja seal <span class="ui">Lisa stuudiosse</span>. Vali selle teema stuudio, näiteks <b>02 Tegelane liigub</b>.</li>
+        <li>Jätka järgmise teemaga samas koopias. Nii jääb iga teema seis eraldi alles ja õpetaja näeb sinu tööd.</li>
+      </ol>
+    </div>
+  </article>
+
+  <p class="more">Vaata lisaks: Digiõpik, <a href="https://courses.cs.ut.ee/t/digiopik/Programmeerimine/Tund1" target="_blank" rel="noopener">1. tund „Algoritm“</a> ja <a href="https://courses.cs.ut.ee/t/digiopik/Programmeerimine/Tund2" target="_blank" rel="noopener">2. tund „Programm“</a>.</p>
+</section>
+
+<!-- pilt -->
+<section class="chapter" id="pilt">
+  <div class="chapter-head">
+    <div class="num">Teema 1 · ülesanded 1–3</div>
+    <h2>Pilt ja tegelased</h2>
+    <p>Joonistad pargi tausta, oma tegelase ja lisad galeriist õuna. Sellest pildist saab kogu kursuse projekt, mida igas teemas edasi ehitad.</p>
+  </div>
+
+  <div class="theory">
+    <h3><small>Teooria</small>Sprait, kostüüm ja taust</h3>
+    <p>Iga asi, mis laval liigub või midagi teeb, on <b>sprait</b>. Taust on ainult pilt: see ei liigu ega räägi, aga seda saab vahetada.</p>
+    <p>Spraidi välimust nimetatakse <b>kostüümiks</b>. Ühel spraidil võib olla mitu kostüümi, nagu näitlejal mitu riietust. Kostüüme vahetades saab tegelase liikuma panna (sellest räägime teemas 3).</p>
+    <p>Joonistusprogrammis on kaks režiimi. <b>Vektorgraafikas</b> koosneb pilt kujunditest, mida saab hiljem liigutada ja suurendada ilma, et pilt uduseks läheks. <b>Rastergraafikas</b> koosneb pilt väikestest täppidest nagu foto. Scratch alustab vektorgraafikaga ja see sobib meile hästi.</p>
+  </div>
+
+  <article class="task" id="u1">
+    <div class="task-head">
+      <div class="task-no">1</div>
+      <h3>Tausta joonistamine</h3>
+      <div class="chips"><span class="chip k-draw">joonistamine</span><span class="chip time">15–20 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> loo taust, millel on muru, lill, puu ja päike.</div>
+    <div>
+      <div class="label">Kuidas teha</div>
+      <ol class="steps">
+        <li>Vii hiir paremal all oleva <span class="ui">Lava</span> nupu peale (taustapildi ikoon). Ilmuvast menüüst vali pintsliga nupp <span class="ui">Joonista</span>.</li>
+        <li>Avaneb <span class="ui">Taustad</span> vahekaart. Vali <span class="ui">Ristkülik</span>, vali <span class="ui">Täide</span> värviks roheline ja joonista lava alumisse ossa lai ristkülik. See on muru.</li>
+        <li>Puu: joonista pruun kitsas ristkülik (tüvi) ja selle peale roheline <span class="ui">Ring</span> (võra).</li>
+        <li>Päike: kollane ring taeva nurka. Hoia ringi joonistades all <b>Shift</b>-klahvi, siis tuleb täpselt ümmargune ring.</li>
+        <li>Lill: väike ring keskele ja 5–6 värvilist ringi selle ümber. Varre saad teha <span class="ui">Joon</span> tööriistaga.</li>
+        <li>Kui midagi läks valesti, vajuta <span class="ui">Võta tagasi</span> (kõverdatud nool).</li>
+      </ol>
+    </div>
+    <div class="check" data-task="1">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c1a"> Taustal on muru, lill, puu ja päike.</label>
+      <label><input type="checkbox" id="c1b"> Joonistasin <b>tausta</b> (Taustad), mitte uue spraidi.</label>
+    </div>
+  </article>
+
+  <article class="task" id="u2">
+    <div class="task-head">
+      <div class="task-no">2</div>
+      <h3>Uue spraidi joonistamine</h3>
+      <div class="chips"><span class="chip k-draw">joonistamine</span><span class="chip time">15–20 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> joonista uus tegelane, kellel on seljas särk, jalas pikad püksid ja peas tutimüts.</div>
+    <div>
+      <div class="label">Kuidas teha</div>
+      <ol class="steps">
+        <li>Vii hiir spraitide ala paremal all oleva kassi-ikooni peale ja vali <span class="ui">Joonista</span>.</li>
+        <li>Joonista tegelane kujunditest: ring peaks, ristkülik särgiks, kaks kitsast ristkülikut pükste säärteks, jooned käteks.</li>
+        <li>Tutimüts: kolmnurga saad, kui joonistad ristküliku ja muudad <span class="ui">Kuju muutmine</span> tööriistaga selle nurki. Tutt on väike ring mütsi otsas.</li>
+        <li>Pane spraidile nimi. Spraitide ala kohal on väli <span class="ui">Sprait</span>: kirjuta sinna <b>Tegelane</b>.</li>
+        <li>Kassi pole enam vaja: tee kassil paremklõps ja vali <span class="ui">eemalda</span>.</li>
+      </ol>
+    </div>
+    <div class="extra"><p><b>Nipp:</b> kui tegelane on liiga suur, muuda spraidi alas välja <span class="ui">Suurus</span> väärtust (näiteks 50).</p></div>
+    <div class="check" data-task="2">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c2a"> Tegelasel on särk, pikad püksid ja tutimüts.</label>
+      <label><input type="checkbox" id="c2b"> Spraidi nimi on <b>Tegelane</b>.</label>
+    </div>
+  </article>
+
+  <article class="task" id="u3">
+    <div class="task-head">
+      <div class="task-no">3</div>
+      <h3>Olemasoleva spraidi kasutamine</h3>
+      <div class="chips"><span class="chip k-draw">galerii</span><span class="chip time">5 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> lisa puu otsa õun Scratchi galeriist.</div>
+    <div>
+      <div class="label">Kuidas teha</div>
+      <ol class="steps">
+        <li>Vajuta spraitide alas kassi-ikoonile (<span class="ui">Vali sprait</span>). Avaneb galerii.</li>
+        <li>Galerii nimed on inglise keeles. Kirjuta otsingusse <b>apple</b> ja klõpsa õunal.</li>
+        <li>Muuda spraidi nimeks <b>Õun</b> ja suuruseks umbes 50.</li>
+        <li>Lohista õun laval hiirega puu võra peale.</li>
+      </ol>
+    </div>
+    <div class="check" data-task="3">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c3a"> Õun on puu otsas ja selle nimi on <b>Õun</b>.</label>
+    </div>
+  </article>
+
+  <div class="solo-head" id="pilt-ise">
+    <h3>Iseseisvad ülesanded: veealune maailm</h3>
+    <p>Need ülesanded harjutavad samu oskusi, aga teises projektis. Tee need ise, ilma järgi vaatamata. Kui jääd hätta, ava vihje või vaata ülevalt sama numbriga ülesannet.</p>
+  </div>
+  <article class="task solo" id="i1">
+    <div class="task-head">
+      <div class="task-no">1</div>
+      <h3>Veealune taust</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Joonista uus taust: veealune maailm. Peab olema sinine vesi, liivane põhi, vähemalt kaks vetikat ja üks kivi.</div>
+    <details class="hint"><summary>Vihje</summary><p>Kasuta samu tööriistu nagu pargi taustal: Ristkülik, Ring ja Täide. Vetika saad joonistada Pintsliga.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Lisa taustale mullid või päikesekiired, mis paistavad läbi vee.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i1a"> Taustal on vesi, liiv, kaks vetikat ja kivi.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i2">
+    <div class="task-head">
+      <div class="task-no">2</div>
+      <h3>Oma kala</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Joonista kala, kellel on silm, saba ja vähemalt kaks uime. Pane spraidi nimeks Kala.</div>
+    <details class="hint"><summary>Vihje</summary><p>Keha saad Ringi tööriistaga, kui joonistad ilma Shift-klahvita (siis tuleb ovaal). Saba on ristkülik, mille nurki muudad Kuju muutmise tööriistaga.</p></details>
+    
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i2a"> Kalal on silm, saba ja kaks uime.</label><label><input type="checkbox" id="i2b"> Spraidi nimi on Kala.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i3">
+    <div class="task-head">
+      <div class="task-no">3</div>
+      <h3>Krabi galeriist</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">5 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Lisa galeriist krabi (otsi sõnaga crab) ja pane ta liivale. Pane talle nimeks Krabi. Lisa veel üks mereloom omal valikul.</div>
+    <details class="hint"><summary>Vihje</summary><p>Galerii nimed on inglise keeles: meritäht on starfish, kala on fish, hai on shark.</p></details>
+    
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i3a"> Liival on krabi nimega Krabi.</label><label><input type="checkbox" id="i3b"> Laval on veel üks mereloom.</label>
+    </div>
+  </article>
+  <div class="share">
+    <b>Jaga oma tööd.</b> Kui selle teema ülesanded on tehtud: <span class="ui">Fail</span> → <span class="ui">Salvesta koopiana</span>, pane koopiale nimeks <b>T1 park</b> või <b>T1 meri</b>, vajuta <span class="ui">Jaga</span> ja seejärel projekti lehel <span class="ui">Lisa stuudiosse</span> → <b>01 Pilt ja tegelased</b>.
+  </div>
+
+  <div class="review">
+    <h3>Kordamiseks</h3>
+    <details><summary>Mis vahe on spraidil ja taustal?</summary><p>Sprait on tegelane või asi, millel on oma programm ja mis võib liikuda. Taust on pilt lava taga, see ei liigu.</p></details>
+    <details><summary>Mis on kostüüm?</summary><p>Spraidi välimus. Ühel spraidil võib olla mitu kostüümi.</p></details>
+  </div>
+  <p class="more">Vaata lisaks: TÜ Scratchi materjalid, <a href="https://courses.cs.ut.ee/t/scratch/Main/SpraidiValimus" target="_blank" rel="noopener">1. Spraidi välimus</a> (video 1).</p>
+</section>
+
+<!-- liikumine -->
+<section class="chapter" id="liikumine">
+  <div class="chapter-head">
+    <div class="num">Teema 2 · ülesanded 4–7</div>
+    <h2>Tegelane liigub</h2>
+    <p>Paned tegelase liikuma klaviatuuri ja hiirega ning saadad ta täpselt määratud kohta.</p>
+  </div>
+
+  <div class="theory">
+    <h3><small>Teooria</small>Sündmused ja koordinaadid</h3>
+    <p>Kollased <span class="blk k-events">Sündmused</span> plokid ütlevad, <b>millal</b> skript käivitub: kui klõpsatakse rohelist lippu, kui vajutatakse klahvi või kui klõpsatakse spraiti. Ilma sündmuseta plokk ei tee midagi enne, kui sellele ise klõpsad.</p>
+    <p>Iga koht laval on kirjas kahe arvuga. <b>x</b> näitab, kui palju vasakule või paremale, ja <b>y</b>, kui palju üles või alla. Lava keskel on x = 0 ja y = 0. Lava on 480 sammu lai ja 360 sammu kõrge, seega ulatub x −240-st 240-ni ja y −180-st 180-ni. Liikumise plokkides nimetatakse samme <b>punktideks</b>.</p>
+    <ul>
+      <li>Kui <b>x</b> kasvab, liigub sprait <b>paremale</b>. Kui kahaneb, siis vasakule.</li>
+      <li>Kui <b>y</b> kasvab, liigub sprait <b>üles</b>. Kui kahaneb, siis alla.</li>
+    </ul>
+  </div>
+
+  <figure class="figure">
+    <svg viewBox="0 0 560 420" role="img" aria-label="Scratchi lava koordinaadid: keskpunkt x 0 y 0, paremal serv x 240, vasakul x miinus 240, üleval y 180, all y miinus 180, punkt x 150 y 150 paremal üleval">
+      <rect x="40" y="30" width="480" height="360" rx="4" class="svg-surface" stroke="var(--muted)" stroke-width="2"/>
+      <line x1="40" y1="210" x2="520" y2="210" stroke="var(--muted)" stroke-dasharray="4 4"/>
+      <line x1="280" y1="30" x2="280" y2="390" stroke="var(--muted)" stroke-dasharray="4 4"/>
+      <circle cx="280" cy="210" r="6" class="svg-accent"/>
+      <text x="290" y="230" class="svg-fg" font-size="15" font-family="Lexend, sans-serif" font-weight="600">x: 0, y: 0</text>
+      <circle cx="430" cy="60" r="6" fill="#4c97ff"/>
+      <text x="420" y="85" text-anchor="end" class="svg-fg" font-size="15" font-family="Lexend, sans-serif">x: 150, y: 150</text>
+      <text x="512" y="202" text-anchor="end" class="svg-muted" font-size="14" font-family="Lexend, sans-serif">x: 240 →</text>
+      <text x="48" y="202" class="svg-muted" font-size="14" font-family="Lexend, sans-serif">← x: −240</text>
+      <text x="288" y="50" class="svg-muted" font-size="14" font-family="Lexend, sans-serif">↑ y: 180</text>
+      <text x="288" y="380" class="svg-muted" font-size="14" font-family="Lexend, sans-serif">↓ y: −180</text>
+    </svg>
+    <figcaption>Lava koordinaadid. Spraidi praeguse asukoha näed spraitide ala kohal väljadelt <b>x</b> ja <b>y</b>.</figcaption>
+  </figure>
+
+  <article class="task" id="u4">
+    <div class="task-head">
+      <div class="task-no">4</div>
+      <h3>Juhtimine W A S D klahvidega</h3>
+      <div class="chips"><span class="chip k-events">Sündmused</span><span class="chip k-motion">Liikumine</span><span class="chip time">10–15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> pane tegelane liikuma W, A, S ja D klahvidega. W viib üles, S alla, A vasakule ja D paremale.</div>
+    <div class="cols">
+      <div>
+        <div class="label">Kuidas teha</div>
+        <ol class="steps">
+          <li>Vali spraitide alast <b>Tegelane</b>. Kood läheb alati sellele spraidile, mis on parajasti valitud.</li>
+          <li>Lohista <span class="blk k-events">Sündmused</span> alt skriptialale plokk <b>kui klõpsata klahvi tühik</b>. Vali rippmenüüst <b>w</b>.</li>
+          <li>Lisa selle alla <span class="blk k-motion">Liikumine</span> alt <b>muuda y 10 võrra</b>.</li>
+          <li>Tee sama veel kolm korda: <b>s</b> → muuda y −10 võrra, <b>a</b> → muuda x −10 võrra, <b>d</b> → muuda x 10 võrra.</li>
+          <li>Proovi: vajuta lava peale ja seejärel klahve W, A, S ja D.</li>
+        </ol>
+      </div>
+      <div class="code">
+        <p class="who">Tegelane</p>
+<pre class="blocks">kui klõpsata klahvi [w v]
+muuda y (10) võrra
+
+kui klõpsata klahvi [s v]
+muuda y (-10) võrra
+
+kui klõpsata klahvi [a v]
+muuda x (-10) võrra
+
+kui klõpsata klahvi [d v]
+muuda x (10) võrra</pre>
+      </div>
+    </div>
+    <div class="extra"><p><b>Nipp:</b> plokki saad kopeerida, kui teed sellel paremklõpsu ja valid <span class="ui">Paljunda</span>. Siis tuleb ainult klahv ja arv ära muuta.</p></div>
+    <div class="check" data-task="4">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c4a"> Kõik neli klahvi liigutavad tegelast õiges suunas.</label>
+    </div>
+  </article>
+
+  <article class="task" id="u5">
+    <div class="task-head">
+      <div class="task-no">5</div>
+      <h3>Tegelane jälitab hiirt</h3>
+      <div class="chips"><span class="chip k-events">Sündmused</span><span class="chip k-control">Juhtimine</span><span class="chip k-motion">Liikumine</span><span class="chip time">10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> tegelane jälitab hiirekursorit.</div>
+    <div class="cols">
+      <div>
+        <div class="label">Kuidas teha</div>
+        <ol class="steps">
+          <li>Võta <b>kui klõpsata 🏁</b> (rohelise lipuga) plokk.</li>
+          <li><span class="blk k-control">Juhtimine</span> alt lisa <b>korda lõputult</b>. Kõik, mis on selle sees, toimub uuesti ja uuesti.</li>
+          <li>Pane kordusesse <b>osuta hiirekursor-le</b> ja <b>liigu 5 punkti</b>.</li>
+          <li>Vajuta rohelist lippu ja liiguta hiirt laval. Peatamiseks vajuta stoppnuppu.</li>
+        </ol>
+        <p class="note">Kui tegelane läheb pea alaspidi, ava spraidi alas <span class="ui">Suund</span> ja vali <span class="ui">vasak/parem</span>.</p>
+      </div>
+      <div class="code">
+        <p class="who">Tegelane</p>
+<pre class="blocks">kui klõpsata @greenFlag
+korda lõputult
+osuta (hiirekursor v)-le
+liigu (5) punkti
+end</pre>
+      </div>
+    </div>
+    <div class="extra"><p><b>Kiirematele:</b> tegelane jääb vahetult enne kursorini jõudmist seisma. Liigu ainult siis, kui kaugus kursorist on suurem kui 10. Seda <b>kui … siis</b> plokki õpid lähemalt teemas 8.</p></div>
+    <div class="code">
+<pre class="blocks">kui klõpsata @greenFlag
+korda lõputult
+osuta (hiirekursor v)-le
+kui &lt;(kaugus (hiirekursor v)-st) &gt; [10]&gt; siis
+liigu (5) punkti
+end
+end</pre>
+    </div>
+    <div class="check" data-task="5">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c5a"> Tegelane liigub hiire poole ja peatub stoppnupuga.</label>
+    </div>
+  </article>
+
+  <article class="task" id="u6">
+    <div class="task-head">
+      <div class="task-no">6</div>
+      <h3>Kindel alguspunkt</h3>
+      <div class="chips"><span class="chip k-motion">Liikumine</span><span class="chip time">5 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> määra tegelase alguspunktiks x: 0 ja y: 0.</div>
+    <div class="cols">
+      <div>
+        <div class="label">Kuidas teha</div>
+        <ol class="steps">
+          <li>Võta <b>kui klõpsata 🏁</b> ja lisa selle alla <b>mine x: 0 y: 0</b>.</li>
+          <li>Lohista tegelane laval kuhugi nurka ja vajuta rohelist lippu. Tegelane hüppab keskele tagasi.</li>
+        </ol>
+        <p class="note">Miks see oluline on? Kui mäng algab iga kord samast kohast, töötab see alati ühtemoodi. Head programmid seavad alguses kõik asjad paika.</p>
+      </div>
+      <div class="code">
+        <p class="who">Tegelane</p>
+<pre class="blocks">kui klõpsata @greenFlag
+mine x: (0) y: (0)</pre>
+      </div>
+    </div>
+    <div class="check" data-task="6">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c6a"> Rohelise lipu vajutamisel läheb tegelane lava keskele.</label>
+    </div>
+  </article>
+
+  <article class="task" id="u7">
+    <div class="task-head">
+      <div class="task-no">7</div>
+      <h3>Liuglemine uude kohta</h3>
+      <div class="chips"><span class="chip k-motion">Liikumine</span><span class="chip time">5 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> liugle tegelasega keskelt asukohta x: 150, y: 150.</div>
+    <div class="cols">
+      <div>
+        <div class="label">Kuidas teha</div>
+        <ol class="steps">
+          <li>Jätka eelmise ülesande skripti. Lisa <span class="blk k-control">Juhtimine</span> alt <b>oota 1 sek</b>, et näeksid, kust tegelane alustab.</li>
+          <li>Lisa <b>liugle 1 sekundiga x: … y: …</b> ja kirjuta arvudeks 150 ja 150.</li>
+          <li>Proovi muuta sekundite arvu. Mis juhtub, kui paned 5?</li>
+        </ol>
+        <p class="note"><b>mine</b> viib spraidi kohale silmapilkselt. <b>liugle</b> viib sinna sujuvalt, nii et liikumist on näha.</p>
+      </div>
+      <div class="code">
+        <p class="who">Tegelane</p>
+<pre class="blocks">kui klõpsata @greenFlag
+mine x: (0) y: (0)
+oota (1) sek
+liugle (2) sekundiga x: (150) y: (150)</pre>
+      </div>
+    </div>
+    <div class="check" data-task="7">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c7a"> Tegelane alustab keskelt ja liugleb paremale üles.</label>
+    </div>
+  </article>
+
+  <div class="solo-head" id="liikumine-ise">
+    <h3>Iseseisvad ülesanded: veealune maailm</h3>
+    <p>Need ülesanded harjutavad samu oskusi, aga teises projektis. Tee need ise, ilma järgi vaatamata. Kui jääd hätta, ava vihje või vaata ülevalt sama numbriga ülesannet.</p>
+  </div>
+  <article class="task solo" id="i4">
+    <div class="task-head">
+      <div class="task-no">4</div>
+      <h3>Kala ujub nooltega</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Pane kala liikuma nooleklahvidega: nool üles, nool alla, nool vasakule ja nool paremale.</div>
+    <details class="hint"><summary>Vihje</summary><p>Täpselt nagu W A S D ülesandes, aga plokis kui klõpsata klahvi vali rippmenüüst noolte nimed.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Kui kala ujub vasakule, pööra ta ka vasakule: lisa plokk osuta suunas -90 (ja paremale minnes osuta suunas 90).</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i4a"> Kõik neli nooleklahvi liigutavad kala õiges suunas.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i5">
+    <div class="task-head">
+      <div class="task-no">5</div>
+      <h3>Krabi jälitab kala</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Krabi jälitab kala: ta pöörab end kogu aeg kala poole ja liigub korraga 2 punkti.</div>
+    <details class="hint"><summary>Vihje</summary><p>Nagu ülesandes 5, aga plokis osuta …-le vali hiirekursori asemel Kala. Skript tuleb panna krabile, mitte kalale.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Krabi läheb pea alaspidi. Vali krabi suunaks vasak/parem.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i5a"> Krabi liigub aeglaselt kala poole.</label><label><input type="checkbox" id="i5b"> Stoppnupp peatab krabi.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i6">
+    <div class="task-head">
+      <div class="task-no">6</div>
+      <h3>Alguspunktid</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">5 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Kui klõpsata rohelist lippu, läheb kala lava vasakusse ossa x: -150, y: 0 ja krabi paremale alla x: 150, y: -130.</div>
+    <details class="hint"><summary>Vihje</summary><p>Igal spraidil on oma skript. Mõlemal on vaja plokki mine x: … y: …</p></details>
+    
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i6a"> Lohistasin mõlemad spraidid mujale ja pärast rohelist lippu olid nad jälle õiges kohas.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i7">
+    <div class="task-head">
+      <div class="task-no">7</div>
+      <h3>Kala ujub edasi-tagasi</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">5–10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Rohelise lipu peale ujub kala alguspunktist kohta x: 150, y: 100 ja siis tagasi alguspunkti. Mõlemad liuglemised kestavad 2 sekundit.</div>
+    <details class="hint"><summary>Vihje</summary><p>Sul on vaja kahte liugle-plokki üksteise all.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Lisa vahele oota 1 sek, et kala puhkaks enne tagasi ujumist.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i7a"> Kala ujub ühte kohta ja tuleb tagasi.</label>
+    </div>
+  </article>
+  <div class="share">
+    <b>Jaga oma tööd.</b> Kui selle teema ülesanded on tehtud: <span class="ui">Fail</span> → <span class="ui">Salvesta koopiana</span>, pane koopiale nimeks <b>T2 park</b> või <b>T2 meri</b>, vajuta <span class="ui">Jaga</span> ja seejärel projekti lehel <span class="ui">Lisa stuudiosse</span> → <b>02 Tegelane liigub</b>.
+  </div>
+
+  <div class="review">
+    <h3>Kordamiseks</h3>
+    <details><summary>Mis on lava keskpunkti koordinaadid?</summary><p>x: 0 ja y: 0.</p></details>
+    <details><summary>Tegelane peab liikuma alla. Kas muudad x-i või y-it? Kas plussi või miinusega?</summary><p>y-it ja miinusega, näiteks <b>muuda y −10 võrra</b>.</p></details>
+    <details><summary>Miks iga skript algab kollase plokiga?</summary><p>Kollane sündmuse plokk ütleb, millal skript käivitub. Ilma selleta ei tea Scratch, millal plokke täita.</p></details>
+  </div>
+  <p class="more">Vaata lisaks: TÜ Scratchi materjalid, <a href="https://courses.cs.ut.ee/t/scratch/Main/SpraidiValimus" target="_blank" rel="noopener">1. Spraidi välimus</a> (video 2, liikumine klaviatuuriga) ja <a href="https://courses.cs.ut.ee/t/scratch/Main/LiikumineJaAnduridI" target="_blank" rel="noopener">4. Liikumine ja andurid I</a>.</p>
+</section>
+
+<!-- valimus -->
+<section class="chapter" id="valimus">
+  <div class="chapter-head">
+    <div class="num">Teema 3 · ülesanded 8–10</div>
+    <h2>Kostüümid, peitmine ja näitamine</h2>
+    <p>Annad tegelasele teise välimuse ja vahetad seda klahviga. Õpid spraiti peitma ja uuesti näitama.</p>
+  </div>
+
+  <div class="theory">
+    <h3><small>Teooria</small>Kuidas multifilm liigub</h3>
+    <p>Multifilm koosneb paljudest piltidest, mis on üksteisest natuke erinevad. Kui pildid vahetuvad kiiresti, tundub meile, et tegelane liigub. Seda nimetatakse <b>animatsiooniks</b>.</p>
+    <p>Scratchis on need pildid spraidi <b>kostüümid</b>. Plokk <span class="blk k-looks">järgmine kostüüm</span> võtab järjekorras järgmise kostüümi. Kui kostüümid saavad otsa, alustab Scratch uuesti esimesest. Plokk <span class="blk k-looks">võta kostüüm …</span> võtab kindla kostüümi nime järgi.</p>
+    <p><span class="blk k-looks">peida</span> teeb spraidi nähtamatuks ja <span class="blk k-looks">näita</span> toob selle tagasi. Peidetud sprait on endiselt olemas ja tema skriptid töötavad edasi.</p>
+  </div>
+
+  <article class="task" id="u8">
+    <div class="task-head">
+      <div class="task-no">8</div>
+      <h3>Kaks kostüümi</h3>
+      <div class="chips"><span class="chip k-draw">joonistamine</span><span class="chip time">10–15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> joonista tegelasele kaks kostüümi: ühel on käed üleval ja teisel all.</div>
+    <div>
+      <div class="label">Kuidas teha</div>
+      <ol class="steps">
+        <li>Vali <b>Tegelane</b> ja ava üleval vahekaart <span class="ui">Kostüümid</span>.</li>
+        <li>Vasakul on kostüümide nimekiri. Tee esimesel kostüümil paremklõps ja vali <span class="ui">paljunda</span>. Nüüd on sul kaks ühesugust kostüümi.</li>
+        <li>Pane kostüümidele nimed. Joonistusala kohal on väli <span class="ui">Kostüüm</span>: esimese nimi on <b>käed all</b>, teise oma <b>käed üleval</b>.</li>
+        <li>Vali teine kostüüm. Vali käed tööriistaga <span class="ui">Vali</span> ja pööra need üles (lohista valiku kohal olevat noolt). Või kustuta käed ja joonista uued.</li>
+      </ol>
+    </div>
+    <div class="check" data-task="8">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c8a"> Tegelasel on kaks kostüümi nimedega <b>käed all</b> ja <b>käed üleval</b>.</label>
+    </div>
+  </article>
+
+  <article class="task" id="u9">
+    <div class="task-head">
+      <div class="task-no">9</div>
+      <h3>Kostüümi vahetamine klahviga</h3>
+      <div class="chips"><span class="chip k-events">Sündmused</span><span class="chip k-looks">Välimus</span><span class="chip time">5–10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> tee skript, mis vahetab N-klahvi vajutades kostüümi (võtab järgmise kostüümi).</div>
+    <div class="cols">
+      <div>
+        <div class="label">Kuidas teha</div>
+        <ol class="steps">
+          <li>Mine tagasi vahekaardile <span class="ui">Kood</span>.</li>
+          <li>Võta <b>kui klõpsata klahvi</b> ja vali klahviks <b>n</b>.</li>
+          <li>Lisa <span class="blk k-looks">Välimus</span> alt <b>järgmine kostüüm</b>.</li>
+          <li>Vajuta mitu korda N-klahvi. Tegelane tõstab ja langetab käsi.</li>
+        </ol>
+      </div>
+      <div class="code">
+        <p class="who">Tegelane</p>
+<pre class="blocks">kui klõpsata klahvi [n v]
+järgmine kostüüm</pre>
+      </div>
+    </div>
+    <div class="check" data-task="9">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c9a"> N-klahv vahetab kostüümi iga vajutusega.</label>
+    </div>
+  </article>
+
+  <article class="task" id="u10">
+    <div class="task-head">
+      <div class="task-no">10</div>
+      <h3>Peitmine ja näitamine</h3>
+      <div class="chips"><span class="chip k-events">Sündmused</span><span class="chip k-looks">Välimus</span><span class="chip time">5–10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> kui tegelasele klõpsata, läheb ta peitu. Tühikut vajutades tuleb ta peidust välja.</div>
+    <div class="cols">
+      <div>
+        <div class="label">Kuidas teha</div>
+        <ol class="steps">
+          <li>Võta <span class="blk k-events">Sündmused</span> alt <b>kui spraiti klõpsata</b> ja lisa selle alla <b>peida</b>.</li>
+          <li>Teine skript: <b>kui klõpsata klahvi tühik</b> ja selle alla <b>näita</b>.</li>
+          <li>Proovi: klõpsa laval tegelasele, siis vajuta tühikut.</li>
+        </ol>
+      </div>
+      <div class="code">
+        <p class="who">Tegelane</p>
+<pre class="blocks">kui spraiti klõpsata
+peida
+
+kui klõpsata klahvi [tühik v]
+näita</pre>
+      </div>
+    </div>
+    <div class="extra"><p><b>Hea tava:</b> lisa rohelise lipu skripti algusesse ka <b>näita</b>. Muidu võib juhtuda, et järgmisel käivitusel on tegelane ikka peidus.</p></div>
+    <div class="check" data-task="10">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c10a"> Klõps peidab tegelase ja tühik toob ta tagasi.</label>
+    </div>
+  </article>
+
+  <div class="solo-head" id="valimus-ise">
+    <h3>Iseseisvad ülesanded: veealune maailm</h3>
+    <p>Need ülesanded harjutavad samu oskusi, aga teises projektis. Tee need ise, ilma järgi vaatamata. Kui jääd hätta, ava vihje või vaata ülevalt sama numbriga ülesannet.</p>
+  </div>
+  <article class="task solo" id="i8">
+    <div class="task-head">
+      <div class="task-no">8</div>
+      <h3>Kala avab suu</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Joonista kalale teine kostüüm, kus suu on lahti. Pane kostüümidele nimed suu kinni ja suu lahti.</div>
+    <details class="hint"><summary>Vihje</summary><p>Tee kostüümist koopia (paremklõps → paljunda) ja muuda ainult suud.</p></details>
+    
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i8a"> Kalal on kaks kostüümi nimedega suu kinni ja suu lahti.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i9">
+    <div class="task-head">
+      <div class="task-no">9</div>
+      <h3>Suu klahvidega</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">5–10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Klahv L paneb kalale kostüümi suu lahti ja klahv K kostüümi suu kinni.</div>
+    <details class="hint"><summary>Vihje</summary><p>Siin ei sobi järgmine kostüüm. Kasuta plokki võta kostüüm … ja vali kostüümi nimi.</p></details>
+    
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i9a"> L avab suu ja K sulgeb selle, ka siis, kui vajutad sama klahvi mitu korda.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i10">
+    <div class="task-head">
+      <div class="task-no">10</div>
+      <h3>Krabi peidab end</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">5–10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Kui krabile klõpsata, peidab ta end liiva sisse ja tuleb 3 sekundi pärast ise välja.</div>
+    <details class="hint"><summary>Vihje</summary><p>Kõik kolm plokki on ühes skriptis: peida, oota, näita.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Lisa rohelise lipu skripti algusesse näita, et krabi ei jääks peitu.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i10a"> Klõps peidab krabi ja ta ilmub 3 sekundi pärast tagasi.</label>
+    </div>
+  </article>
+  <div class="share">
+    <b>Jaga oma tööd.</b> Kui selle teema ülesanded on tehtud: <span class="ui">Fail</span> → <span class="ui">Salvesta koopiana</span>, pane koopiale nimeks <b>T3 park</b> või <b>T3 meri</b>, vajuta <span class="ui">Jaga</span> ja seejärel projekti lehel <span class="ui">Lisa stuudiosse</span> → <b>03 Kostüümid, peitmine ja näitamine</b>.
+  </div>
+
+  <div class="review">
+    <h3>Kordamiseks</h3>
+    <details><summary>Mis vahe on plokkidel „järgmine kostüüm“ ja „võta kostüüm …“?</summary><p>„järgmine kostüüm“ võtab järjekorras järgmise kostüümi. „võta kostüüm …“ võtab alati sama kostüümi, mille nime sa valid.</p></details>
+    <details><summary>Kas peidetud spraidi skriptid töötavad?</summary><p>Jah. Sprait on ainult nähtamatu.</p></details>
+  </div>
+  <p class="more">Vaata lisaks: TÜ Scratchi materjalid, <a href="https://courses.cs.ut.ee/t/scratch/Main/LiikumineJaAnduridI" target="_blank" rel="noopener">4. Liikumine ja andurid I</a> (video 2: kostüümid, peida ja näita).</p>
+</section>
+
+<!-- taustad -->
+<section class="chapter" id="taustad">
+  <div class="chapter-head">
+    <div class="num">Teema 4 · ülesanded 11–12</div>
+    <h2>Taustade vahetamine</h2>
+    <p>Päev ja öö, alguskuva ja mängu lõpp. Kõik see tehakse taustu vahetades.</p>
+  </div>
+
+  <div class="theory">
+    <h3><small>Teooria</small>Lava on ka sprait</h3>
+    <p>Lava ei ole ainult pilt. Ka lavale saab programmi kirjutada: klõpsa paremal all <b>Lava</b> peale ja sul on tühi skriptiala. Lava ei saa liikuda, aga ta saab vahetada <b>tausta</b> nagu sprait vahetab kostüümi.</p>
+    <ul>
+      <li><span class="blk k-looks">võta taust …</span> võtab kindla tausta nime järgi.</li>
+      <li><span class="blk k-looks">järgmine taust</span> võtab järjekorras järgmise.</li>
+      <li><span class="blk k-events">kui taustaks saab …</span> on sündmus. Iga sprait saab sellega reageerida, kui taust vahetub, näiteks peituda või välja tulla.</li>
+    </ul>
+    <p>Mängudes on tavaliselt vähemalt kolm tausta: <b>alguskuva</b> (mängu nimi ja juhend), <b>mänguväli</b> ja <b>lõpukuva</b> (võit või kaotus). Pane taustadele selged nimed, siis on neid lihtne valida.</p>
+  </div>
+
+  <article class="task" id="u11">
+    <div class="task-head">
+      <div class="task-no">11</div>
+      <h3>Päev ja öö</h3>
+      <div class="chips"><span class="chip k-looks">Välimus</span><span class="chip k-events">Sündmused</span><span class="chip time">15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> pargil on kaks tausta, päev ja öö. Kui klõpsad laval, vahetub taust.</div>
+    <div class="cols">
+      <div>
+        <div class="label">Kuidas teha</div>
+        <ol class="steps">
+          <li>Klõpsa paremal all <b>Lava</b> peale ja ava vahekaart <span class="ui">Taustad</span>.</li>
+          <li>Pane oma pargi taustale nimeks <b>päev</b>. Tee sellel paremklõps → <span class="ui">paljunda</span> ja pane koopiale nimeks <b>öö</b>.</li>
+          <li>Muuda öö taevas <span class="ui">Täide</span> tööriistaga tumesiniseks ja tee päikesest kollane kuu.</li>
+          <li>Mine tagasi <span class="ui">Kood</span> vahekaardile (Lava on endiselt valitud). Tee skriptid: rohelise lipu peale <b>võta taust päev</b> ja <b>kui lava klõpsata</b> peale <b>järgmine taust</b>.</li>
+        </ol>
+      </div>
+      <div class="code">
+        <p class="who">Lava</p>
+<pre class="blocks">kui klõpsata @greenFlag
+võta taust [päev v]
+
+kui lava klõpsata
+järgmine taust</pre>
+      </div>
+    </div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c11a"> Lavale klõpsates vahetub päev ööks ja öö päevaks.</label>
+      <label><input type="checkbox" id="c11b"> Rohelise lipuga on alati päev.</label>
+    </div>
+  </article>
+
+  <article class="task" id="u12">
+    <div class="task-head">
+      <div class="task-no">12</div>
+      <h3>Alguskuva</h3>
+      <div class="chips"><span class="chip k-looks">Välimus</span><span class="chip k-events">Sündmused</span><span class="chip time">15–20 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> mäng algab alguskuvaga, kus on mängu nimi ja tekst „Vajuta tühikut“. Tühiku vajutamisel tuleb pargi taust ja alles siis ilmub tegelane.</div>
+    <div class="cols">
+      <div>
+        <div class="label">Kuidas teha</div>
+        <ol class="steps">
+          <li>Lava → <span class="ui">Taustad</span> → <span class="ui">Joonista</span>. Pane uuele taustale nimeks <b>algus</b> ja kirjuta sinna <span class="ui">Tekst</span> tööriistaga mängu nimi ja „Vajuta tühikut“.</li>
+          <li>Muuda lava rohelise lipu skripti: <b>võta taust algus</b> (mitte päev).</li>
+          <li>Lisa lavale <b>kui klõpsata klahvi tühik</b> → <b>võta taust päev</b>.</li>
+          <li>Vali <b>Tegelane</b>. Rohelise lipu peale <b>peida</b> ja uue skripti <b>kui taustaks saab päev</b> peale <b>näita</b>.</li>
+        </ol>
+        <p class="note">Kui lavale klõpsamine (ülesanne 11) segab, lohista see skript kõrvale.</p>
+      </div>
+      <div class="code">
+        <p class="who">Lava</p>
+<pre class="blocks">kui klõpsata @greenFlag
+võta taust [algus v]
+
+kui klõpsata klahvi [tühik v]
+võta taust [päev v]</pre>
+        <p class="who">Tegelane</p>
+<pre class="blocks">kui klõpsata @greenFlag
+peida
+
+kui taustaks saab [päev v]
+näita</pre>
+      </div>
+    </div>
+    <div class="extra"><p><b>Kiirematele:</b> peida alguskuval ka õun ja teised spraidid.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c12a"> Mäng algab alguskuvaga ja tegelast pole näha.</label>
+      <label><input type="checkbox" id="c12b"> Tühiku järel tuleb park ja tegelane ilmub.</label>
+    </div>
+  </article>
+
+  <div class="solo-head" id="taustad-ise">
+    <h3>Iseseisvad ülesanded: veealune maailm</h3>
+    <p>Need ülesanded harjutavad samu oskusi, aga teises projektis. Tee need ise, ilma järgi vaatamata. Kui jääd hätta, ava vihje või vaata ülevalt sama numbriga ülesannet.</p>
+  </div>
+  <article class="task solo" id="i11">
+    <div class="task-head">
+      <div class="task-no">11</div>
+      <h3>Kaks mereala</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Pane oma veealusele taustale nimeks Korallid. Joonista teine taust Vrakk (näiteks põhjas lebav laev). Klahv 1 paneb tausta Korallid ja klahv 2 tausta Vrakk. Rohelise lipuga on alati Korallid.</div>
+    <details class="hint"><summary>Vihje</summary><p>Need skriptid tulevad lavale: kui klõpsata klahvi 1 → võta taust Korallid. Lava skriptiala avaneb, kui klõpsad paremal all Lava peale.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Kui taustaks saab Vrakk, ütleb kala „Siin on kummaline!“.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i11a"> Klahvid 1 ja 2 vahetavad tausta.</label><label><input type="checkbox" id="i11b"> Rohelise lipuga on alati Korallid.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i12">
+    <div class="task-head">
+      <div class="task-no">12</div>
+      <h3>Lõpukuva</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Joonista taust Lõpp, kus on suur tekst „Head aega!“. Kui vajutad klahvi L, vahetub taust Lõpp-iks ning kala ja krabi peidavad end. Rohelise lipuga tulevad loomad tagasi ja taust on Korallid.</div>
+    <details class="hint"><summary>Vihje</summary><p>Lavale: kui klõpsata klahvi l → võta taust Lõpp. Kalale ja krabile: kui taustaks saab Lõpp → peida, ja rohelise lipuga näita.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Lisa ka alguskuva, kus on mängu nimi ja juhend, nagu ülesandes 12.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i12a"> L-klahv toob lõpukuva ja loomi pole näha.</label><label><input type="checkbox" id="i12b"> Rohelise lipuga on mäng jälle alguses.</label>
+    </div>
+  </article>
+  <div class="share">
+    <b>Jaga oma tööd.</b> Kui selle teema ülesanded on tehtud: <span class="ui">Fail</span> → <span class="ui">Salvesta koopiana</span>, pane koopiale nimeks <b>T4 park</b> või <b>T4 meri</b>, vajuta <span class="ui">Jaga</span> ja seejärel projekti lehel <span class="ui">Lisa stuudiosse</span> → <b>04 Taustade vahetamine</b>.
+  </div>
+
+
+  <div class="review">
+    <h3>Kordamiseks</h3>
+    <details><summary>Kust leiad lava skriptiala?</summary><p>Klõpsa paremal all spraitide kõrval olevale Lava alale.</p></details>
+    <details><summary>Kuidas saab sprait teada, et taust vahetus?</summary><p>Plokiga <b>kui taustaks saab …</b> (Sündmused).</p></details>
+  </div>
+</section>
+
+<!-- dialoog -->
+<section class="chapter" id="dialoog">
+  <div class="chapter-head">
+    <div class="num">Teema 5 · ülesanne 13</div>
+    <h2>Dialoog ja teated</h2>
+    <p>Kaks tegelast räägivad kordamööda. Et nad teaksid, millal on nende kord, saadavad nad teineteisele teateid.</p>
+  </div>
+
+  <div class="theory">
+    <h3><small>Teooria</small>Teade on nagu koolikell</h3>
+    <p>Iga sprait töötab omaette. Õun ei tea, mida tegelane teeb, ja tegelane ei tea, mida teeb õun. Selleks et spraidid saaksid koostööd teha, on Scratchis <b>teated</b>.</p>
+    <p>Plokk <span class="blk k-events">teata …</span> saadab teate kõigile spraitidele. See on nagu koolikell: kõik kuulevad seda, aga reageerivad ainult need, kes teavad, mida kella peale teha. Spraidi skript, mis algab plokiga <span class="blk k-events">kui saan teate …</span>, käivitub siis, kui see teade saadetakse.</p>
+    <p>Pane teadetele nimed, mis ütlevad, mis juhtus. Näiteks <b>vasta</b> või <b>õun söödud</b> on paremad kui <b>teade1</b>.</p>
+  </div>
+
+  <article class="task" id="u13">
+    <div class="task-head">
+      <div class="task-no">13</div>
+      <h3>Kaks tegelast räägivad</h3>
+      <div class="chips"><span class="chip k-events">Sündmused</span><span class="chip k-looks">Välimus</span><span class="chip time">15–20 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> tee skript, kus vähemalt kaks tegelast ütlevad kordamööda teineteisele midagi.</div>
+    <div class="cols">
+      <div>
+        <div class="label">Kuidas teha</div>
+        <ol class="steps">
+          <li>Lisa teine tegelane: joonista ise või vali galeriist. Pane talle nimeks <b>Sõber</b>.</li>
+          <li>Vali <b>Tegelane</b>. Võta <b>kui klõpsata 🏁</b> ja lisa <span class="blk k-looks">Välimus</span> alt <b>ütle Tere! 2 sek</b>. Kirjuta oma lause.</li>
+          <li>Lisa <span class="blk k-events">Sündmused</span> alt <b>teata</b>. Vali rippmenüüst <span class="ui">Uus teade</span> ja anna nimeks <b>vasta</b>.</li>
+          <li>Vali <b>Sõber</b>. Võta <b>kui saan teate vasta</b> ja lisa selle alla <b>ütle … 2 sek</b> oma vastusega.</li>
+          <li>Jätka samamoodi: sõber saadab teate <b>vasta 2</b> ja tegelane vastab sellele.</li>
+        </ol>
+      </div>
+      <div class="code">
+        <p class="who">Tegelane</p>
+<pre class="blocks">kui klõpsata @greenFlag
+ütle [Tere! Kuidas läheb?] (2) sek
+teata [vasta v]
+
+kui saan teate [vasta 2 v]
+ütle [Lähme! Võtan õuna kaasa.] (2) sek</pre>
+        <p class="who">Sõber</p>
+<pre class="blocks">kui saan teate [vasta v]
+ütle [Hästi! Kas tuled parki?] (2) sek
+teata [vasta 2 v]</pre>
+      </div>
+    </div>
+    <div class="extra"><p><b>Kiirematele:</b> tee vestlus vähemalt kuue lausega. Proovi ka plokki <b>mõtle …</b>, mis näitab mõttemulli.</p></div>
+    <div class="check" data-task="11">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c13a"> Tegelased räägivad kordamööda ja kõnemullid ei kattu.</label>
+      <label><input type="checkbox" id="c13b"> Kasutasin vähemalt ühte teadet.</label>
+    </div>
+  </article>
+
+  <div class="solo-head" id="dialoog-ise">
+    <h3>Iseseisvad ülesanded: veealune maailm</h3>
+    <p>Need ülesanded harjutavad samu oskusi, aga teises projektis. Tee need ise, ilma järgi vaatamata. Kui jääd hätta, ava vihje või vaata ülevalt sama numbriga ülesannet.</p>
+  </div>
+  <article class="task solo" id="i13">
+    <div class="task-head">
+      <div class="task-no">13</div>
+      <h3>Kala ja krabi räägivad</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">15–20 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Kala ja krabi räägivad kordamööda. Kokku on vähemalt 4 lauset ja kasutatud on vähemalt kahte erinevat teadet.</div>
+    <details class="hint"><summary>Vihje</summary><p>Iga kord, kui on teise tegelase kord rääkida, saada teade. Teine tegelane alustab skripti plokiga kui saan teate …</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Lisa kolmas tegelane, kes ütleb vestluse lõpus midagi.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i13a"> Laused tulevad õiges järjekorras ja kõnemullid ei kattu.</label><label><input type="checkbox" id="i13b"> Kasutasin kahte erinevat teadet.</label>
+    </div>
+  </article>
+  <div class="share">
+    <b>Jaga oma tööd.</b> Kui selle teema ülesanded on tehtud: <span class="ui">Fail</span> → <span class="ui">Salvesta koopiana</span>, pane koopiale nimeks <b>T5 park</b> või <b>T5 meri</b>, vajuta <span class="ui">Jaga</span> ja seejärel projekti lehel <span class="ui">Lisa stuudiosse</span> → <b>05 Dialoog ja teated</b>.
+  </div>
+
+  <div class="review">
+    <h3>Kordamiseks</h3>
+    <details><summary>Miks on teateid vaja?</summary><p>Spraidid ei tea üksteise skriptidest midagi. Teate abil saab üks sprait anda teistele märku, et nüüd on nende kord.</p></details>
+    <details><summary>Mis ploki peab sprait kasutama, et teatele reageerida?</summary><p><b>kui saan teate …</b>, kus on valitud sama teate nimi.</p></details>
+  </div>
+  <p class="more">Vaata lisaks: TÜ Scratchi materjalid, <a href="https://courses.cs.ut.ee/t/scratch/Main/MuutujateEdastamineI" target="_blank" rel="noopener">9. Muutujate edastamine I</a> (teadete kasutamine).</p>
+</section>
+
+<!-- kordused -->
+<section class="chapter" id="kordused">
+  <div class="chapter-head">
+    <div class="num">Teema 6 · ülesanded 14–15</div>
+    <h2>Kordused</h2>
+    <p>Sama tegevust ei pea kümme korda üles kirjutama. Selle jaoks on kordus.</p>
+  </div>
+
+  <div class="theory">
+    <h3><small>Teooria</small>Kordus ehk tsükkel</h3>
+    <p>Kehalise kasvatuse tunnis ei ütle õpetaja „tee kükk, tee kükk, tee kükk …“ kümme korda. Ta ütleb „tee 10 kükki“. Programmeerimises on selleks <b>kordus</b> (teise nimega <b>tsükkel</b>). See täidab tema sees olevaid plokke mitu korda.</p>
+    <ul>
+      <li><span class="blk k-control">korda 10 korda</span> kordab täpselt nii mitu korda, kui oled kirjutanud.</li>
+      <li><span class="blk k-control">korda lõputult</span> kordab seni, kuni vajutad stoppnuppu. Mängudes kasutatakse seda kõige rohkem.</li>
+    </ul>
+    <p>Korduse plokk on nagu suu: plokid, mida kordad, pannakse <b>selle sisse</b>. Mis on korduse all, toimub alles pärast seda, kui kordus on lõppenud.</p>
+  </div>
+
+  <article class="task" id="u14">
+    <div class="task-head">
+      <div class="task-no">14</div>
+      <h3>Korda 10 korda</h3>
+      <div class="chips"><span class="chip k-control">Juhtimine</span><span class="chip k-looks">Välimus</span><span class="chip time">10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> pane tegelane lehvitama. Vaheta 10 korda kostüümi (käed üleval / käed all) ja oota iga vahetuse järel 0,3 sekundit. Muuda korduste arvu ja vaata, mis juhtub.</div>
+    <div class="cols">
+      <div>
+        <div class="label">Kuidas teha</div>
+        <ol class="steps">
+          <li>Võta <b>kui klõpsata 🏁</b>.</li>
+          <li>Lisa <span class="blk k-control">Juhtimine</span> alt <b>korda 10 korda</b>.</li>
+          <li>Pane korduse <b>sisse</b> <b>järgmine kostüüm</b> ja <b>oota 0.3 sek</b>.</li>
+          <li>Vajuta rohelist lippu ja loe, mitu korda tegelane käsi liigutab. Muuda siis 10 näiteks 4-ks.</li>
+        </ol>
+        <p class="note">Tähelepanu: Scratchis kirjutatakse komakohaga arv <b>punktiga</b>: 0.3, mitte 0,3.</p>
+      </div>
+      <div class="code">
+        <p class="who">Tegelane</p>
+<pre class="blocks">kui klõpsata @greenFlag
+korda (10) korda
+järgmine kostüüm
+oota (0.3) sek
+end</pre>
+      </div>
+    </div>
+    <div class="check" data-task="12">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c14a"> Tegelane lehvitab ja jääb siis seisma.</label>
+      <label><input type="checkbox" id="c14b"> Korduste arvu muutmine muudab lehvitamiste arvu.</label>
+    </div>
+  </article>
+
+  <article class="task" id="u15">
+    <div class="task-head">
+      <div class="task-no">15</div>
+      <h3>Korda lõputult</h3>
+      <div class="chips"><span class="chip k-control">Juhtimine</span><span class="chip k-motion">Liikumine</span><span class="chip time">10–15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> pane tegelane lava servast servani edasi-tagasi kõndima ja päike taevas aeglaselt pöörlema. Mõlemad tegevused kestavad seni, kuni vajutad stoppnuppu.</div>
+    <div class="cols">
+      <div>
+        <div class="label">Kuidas teha</div>
+        <ol class="steps">
+          <li>Tegelane: <b>kui klõpsata 🏁</b> → <b>korda lõputult</b> → sisse <b>liigu 5 punkti</b> ja <b>kui äärel, põrka</b>.</li>
+          <li>Kui tegelane läheb pea alaspidi, vali spraidi alas <span class="ui">Suund</span> → <span class="ui">vasak/parem</span>.</li>
+          <li>Päike on praegu tausta osa ja taust ei saa pöörelda. Joonista päike uuesti <b>eraldi spraidiks</b> (nimi <b>Päike</b>) ja kustuta see taustalt <span class="ui">Kustutaja</span> abil.</li>
+          <li>Päike: <b>kui klõpsata 🏁</b> → <b>korda lõputult</b> → sisse <b>pööra ↻ 2 kraadi</b>.</li>
+        </ol>
+        <p class="note">Mõlemal spraidil on oma skript ja rohelise lipu vajutamisel käivituvad need korraga.</p>
+      </div>
+      <div class="code">
+        <p class="who">Tegelane</p>
+<pre class="blocks">kui klõpsata @greenFlag
+korda lõputult
+liigu (5) punkti
+kui äärel, põrka
+end</pre>
+        <p class="who">Päike</p>
+<pre class="blocks">kui klõpsata @greenFlag
+korda lõputult
+pööra @turnRight (2) kraadi
+end</pre>
+      </div>
+    </div>
+    <div class="extra"><p><b>Kiirematele:</b> lisa tegelase kordusesse ka <b>järgmine kostüüm</b> ja <b>oota 0.2 sek</b>. Nüüd ta lehvitab kõndides.</p></div>
+    <div class="check" data-task="13">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c15a"> Tegelane kõnnib edasi-tagasi ega jää serva kinni.</label>
+      <label><input type="checkbox" id="c15b"> Päike pöörleb ja kõik peatub stoppnupuga.</label>
+    </div>
+  </article>
+
+  <div class="solo-head" id="kordused-ise">
+    <h3>Iseseisvad ülesanded: veealune maailm</h3>
+    <p>Need ülesanded harjutavad samu oskusi, aga teises projektis. Tee need ise, ilma järgi vaatamata. Kui jääd hätta, ava vihje või vaata ülevalt sama numbriga ülesannet.</p>
+  </div>
+  <article class="task solo" id="i14">
+    <div class="task-head">
+      <div class="task-no">14</div>
+      <h3>Kala teeb mulli</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Kala avab ja sulgeb suud 5 korda. Iga kostüümivahetuse järel oota 0.2 sekundit. Lõpus ütleb kala Mull-mull!</div>
+    <details class="hint"><summary>Vihje</summary><p>ütle-plokk peab olema korduse all, mitte selle sees.</p></details>
+    
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i14a"> Suu liigub täpselt 5 korda ja siis ütleb kala Mull-mull!</label>
+    </div>
+  </article>
+  <article class="task solo" id="i15">
+    <div class="task-head">
+      <div class="task-no">15</div>
+      <h3>Krabi kõnnib, vetikas kõigub</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Krabi kõnnib liival vasakult paremale ja tagasi ega lähe pea alaspidi. Joonista vetikas eraldi spraidiks ja pane see kõikuma: pööra 10 kraadi ühele poole, oota, pööra 10 kraadi teisele poole, oota.</div>
+    <details class="hint"><summary>Vihje</summary><p>Mõlemal spraidil on oma korda lõputult. Vetika jaoks on vaja mõlemat pööra-plokki: ↻ ja ↺.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Lisa kalale ka korda lõputult, kus ta ujub üles-alla ja põrkab äärelt.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i15a"> Krabi kõnnib edasi-tagasi õiget pidi.</label><label><input type="checkbox" id="i15b"> Vetikas kõigub, kuni vajutad stoppnuppu.</label>
+    </div>
+  </article>
+  <div class="share">
+    <b>Jaga oma tööd.</b> Kui selle teema ülesanded on tehtud: <span class="ui">Fail</span> → <span class="ui">Salvesta koopiana</span>, pane koopiale nimeks <b>T6 park</b> või <b>T6 meri</b>, vajuta <span class="ui">Jaga</span> ja seejärel projekti lehel <span class="ui">Lisa stuudiosse</span> → <b>06 Kordused</b>.
+  </div>
+
+  <div class="review">
+    <h3>Kordamiseks</h3>
+    <details><summary>Mis vahe on „korda 10 korda“ ja „korda lõputult“ vahel?</summary><p>Esimene kordab täpselt 10 korda ja siis läheb edasi järgmiste plokkide juurde. Teine kordab seni, kuni programm peatatakse.</p></details>
+    <details><summary>Miks ei saa „korda lõputult“ ploki alla teisi plokke panna?</summary><p>Lõputu kordus ei lõpe kunagi, nii et selle all olevate plokkideni ei jõutaks kunagi.</p></details>
+  </div>
+  <p class="more">Vaata lisaks: Digiõpik, <a href="https://courses.cs.ut.ee/t/digiopik/Programmeerimine/Tund3" target="_blank" rel="noopener">3. tund „Arenduskeskkond. Kordus“</a>. TÜ Scratchi materjalid, <a href="https://courses.cs.ut.ee/t/scratch/Main/JoonistamineII" target="_blank" rel="noopener">3. Joonistamine II</a>.</p>
+</section>
+
+<!-- pliiats -->
+<section class="chapter" id="pliiats">
+  <div class="chapter-head">
+    <div class="num">Teema 7 · ülesanded 16–17</div>
+    <h2>Joonistamine pliiatsiga</h2>
+    <p>Sprait jätab liikudes joone maha. Nii saab joonistada kujundeid ja trükitähti.</p>
+  </div>
+
+  <div class="theory">
+    <h3><small>Teooria</small>Pliiats ja suunad</h3>
+    <p>Pliiatsi plokid ei ole kohe näha. Need on <b>laienduses</b>: vajuta vasakul all nuppu <span class="ui">Lisa laiendus</span> ja vali <span class="ui">Pliiats</span>. Plokipaletti tekib uus roheline rühm.</p>
+    <p>Kujuta ette, et spraidil on pliiats käes. <span class="blk k-pen">pliiats alla</span> paneb pliiatsi paberile: kui sprait nüüd liigub, jääb maha joon. <span class="blk k-pen">pliiats üles</span> tõstab pliiatsi: sprait liigub, aga joont ei teki. <span class="blk k-pen">kustuta kõik</span> puhastab lava.</p>
+    <p>Spraidi <b>suund</b> on kraadides: <b>90</b> on paremale, <b>−90</b> vasakule, <b>0</b> üles ja <b>180</b> alla. <b>liigu</b> plokk liigutab spraiti selles suunas, kuhu ta parajasti vaatab.</p>
+    <p>Kinnise kujundi saamiseks peab sprait kokku pöörama täisringi ehk 360 kraadi. Ruudul on 4 külge ja 360 : 4 = 90, nii et iga pööre on 90 kraadi.</p>
+  </div>
+
+  <article class="task" id="u16">
+    <div class="task-head">
+      <div class="task-no">16</div>
+      <h3>Ruut</h3>
+      <div class="chips"><span class="chip k-pen">Pliiats</span><span class="chip k-control">Juhtimine</span><span class="chip k-motion">Liikumine</span><span class="chip time">15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> joonista pliiatsiga ruut, mille külje pikkus on 100. Kasuta kordust.</div>
+    <div class="cols">
+      <div>
+        <div class="label">Kuidas teha</div>
+        <ol class="steps">
+          <li>Lisa laiendus <span class="ui">Pliiats</span>.</li>
+          <li>Joonista uus väike sprait (näiteks punane täpp) ja pane nimeks <b>Pliiats</b>.</li>
+          <li>Rohelise lipu peale: <b>kustuta kõik</b>, <b>pliiats üles</b>, <b>mine x: −50 y: −50</b>, <b>osuta suunas 90</b>.</li>
+          <li>Vali pliiatsi suurus ja värv ning pane <b>pliiats alla</b>.</li>
+          <li><b>korda 4 korda</b> → sisse <b>liigu 100 punkti</b> ja <b>pööra ↻ 90 kraadi</b>. Lõpus <b>pliiats üles</b>.</li>
+        </ol>
+        <p class="note">Ilma korduseta oleks vaja 8 plokki. Korduse abil piisab kahest.</p>
+      </div>
+      <div class="code">
+        <p class="who">Pliiats</p>
+<pre class="blocks">kui klõpsata @greenFlag
+kustuta kõik
+pliiats üles
+mine x: (-50) y: (-50)
+osuta suunas (90)
+võta pliiatsi suuruseks (5)
+võta pliiatsi värviks [#e03c3c]
+pliiats alla
+korda (4) korda
+liigu (100) punkti
+pööra @turnRight (90) kraadi
+end
+pliiats üles</pre>
+      </div>
+    </div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c16a"> Ruut on kinnine ja iga uus käivitus kustutab vana.</label>
+    </div>
+  </article>
+
+  <article class="task" id="u17">
+    <div class="task-head">
+      <div class="task-no">17</div>
+      <h3>Trükitäht T</h3>
+      <div class="chips"><span class="chip k-pen">Pliiats</span><span class="chip k-motion">Liikumine</span><span class="chip time">15–20 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> kirjuta pliiatsiga trükitäht T. Seejärel kirjuta selle kõrvale ise täht L.</div>
+    <div class="cols">
+      <div>
+        <div class="label">Kuidas teha</div>
+        <ol class="steps">
+          <li>T-tähel on kaks joont: ülemine põikjoon ja keskel alla minev joon.</li>
+          <li>Esimene joon: <b>pliiats üles</b> → <b>mine x: −50 y: 50</b> → <b>osuta suunas 90</b> → <b>pliiats alla</b> → <b>liigu 100 punkti</b>.</li>
+          <li>Teise joone algusesse liigu <b>ilma joonistamata</b>: <b>pliiats üles</b> → <b>mine x: 0 y: 50</b> → <b>osuta suunas 180</b> (alla).</li>
+          <li><b>pliiats alla</b> → <b>liigu 120 punkti</b> → <b>pliiats üles</b>.</li>
+          <li>Nüüd tee L-täht: alusta näiteks kohast x: 80 y: 50, mine alla ja siis paremale.</li>
+        </ol>
+        <p class="note">Iga uus joon algab neljast plokist: pliiats üles, mine, osuta suunas, pliiats alla.</p>
+      </div>
+      <div class="code">
+        <p class="who">Pliiats</p>
+<pre class="blocks">kui klõpsata @greenFlag
+kustuta kõik
+võta pliiatsi suuruseks (8)
+pliiats üles
+mine x: (-50) y: (50)
+osuta suunas (90)
+pliiats alla
+liigu (100) punkti
+pliiats üles
+mine x: (0) y: (50)
+osuta suunas (180)
+pliiats alla
+liigu (120) punkti
+pliiats üles</pre>
+      </div>
+    </div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c17a"> T ja L on loetavad ja nende vahel pole üleliigset joont.</label>
+    </div>
+  </article>
+
+  <div class="solo-head" id="pliiats-ise">
+    <h3>Iseseisvad ülesanded: veealune maailm</h3>
+    <p>Need ülesanded harjutavad samu oskusi, aga teises projektis. Tee need ise, ilma järgi vaatamata. Kui jääd hätta, ava vihje või vaata ülevalt sama numbriga ülesannet.</p>
+  </div>
+  <article class="task solo" id="i16">
+    <div class="task-head">
+      <div class="task-no">16</div>
+      <h3>Kolmnurk ja kuusnurk</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Joonista pliiatsiga kolmnurk ja selle kõrvale kuusnurk. Mõlema külje pikkus on 80.</div>
+    <details class="hint"><summary>Vihje</summary><p>Kolmnurgal on 3 külge ja iga pööre on 120 kraadi. Kuusnurgal on 6 külge ja pööre on 60 kraadi. Mõlemal juhul tuleb kokku 360 kraadi.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Joonista ka viisnurk. Mitu kraadi peab iga kord pöörama?</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i16a"> Mõlemad kujundid on kinnised (otsad saavad kokku).</label><label><input type="checkbox" id="i16b"> Iga rohelise lipu vajutus kustutab vana joonise.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i17">
+    <div class="task-head">
+      <div class="task-no">17</div>
+      <h3>Sõna HEI</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">25–30 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Kirjuta pliiatsiga trükitähtedega sõna HEI. Tähed on kõrvuti ja ühesuguse kõrgusega.</div>
+    <details class="hint"><summary>Vihje</summary><p>Joonista tähed enne ruudulisele paberile ja kirjuta üles iga joone algus- ja lõpp-punkt. Iga uue joone ette pane pliiats üles, mine x: … y: … ja pliiats alla.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Kirjuta oma nime esitähed. Tee iga täht erinevat värvi.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i17a"> Kõik kolm tähte on loetavad.</label><label><input type="checkbox" id="i17b"> Tähtede vahel ei ole üleliigseid jooni.</label>
+    </div>
+  </article>
+  <div class="share">
+    <b>Jaga oma tööd.</b> Kui selle teema ülesanded on tehtud: <span class="ui">Fail</span> → <span class="ui">Salvesta koopiana</span>, pane koopiale nimeks <b>T7 park</b> või <b>T7 meri</b>, vajuta <span class="ui">Jaga</span> ja seejärel projekti lehel <span class="ui">Lisa stuudiosse</span> → <b>07 Joonistamine pliiatsiga</b>.
+  </div>
+
+
+  <div class="review">
+    <h3>Kordamiseks</h3>
+    <details><summary>Mis vahe on „pliiats alla“ ja „pliiats üles“ vahel?</summary><p>Kui pliiats on all, jätab sprait liikudes joone. Kui üleval, siis joont ei teki.</p></details>
+    <details><summary>Mitu kraadi pöörata, et joonistada kolmnurk?</summary><p>120 kraadi, sest 360 : 3 = 120.</p></details>
+    <details><summary>Mis suunas vaatab sprait, kui suund on 180?</summary><p>Alla.</p></details>
+  </div>
+  <p class="more">Vaata lisaks: TÜ Scratchi materjalid, <a href="https://courses.cs.ut.ee/t/scratch/Main/JoonistamineI" target="_blank" rel="noopener">2. Joonistamine I</a> ja <a href="https://courses.cs.ut.ee/t/scratch/Main/JoonistamineII" target="_blank" rel="noopener">3. Joonistamine II</a>.</p>
+</section>
+
+<!-- tingimused -->
+<section class="chapter" id="tingimused">
+  <div class="chapter-head">
+    <div class="num">Teema 8 · ülesanded 18–20</div>
+    <h2>Tingimused</h2>
+    <p>Programm teeb erinevaid asju vastavalt sellele, mis parajasti toimub.</p>
+  </div>
+
+  <div class="theory">
+    <h3><small>Teooria</small>Kui …, siis …</h3>
+    <p>Iga päev teeme otsuseid: <i>kui sajab vihma, siis võtan vihmavarju</i>. Programmis nimetatakse seda <b>valikuks</b> ehk <b>tingimuslauseks</b>. Programm kontrollib mingit <b>tingimust</b> ja otsustab, mida teha.</p>
+    <p>Tingimus on küsimus, millele saab vastata ainult <b>jah</b> või <b>ei</b>: „Kas tegelane puudutab õuna?“, „Kas hiirenupp on all?“. Scratchis on sellised plokid <b>kuusnurksed</b> ja need sobivad ainult kuusnurksesse auku.</p>
+    <ul>
+      <li><span class="blk k-control">kui … siis</span>: kui vastus on jah, tehakse sees olevad plokid. Kui ei, siis jäetakse need vahele.</li>
+      <li><span class="blk k-control">kui … siis … muidu</span>: kui jah, tehakse ülemised plokid. Kui ei, siis alumised. Üks neist tehakse alati.</li>
+      <li><span class="blk k-control">korda kuni …</span>: kordab seni, kuni vastus muutub jaatavaks. Nagu <i>sõida rattaga, kuni jõuad koju</i>.</li>
+    </ul>
+    <p>Tingimust tuleb kontrollida pidevalt, mitte ainult üks kord. Seepärast on <b>kui</b> plokk tihti <b>korda lõputult</b> sees.</p>
+  </div>
+
+  <article class="task" id="u18">
+    <div class="task-head">
+      <div class="task-no">18</div>
+      <h3>Kui … siis</h3>
+      <div class="chips"><span class="chip k-control">Juhtimine</span><span class="chip k-sensing">Andurid</span><span class="chip k-events">Sündmused</span><span class="chip time">10–15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> kui tegelane puudutab õuna, ütleb ta „Mmm, õun!“ ja õun kaob.</div>
+    <div class="cols">
+      <div>
+        <div class="label">Kuidas teha</div>
+        <ol class="steps">
+          <li>Tegelasel peab olema juhtimine W A S D klahvidega (ülesanne 4), et ta jõuaks õunani.</li>
+          <li>Vali <b>Tegelane</b>. Tee uus skript: <b>kui klõpsata 🏁</b> → <b>korda lõputult</b> → sisse <b>kui … siis</b>.</li>
+          <li>Pane kuusnurksesse auku <span class="blk k-sensing">Andurid</span> alt <b>puudutab hiirekursor?</b> ja vali rippmenüüst <b>Õun</b>.</li>
+          <li>Pane <b>kui</b> ploki sisse <b>teata õun söödud</b> (uus teade) ja <b>ütle Mmm, õun! 2 sek</b>.</li>
+          <li>Vali <b>Õun</b>. Tee kaks skripti: rohelise lipu peale <b>näita</b> ja teate <b>õun söödud</b> peale <b>peida</b>.</li>
+        </ol>
+      </div>
+      <div class="code">
+        <p class="who">Tegelane</p>
+<pre class="blocks">kui klõpsata @greenFlag
+korda lõputult
+kui &lt;puudutab (Õun v)?&gt; siis
+teata [õun söödud v]
+ütle [Mmm, õun!] (2) sek
+end
+end</pre>
+        <p class="who">Õun</p>
+<pre class="blocks">kui klõpsata @greenFlag
+näita
+
+kui saan teate [õun söödud v]
+peida</pre>
+      </div>
+    </div>
+    <div class="check" data-task="14">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c18a"> Õuna puudutades räägib tegelane ja õun kaob.</label>
+      <label><input type="checkbox" id="c18b"> Rohelise lipuga on õun jälle näha.</label>
+    </div>
+  </article>
+
+  <article class="task" id="u19">
+    <div class="task-head">
+      <div class="task-no">19</div>
+      <h3>Kui … siis … muidu</h3>
+      <div class="chips"><span class="chip k-control">Juhtimine</span><span class="chip k-sensing">Andurid</span><span class="chip k-looks">Välimus</span><span class="chip time">10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> kui hiirenupp on all, on tegelasel kostüüm „käed üleval“. Vastasel juhul on kostüüm „käed all“.</div>
+    <div class="cols">
+      <div>
+        <div class="label">Kuidas teha</div>
+        <ol class="steps">
+          <li>Vali <b>Tegelane</b>. Võta <b>kui klõpsata 🏁</b> → <b>korda lõputult</b>.</li>
+          <li>Pane kordusesse <b>kui … siis … muidu</b>. Sellel plokil on kaks suud.</li>
+          <li>Tingimuseks pane <span class="blk k-sensing">Andurid</span> alt <b>hiir all?</b>.</li>
+          <li>Ülemisse suhu pane <b>võta kostüüm käed üleval</b> ja alumisse (muidu) <b>võta kostüüm käed all</b>.</li>
+          <li>Vajuta rohelist lippu ja hoia hiirenuppu laval all.</li>
+        </ol>
+      </div>
+      <div class="code">
+        <p class="who">Tegelane</p>
+<pre class="blocks">kui klõpsata @greenFlag
+korda lõputult
+kui &lt;hiir all?&gt; siis
+võta kostüüm [käed üleval v]
+muidu
+võta kostüüm [käed all v]
+end
+end</pre>
+      </div>
+    </div>
+    <div class="extra"><p><b>Kiirematele:</b> tegelane ütleb lisaks „Hurraa!“, aga ainult siis, kui käed on üleval.</p></div>
+    <div class="check" data-task="15">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c19a"> Hiirenupp all tõstab käed üles ja lahti laskmisel lähevad käed alla.</label>
+    </div>
+  </article>
+
+  <article class="task" id="u20">
+    <div class="task-head">
+      <div class="task-no">20</div>
+      <h3>Korda kuni</h3>
+      <div class="chips"><span class="chip k-control">Juhtimine</span><span class="chip k-sensing">Andurid</span><span class="chip k-motion">Liikumine</span><span class="chip time">10–15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> õun kukub puu otsast alla (muuda y väärtust −5 võrra) seni, kuni see puudutab lava alumist serva. Seejärel ütleb tegelane „Õun kukkus maha!“.</div>
+    <div class="cols">
+      <div>
+        <div class="label">Kuidas teha</div>
+        <ol class="steps">
+          <li>Vali <b>Õun</b>. Vaata spraidi alast õuna x ja y väärtust, kui see on puu otsas.</li>
+          <li><b>kui klõpsata 🏁</b> → <b>näita</b> → <b>mine x: … y: …</b> (õuna koht puu otsas) → <b>oota 1 sek</b>.</li>
+          <li>Lisa <b>korda kuni …</b> ja pane tingimuseks <b>puudutab serv?</b>. Korduse sisse pane <b>muuda y −5 võrra</b>.</li>
+          <li>Korduse alla lisa <b>teata õun kukkus</b>.</li>
+          <li>Vali <b>Tegelane</b> ja tee skript: <b>kui saan teate õun kukkus</b> → <b>ütle Õun kukkus maha! 2 sek</b>.</li>
+        </ol>
+      </div>
+      <div class="code">
+        <p class="who">Õun</p>
+<pre class="blocks">kui klõpsata @greenFlag
+näita
+mine x: (120) y: (60)
+oota (1) sek
+korda kuni &lt;puudutab (serv v)?&gt;
+muuda y (-5) võrra
+end
+teata [õun kukkus v]</pre>
+        <p class="who">Tegelane</p>
+<pre class="blocks">kui saan teate [õun kukkus v]
+ütle [Õun kukkus maha!] (2) sek</pre>
+      </div>
+    </div>
+    <div class="extra"><p><b>Kiirematele:</b> õun peatub juba muru peal. Kasuta tingimuseks <span class="blk k-sensing">puudutab värvi …?</span> ja vali värviks oma muru roheline: klõpsa värvikastil, vali pipett ja klõpsa laval murule.</p></div>
+    <div class="check" data-task="16">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c20a"> Õun kukub ja peatub all.</label>
+      <label><input type="checkbox" id="c20b"> Pärast kukkumist ütleb tegelane lause.</label>
+    </div>
+  </article>
+
+  <div class="solo-head" id="tingimused-ise">
+    <h3>Iseseisvad ülesanded: veealune maailm</h3>
+    <p>Need ülesanded harjutavad samu oskusi, aga teises projektis. Tee need ise, ilma järgi vaatamata. Kui jääd hätta, ava vihje või vaata ülevalt sama numbriga ülesannet.</p>
+  </div>
+  <article class="task solo" id="i18">
+    <div class="task-head">
+      <div class="task-no">18</div>
+      <h3>Krabi näpistab</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">10–15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Kui kala puudutab krabi, ütleb kala Ai! Krabi näpistas! ja läheb tagasi alguspunkti.</div>
+    <details class="hint"><summary>Vihje</summary><p>korda lõputult → kui puudutab Krabi? siis. Skript tuleb panna kalale.</p></details>
+    
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i18a"> Krabi puudutades räägib kala ja läheb algusesse tagasi.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i19">
+    <div class="task-head">
+      <div class="task-no">19</div>
+      <h3>Suu tühikuga</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Kui tühik on all, on kalal suu lahti. Muidu on suu kinni.</div>
+    <details class="hint"><summary>Vihje</summary><p>Andurite all on plokk klahv tühik all? See sobib kui … siis … muidu tingimuseks.</p></details>
+    
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i19a"> Tühiku all hoidmisel on suu lahti ja lahti laskmisel kinni.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i20">
+    <div class="task-head">
+      <div class="task-no">20</div>
+      <h3>Mull tõuseb</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">10–15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Joonista uus sprait Mull (väike helesinine ring). Rohelise lipu peale läheb mull liivale kohta x: 0, y: -150 ja tõuseb üles (muuda y 3 võrra), kuni puudutab serva. Siis mull kaob ja kala ütleb Mull lõhkes!</div>
+    <details class="hint"><summary>Vihje</summary><p>Pane korda kuni puudutab serv? sisse muuda y 3 võrra. Korduse alla tulevad peida ja teade kalale.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Mull tõuseb vingerdades: lisa kordusesse muuda x juhuarv -2 kuni 2 võrra.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i20a"> Mull tõuseb üles ja kaob ülemises servas.</label><label><input type="checkbox" id="i20b"> Pärast seda ütleb kala Mull lõhkes!</label>
+    </div>
+  </article>
+  <div class="share">
+    <b>Jaga oma tööd.</b> Kui selle teema ülesanded on tehtud: <span class="ui">Fail</span> → <span class="ui">Salvesta koopiana</span>, pane koopiale nimeks <b>T8 park</b> või <b>T8 meri</b>, vajuta <span class="ui">Jaga</span> ja seejärel projekti lehel <span class="ui">Lisa stuudiosse</span> → <b>08 Tingimused</b>.
+  </div>
+
+  <div class="review">
+    <h3>Kordamiseks</h3>
+    <details><summary>Mis kujuga on tingimuse plokid?</summary><p>Kuusnurksed. Neile saab vastata ainult jah või ei.</p></details>
+    <details><summary>Miks pannakse „kui“ plokk tihti „korda lõputult“ sisse?</summary><p>Muidu kontrollitaks tingimust ainult üks kord, kohe programmi alguses. Korduses kontrollitakse seda kogu aeg.</p></details>
+    <details><summary>Mitu korda kordab „korda kuni“?</summary><p>Seda ei tea ette. Ta kordab seni, kuni tingimus saab tõeseks.</p></details>
+  </div>
+  <p class="more">Vaata lisaks: Digiõpik, <a href="https://courses.cs.ut.ee/t/digiopik/Programmeerimine/Tund5" target="_blank" rel="noopener">5. tund „Valik“</a>. TÜ Scratchi materjalid, <a href="https://courses.cs.ut.ee/t/scratch/Main/LiikumineJaAnduridII" target="_blank" rel="noopener">5. Liikumine ja andurid II</a>.</p>
+</section>
+
+<!-- kysimused -->
+<section class="chapter" id="kysimused">
+  <div class="chapter-head">
+    <div class="num">Teema 9 · ülesanded 21–23</div>
+    <h2>Küsimine, arvutamine ja võrdlemine</h2>
+    <p>Programm küsib mängijalt midagi, arvutab vastusega ja võrdleb seda.</p>
+  </div>
+
+  <div class="theory">
+    <h3><small>Teooria</small>Vastus, tehted ja võrdlused</h3>
+    <p>Plokk <span class="blk k-sensing">küsi … ja oota</span> näitab laval küsimust ja kasti, kuhu mängija saab vastuse kirjutada. Mängija kirjutatud vastus jääb meelde plokki <span class="blk k-sensing">vastus</span>. Uue küsimuse korral kirjutatakse vana vastus üle.</p>
+    <p>Rohelised <span class="blk k-operators">Tehted</span> plokid arvutavad: <b>+</b> liitmine, <b>−</b> lahutamine, <b>*</b> korrutamine, <b>/</b> jagamine. Plokk <b>… &amp; …</b> ühendab kaks teksti üheks, näiteks „Tere, “ ja „Mari“ annavad kokku „Tere, Mari“.</p>
+    <p>Võrdlusplokid <b>&lt;</b> (väiksem kui), <b>&gt;</b> (suurem kui) ja <b>=</b> (võrdne) on kuusnurksed. Need annavad vastuseks jah või ei, seega sobivad need <b>kui</b> ploki tingimuseks.</p>
+    <p>Ümarad plokid annavad <b>väärtuse</b> (arvu või teksti) ja sobivad ümarasse auku. Kuusnurksed plokid annavad <b>jah või ei</b> ja sobivad kuusnurksesse auku.</p>
+  </div>
+
+  <article class="task" id="u21">
+    <div class="task-head">
+      <div class="task-no">21</div>
+      <h3>Küsi</h3>
+      <div class="chips"><span class="chip k-sensing">Andurid</span><span class="chip k-operators">Tehted</span><span class="chip time">10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> tegelane küsib „Mis su nimi on?“ ja vastab „Tere, …!“, kus punktide asemel on kasutaja kirjutatud nimi.</div>
+    <div class="cols">
+      <div>
+        <div class="label">Kuidas teha</div>
+        <ol class="steps">
+          <li><b>kui klõpsata 🏁</b> → <span class="blk k-sensing">Andurid</span> alt <b>küsi … ja oota</b>. Kirjuta küsimuseks <b>Mis su nimi on?</b></li>
+          <li>Lisa <b>ütle … 2 sek</b>.</li>
+          <li>Võta <span class="blk k-operators">Tehted</span> alt <b>… &amp; …</b> ja lohista see <b>ütle</b> ploki valgesse kasti.</li>
+          <li>Kirjuta esimesse kasti <b>Tere, </b> (koma järele tühik!) ja lohista teise kasti <b>vastus</b>.</li>
+          <li>Hüüumärgi saamiseks pane teise kasti veel üks <b>… &amp; …</b>, mille sees on <b>vastus</b> ja <b>!</b>.</li>
+        </ol>
+      </div>
+      <div class="code">
+        <p class="who">Tegelane</p>
+<pre class="blocks">kui klõpsata @greenFlag
+küsi [Mis su nimi on?] ja oota
+ütle ([Tere, ] &amp; ((vastus) &amp; [!])) (2) sek</pre>
+      </div>
+    </div>
+    <div class="check" data-task="17">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c21a"> Tegelane tervitab mind minu nimega.</label>
+    </div>
+  </article>
+
+  <article class="task" id="u22">
+    <div class="task-head">
+      <div class="task-no">22</div>
+      <h3>Arvutamine</h3>
+      <div class="chips"><span class="chip k-operators">Tehted</span><span class="chip k-sensing">Andurid</span><span class="chip time">10–15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> tegelane küsib ühe arvu ja ütleb, mis tuleb, kui sellele liita 10.</div>
+    <div class="cols">
+      <div>
+        <div class="label">Kuidas teha</div>
+        <ol class="steps">
+          <li><b>kui klõpsata 🏁</b> → <b>küsi Ütle üks arv ja oota</b>.</li>
+          <li>Võta <span class="blk k-operators">Tehted</span> alt <b>… + …</b>. Lohista esimesse auku <b>vastus</b> ja kirjuta teise <b>10</b>.</li>
+          <li>Pane see <b>ütle</b> plokki. Ilusama lause saad, kui kasutad <b>… &amp; …</b> nagu eelmises ülesandes.</li>
+        </ol>
+      </div>
+      <div class="code">
+        <p class="who">Tegelane</p>
+<pre class="blocks">kui klõpsata @greenFlag
+küsi [Ütle üks arv] ja oota
+ütle ([Kui liita 10, saad ] &amp; ((vastus) + (10))) (3) sek</pre>
+      </div>
+    </div>
+    <div class="extra"><p><b>Kiirematele:</b> lisa veel kaks lauset, mis ütlevad arvu kahekordse (<b>vastus * 2</b>) ja poole (<b>vastus / 2</b>). Kahe erineva arvu summa arvutamiseks on vaja muutujat. Selle õpid järgmises teemas.</p></div>
+    <div class="check" data-task="18">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c22a"> Kui kirjutan 5, vastab tegelane 15.</label>
+    </div>
+  </article>
+
+  <article class="task" id="u23">
+    <div class="task-head">
+      <div class="task-no">23</div>
+      <h3>Võrdlemine</h3>
+      <div class="chips"><span class="chip k-operators">Tehted</span><span class="chip k-control">Juhtimine</span><span class="chip time">15–20 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> tegelane küsib „Kui vana sa oled?“. Kui vastus on väiksem kui 12, ütleb ta „Oled minust noorem!“. Kui suurem, siis „Oled minust vanem!“. Kui võrdne, siis „Oleme ühevanused!“.</div>
+    <div class="cols">
+      <div>
+        <div class="label">Kuidas teha</div>
+        <ol class="steps">
+          <li><b>kui klõpsata 🏁</b> → <b>küsi Kui vana sa oled? ja oota</b>.</li>
+          <li>Lisa kolm <b>kui … siis</b> plokki üksteise alla.</li>
+          <li>Esimese tingimuseks pane <span class="blk k-operators">Tehted</span> alt <b>… &lt; …</b>, sinna <b>vastus</b> ja <b>12</b>.</li>
+          <li>Teise tingimuseks <b>vastus &gt; 12</b> ja kolmanda omaks <b>vastus = 12</b>.</li>
+          <li>Pane iga <b>kui</b> sisse oma <b>ütle</b> plokk. Proovi vastustega 9, 12 ja 15.</li>
+        </ol>
+      </div>
+      <div class="code">
+        <p class="who">Tegelane</p>
+<pre class="blocks">kui klõpsata @greenFlag
+küsi [Kui vana sa oled?] ja oota
+kui &lt;(vastus) &lt; [12]&gt; siis
+ütle [Oled minust noorem!] (2) sek
+end
+kui &lt;(vastus) &gt; [12]&gt; siis
+ütle [Oled minust vanem!] (2) sek
+end
+kui &lt;(vastus) = [12]&gt; siis
+ütle [Oleme ühevanused!] (2) sek
+end</pre>
+      </div>
+    </div>
+    <div class="check" data-task="19">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c23a"> Proovisin vastuseid 9, 12 ja 15 ning iga kord tuli õige lause.</label>
+    </div>
+  </article>
+
+  <div class="solo-head" id="kysimused-ise">
+    <h3>Iseseisvad ülesanded: veealune maailm</h3>
+    <p>Need ülesanded harjutavad samu oskusi, aga teises projektis. Tee need ise, ilma järgi vaatamata. Kui jääd hätta, ava vihje või vaata ülevalt sama numbriga ülesannet.</p>
+  </div>
+  <article class="task solo" id="i21">
+    <div class="task-head">
+      <div class="task-no">21</div>
+      <h3>Lemmikvärv</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Kala küsib Mis on sinu lemmikvärv? ja vastab näiteks sinine on ilus värv!, kus esimene sõna on see, mis kasutaja kirjutas.</div>
+    <details class="hint"><summary>Vihje</summary><p>&amp; plokis on seekord vastus esimeses kastis ja tekst teises. Teksti algusesse pane tühik.</p></details>
+    
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i21a"> Kala kordab minu värvi ja lause on loetav (tühik on õiges kohas).</label>
+    </div>
+  </article>
+  <article class="task solo" id="i22">
+    <div class="task-head">
+      <div class="task-no">22</div>
+      <h3>10 aasta pärast</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">10–15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Krabi küsib Kui vana sa oled? ja ütleb, kui vana oled 10 aasta pärast.</div>
+    <details class="hint"><summary>Vihje</summary><p>Rohelised Tehted: vastus + 10.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Lisa teine lause, mis ütleb, kui vana olid 3 aastat tagasi (lahutamine).</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i22a"> Kui vastan 11, ütleb krabi 21.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i23">
+    <div class="task-head">
+      <div class="task-no">23</div>
+      <h3>Arvamismäng</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">15–20 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Kala mõtles arvu 7. Ta küsib: Arva ära, mis arvu ma mõtlen (1–10)! Kui vastus on väiksem kui 7, ütleb kala Liiga väike!. Kui suurem, siis Liiga suur!. Kui võrdne, siis Arvasid ära!</div>
+    <details class="hint"><summary>Vihje</summary><p>Sama ülesehitus nagu vanuse võrdlemisel: kolm kui … siis plokki.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Kala küsib seni, kuni arvatakse ära: kasuta korda kuni vastus = 7.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i23a"> Proovisin arvudega 3, 7 ja 9 ning iga kord tuli õige vastus.</label>
+    </div>
+  </article>
+  <div class="share">
+    <b>Jaga oma tööd.</b> Kui selle teema ülesanded on tehtud: <span class="ui">Fail</span> → <span class="ui">Salvesta koopiana</span>, pane koopiale nimeks <b>T9 park</b> või <b>T9 meri</b>, vajuta <span class="ui">Jaga</span> ja seejärel projekti lehel <span class="ui">Lisa stuudiosse</span> → <b>09 Küsimine, arvutamine ja võrdlemine</b>.
+  </div>
+
+  <div class="review">
+    <h3>Kordamiseks</h3>
+    <details><summary>Kuhu jääb meelde see, mida mängija kirjutas?</summary><p>Plokki <b>vastus</b> (Andurid). Järgmine küsimus kirjutab selle üle.</p></details>
+    <details><summary>Kas plokk <b>vastus &lt; 12</b> sobib ümarasse või kuusnurksesse auku?</summary><p>Kuusnurksesse, sest see annab vastuseks jah või ei.</p></details>
+    <details><summary>Mida teeb plokk <b>… &amp; …</b>?</summary><p>Ühendab kaks teksti üheks.</p></details>
+  </div>
+  <p class="more">Vaata lisaks: TÜ Scratchi materjalid, <a href="https://courses.cs.ut.ee/t/scratch/Main/KysitluseLoomine" target="_blank" rel="noopener">11. Küsitluse loomine</a>.</p>
+</section>
+
+<!-- muutuja -->
+<section class="chapter" id="muutuja">
+  <div class="chapter-head">
+    <div class="num">Teema 10 · ülesanne 24</div>
+    <h2>Muutuja</h2>
+    <p>Mäng hakkab punkte lugema.</p>
+  </div>
+
+  <div class="theory">
+    <h3><small>Teooria</small>Muutuja on sildiga karp</h3>
+    <p><b>Muutuja</b> on nagu karp, mille peal on silt. Karbis hoitakse ühte väärtust, näiteks arvu. Programm saab karbi sisu vaadata, uue väärtuse sisse panna või olemasolevat suurendada. Silt ehk muutuja nimi ütleb, mis karbis on, näiteks <b>Õunad</b> või <b>Punktid</b>.</p>
+    <ul>
+      <li><span class="blk k-variables">võta Õunad = 0</span> paneb karpi uue väärtuse. Vana väärtus kaob.</li>
+      <li><span class="blk k-variables">muuda Õunad 1 võrra</span> liidab karbis olevale arvule 1 juurde.</li>
+      <li>Ümar plokk <span class="blk k-variables">Õunad</span> annab karbi praeguse sisu, et seda saaks kasutada teistes plokkides.</li>
+    </ul>
+    <p>Muutujale tuleb mängu alguses anda algväärtus. Muidu jätkab loendur eelmise mängu lõpptulemusest.</p>
+  </div>
+
+  <article class="task" id="u24">
+    <div class="task-head">
+      <div class="task-no">24</div>
+      <h3>Õunte loendur</h3>
+      <div class="chips"><span class="chip k-variables">Muutujad</span><span class="chip k-control">Juhtimine</span><span class="chip k-events">Sündmused</span><span class="chip time">20 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> loo muutuja „Õunad“. Rohelise lipu vajutamisel on selle väärtus 0. Iga kord, kui tegelane puudutab õuna, suureneb „Õunad“ 1 võrra ja õun ilmub uude juhuslikku kohta. Muutuja näidik on laval näha.</div>
+    <div class="cols">
+      <div>
+        <div class="label">Kuidas teha</div>
+        <ol class="steps">
+          <li>Ava <span class="blk k-variables">Muutujad</span> ja vajuta <span class="ui">Loo muutuja</span>. Nimeks kirjuta <b>Õunad</b> ja vajuta <span class="ui">OK</span>. Muutuja kõrval olev linnuke näitab selle väärtust laval.</li>
+          <li>Vali <b>Tegelane</b>. <b>kui klõpsata 🏁</b> → <b>võta Õunad = 0</b> → <b>korda lõputult</b>.</li>
+          <li>Kordusesse: <b>kui puudutab Õun? siis</b> → sisse <b>muuda Õunad 1 võrra</b> ja <b>teata uus õun ja oota</b>.</li>
+          <li>Vali <b>Õun</b>. Tee skript <b>kui saan teate uus õun</b> → <b>mine juhuslik asukoht</b>.</li>
+          <li>Kui ülesannete 18 ja 20 skriptid segavad, eemalda need või lohista kõrvale.</li>
+        </ol>
+        <p class="note">Miks <b>teata … ja oota</b>? Tegelane ootab, kuni õun on uude kohta läinud. Nii ei loeta sama õuna kaks korda.</p>
+      </div>
+      <div class="code">
+        <p class="who">Tegelane</p>
+<pre class="blocks">kui klõpsata @greenFlag
+võta [Õunad v] = (0)
+näita muutujat [Õunad v]
+korda lõputult
+kui &lt;puudutab (Õun v)?&gt; siis
+muuda [Õunad v] (1) võrra
+teata [uus õun v] ja oota
+end
+end</pre>
+        <p class="who">Õun</p>
+<pre class="blocks">kui saan teate [uus õun v]
+mine (juhuslik asukoht v)</pre>
+      </div>
+    </div>
+    <div class="extra"><p><b>Kiirematele:</b> nüüd saad teha ka kahe arvu summa. Küsi esimene arv ja salvesta see muutujasse: <b>võta Arv1 = vastus</b>. Seejärel küsi teine arv ja ütle <b>Arv1 + vastus</b>.</p></div>
+    <div class="check" data-task="20">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c24a"> Mängu alguses on Õunad 0.</label>
+      <label><input type="checkbox" id="c24b"> Iga puudutus annab ühe õuna ja õun liigub uude kohta.</label>
+      <label><input type="checkbox" id="c24c"> Näidik on laval näha.</label>
+    </div>
+  </article>
+
+  <div class="solo-head" id="muutuja-ise">
+    <h3>Iseseisvad ülesanded: veealune maailm</h3>
+    <p>Need ülesanded harjutavad samu oskusi, aga teises projektis. Tee need ise, ilma järgi vaatamata. Kui jääd hätta, ava vihje või vaata ülevalt sama numbriga ülesannet.</p>
+  </div>
+  <article class="task solo" id="i24">
+    <div class="task-head">
+      <div class="task-no">24</div>
+      <h3>Mullide loendur</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">20 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Loo muutuja Mullid. Mängu alguses on see 0. Kui kala puudutab mulli, suureneb Mullid 1 võrra ja mull ilmub uude juhuslikku kohta.</div>
+    <details class="hint"><summary>Vihje</summary><p>Ülesehitus on sama nagu õunte loenduril. Kui mulli ülesande 20 skript segab, lohista see kõrvale.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Kui Mullid = 10, ütleb kala Võitsin! ja mäng peatub (stopp kõik).</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i24a"> Mängu alguses on Mullid 0.</label><label><input type="checkbox" id="i24b"> Iga puudutus annab ühe punkti ja mull liigub mujale.</label>
+    </div>
+  </article>
+  <div class="share">
+    <b>Jaga oma tööd.</b> Kui selle teema ülesanded on tehtud: <span class="ui">Fail</span> → <span class="ui">Salvesta koopiana</span>, pane koopiale nimeks <b>T10 park</b> või <b>T10 meri</b>, vajuta <span class="ui">Jaga</span> ja seejärel projekti lehel <span class="ui">Lisa stuudiosse</span> → <b>10 Muutuja</b>.
+  </div>
+
+  <div class="review">
+    <h3>Kordamiseks</h3>
+    <details><summary>Mis vahe on plokkidel „võta … = …“ ja „muuda … … võrra“?</summary><p>„võta“ paneb muutujasse uue väärtuse. „muuda“ liidab olemasolevale väärtusele juurde.</p></details>
+    <details><summary>Miks antakse muutujale alguses väärtus 0?</summary><p>Et iga uus mäng algaks nullist ja eelmise mängu punktid ei jääks alles.</p></details>
+  </div>
+  <p class="more">Vaata lisaks: Digiõpik, <a href="https://courses.cs.ut.ee/t/digiopik/Programmeerimine/Tund4" target="_blank" rel="noopener">4. tund „Juhuslikkus. Muutuja“</a>. TÜ Scratchi materjalid, <a href="https://courses.cs.ut.ee/t/scratch/Main/MuutujadI" target="_blank" rel="noopener">7. Muutujad I</a>.</p>
+</section>
+
+<!-- juhuslikkus -->
+<section class="chapter" id="juhuslikkus">
+  <div class="chapter-head">
+    <div class="num">Teema 11 · ülesanded 25–26</div>
+    <h2>Juhuslikkus</h2>
+    <p>Mäng on huvitavam, kui see ei ole iga kord täpselt ühesugune.</p>
+  </div>
+
+  <div class="theory">
+    <h3><small>Teooria</small>Täringuveeretaja arvutis</h3>
+    <p>Kui veeretad täringut, ei tea sa ette, mis tuleb. <b>Juhuslikkus</b> tähendab, et tulemust ei saa ette ennustada. Arvuti saab ka „täringut veeretada“: plokk <span class="blk k-operators">juhuarv 1 kuni 10</span> annab iga kord ühe juhusliku arvu nende kahe arvu vahelt. Mõlemad otsad võivad samuti tulla.</p>
+    <p>Juhuarvu plokk on ümar, nii et selle saab panna igasse ümarasse auku: liikumisplokki, suurusesse, <b>ütle</b> plokki või muutujasse. Kui paned selle näiteks <b>mine x: … y: …</b> plokki, ilmub sprait iga kord eri kohta.</p>
+    <p>Juhuarv valitakse uuesti iga kord, kui plokk täidetakse. Kui sama juhuarvu on vaja mitu korda kasutada, pane see enne muutujasse.</p>
+  </div>
+
+  <article class="task" id="u25">
+    <div class="task-head">
+      <div class="task-no">25</div>
+      <h3>Täring</h3>
+      <div class="chips"><span class="chip k-operators">Tehted</span><span class="chip k-looks">Välimus</span><span class="chip time">10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> kui vajutad T-klahvi, veeretab tegelane täringut ja ütleb, mis arv tuli (1 kuni 6).</div>
+    <div class="cols">
+      <div>
+        <div class="label">Kuidas teha</div>
+        <ol class="steps">
+          <li>Vali <b>Tegelane</b>. Võta <b>kui klõpsata klahvi</b> ja vali klahviks <b>t</b>.</li>
+          <li>Lisa <b>ütle … 2 sek</b>.</li>
+          <li>Lohista <span class="blk k-operators">Tehted</span> alt <b>juhuarv 1 kuni 10</b> ütle-ploki valgesse kasti ja muuda 10 kuueks.</li>
+          <li>Vajuta T-klahvi mitu korda. Kas tuleb iga kord sama arv?</li>
+          <li>Ilusama lause saad plokiga <b>… &amp; …</b>: esimesse kasti kirjuta <b>Sain </b> ja teise pane juhuarv.</li>
+        </ol>
+      </div>
+      <div class="code">
+        <p class="who">Tegelane</p>
+<pre class="blocks">kui klõpsata klahvi [t v]
+ütle ([Sain ] &amp; (juhuarv (1) kuni (6))) (2) sek</pre>
+      </div>
+    </div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c25a"> Tuleb erinevaid arve 1 kuni 6 ja kunagi ei tule 0 ega 7.</label>
+    </div>
+  </article>
+
+  <article class="task" id="u26">
+    <div class="task-head">
+      <div class="task-no">26</div>
+      <h3>Õunasadu</h3>
+      <div class="chips"><span class="chip k-operators">Tehted</span><span class="chip k-motion">Liikumine</span><span class="chip k-control">Juhtimine</span><span class="chip time">15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> õun kukub taevast alla ja alustab iga kord uuest juhuslikust kohast.</div>
+    <div class="cols">
+      <div>
+        <div class="label">Kuidas teha</div>
+        <ol class="steps">
+          <li>Tee uus õun: paremklõps spraidil <b>Õun</b> → <span class="ui">paljunda</span>. Uue õuna nimi on <b>Õun2</b>. Eemalda Õun2 küljest vanad skriptid (lohista need plokipaletti tagasi).</li>
+          <li>Õun2: <b>kui klõpsata 🏁</b> → <b>korda lõputult</b>.</li>
+          <li>Kordusesse pane <b>mine x: … y: 150</b>. x-i kasti lohista <b>juhuarv −200 kuni 200</b>.</li>
+          <li>Selle alla pane <b>korda 60 korda</b> ja sinna sisse <b>muuda y −5 võrra</b>. 60 × 5 = 300 sammu, nii et õun jõuab alla.</li>
+        </ol>
+      </div>
+      <div class="code">
+        <p class="who">Õun2</p>
+<pre class="blocks">kui klõpsata @greenFlag
+korda lõputult
+mine x: (juhuarv (-200) kuni (200)) y: (150)
+korda (60) korda
+muuda y (-5) võrra
+end
+end</pre>
+      </div>
+    </div>
+    <div class="extra"><p><b>Kiirematele:</b> tee õuna kukkumise kiirus juhuslikuks. Pane <b>muuda y</b> plokki <b>juhuarv −8 kuni −3</b>. Kas õun jõuab nüüd alati alla?</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c26a"> Õun kukub iga kord erinevast kohast.</label>
+    </div>
+  </article>
+
+  <div class="solo-head" id="juhuslikkus-ise">
+    <h3>Iseseisvad ülesanded: veealune maailm</h3>
+    <p>Need ülesanded harjutavad samu oskusi, aga teises projektis. Tee need ise, ilma järgi vaatamata. Kui jääd hätta, ava vihje või vaata ülevalt sama numbriga ülesannet.</p>
+  </div>
+  <article class="task solo" id="i25">
+    <div class="task-head">
+      <div class="task-no">25</div>
+      <h3>Kala mõtleb arvu</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Tee arvamismäng, kus kala mõtleb iga mängu alguses uue salaarvu 1 ja 10 vahel. Kala küsib arvu ja ütleb Liiga väike!, Liiga suur! või Arvasid ära!.</div>
+    <details class="hint"><summary>Vihje</summary><p>Loo muutuja Salaarv. Mängu alguses: võta Salaarv = juhuarv 1 kuni 10. Võrdlustes kasuta arvu 7 asemel muutujat Salaarv.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Kala küsib seni, kuni arvatakse ära, ja ütleb lõpus, mitu korda pakuti.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i25a"> Mängisin kolm korda ja salaarv oli iga kord erinev.</label><label><input type="checkbox" id="i25b"> Kõik kolm vastust töötavad.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i26">
+    <div class="task-head">
+      <div class="task-no">26</div>
+      <h3>Mullid tõusevad juhuslikest kohtadest</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">10–15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Mull ilmub liivale juhuslikku kohta (x on −220 ja 220 vahel, y on −150), tõuseb üles ja ilmub siis uuesti juhuslikus kohas all. See kordub lõputult.</div>
+    <details class="hint"><summary>Vihje</summary><p>Sama ülesehitus nagu õunasajul, aga y muutub plussi poole ja mull alustab all.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Iga mull on erineva suurusega: võta suuruseks juhuarv 50 kuni 150 %.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i26a"> Mull tõuseb iga kord erinevast kohast.</label>
+    </div>
+  </article>
+  <div class="share">
+    <b>Jaga oma tööd.</b> Kui selle teema ülesanded on tehtud: <span class="ui">Fail</span> → <span class="ui">Salvesta koopiana</span>, pane koopiale nimeks <b>T11 park</b> või <b>T11 meri</b>, vajuta <span class="ui">Jaga</span> ja seejärel projekti lehel <span class="ui">Lisa stuudiosse</span> → <b>11 Juhuslikkus</b>.
+  </div>
+
+
+  <div class="review">
+    <h3>Kordamiseks</h3>
+    <details><summary>Mis arvud võivad tulla plokist „juhuarv 1 kuni 3“?</summary><p>1, 2 või 3.</p></details>
+    <details><summary>Kuhu saab juhuarvu ploki panna?</summary><p>Igasse ümarasse auku, näiteks liikumisplokki, suurusesse, ütle-plokki või muutujasse.</p></details>
+  </div>
+  <p class="more">Vaata lisaks: Digiõpik, <a href="https://courses.cs.ut.ee/t/digiopik/Programmeerimine/Tund4" target="_blank" rel="noopener">4. tund „Juhuslikkus. Muutuja“</a>.</p>
+</section>
+
+<!-- vead -->
+<section class="chapter" id="vead">
+  <div class="chapter-head">
+    <div class="num">Teema 12 · ülesanded 27–28</div>
+    <h2>Vigade otsimine</h2>
+    <p>Programmeerija ei kirjuta kunagi kohe vigadeta programmi. Tähtis on osata vigu üles leida.</p>
+  </div>
+
+  <div class="theory">
+    <h3><small>Teooria</small>Testimine ja silumine</h3>
+    <p><b>Viga</b> on koht, kus programm teeb midagi muud, kui pidi. <b>Testimine</b> tähendab programmi proovimist, et vigu üles leida. <b>Silumine</b> on vea põhjuse otsimine ja parandamine.</p>
+    <div>
+      <div class="label">Nii otsid viga</div>
+      <ol class="steps">
+        <li>Ütle välja, mis <b>peaks</b> juhtuma.</li>
+        <li>Käivita programm ja vaata, mis <b>tegelikult</b> juhtub.</li>
+        <li>Leia skript, mis selle osa eest vastutab. Klõpsa üksikul skriptil, et proovida ainult seda.</li>
+        <li>Muuda <b>üht asja korraga</b> ja testi uuesti.</li>
+      </ol>
+    </div>
+    <div>
+      <div class="label">Kõige sagedamad vead</div>
+      <ul>
+        <li>Vale arv või märk (pluss ja miinus vahetuses).</li>
+        <li>Plokk on vales kohas, näiteks korduse all, kuigi peaks olema selle sees.</li>
+        <li>Teate nimi saatjal ja vastuvõtjal ei klapi.</li>
+        <li>Muutujale ei anta alguses väärtust.</li>
+        <li>Skript on vale spraidi küljes või puudub sündmuse plokk.</li>
+      </ul>
+    </div>
+  </div>
+
+  <article class="task" id="u27">
+    <div class="task-head">
+      <div class="task-no">27</div>
+      <h3>Leia vead pargi skriptides</h3>
+      <div class="chips"><span class="chip k-control">Testimine</span><span class="chip time">20 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> igas skriptis on üks viga. Leia see ja ütle, kuidas parandada. Need on samad skriptid, mida tegid varem, nii et võid neid ka oma pargis proovida.</div>
+    <div class="cols">
+      <div class="code">
+        <p class="who">A. S-klahv peaks viima tegelase alla</p>
+<pre class="blocks">kui klõpsata klahvi [s v]
+muuda y (10) võrra</pre>
+        <p class="who">B. Tegelane peaks lehvitama 10 korda</p>
+<pre class="blocks">kui klõpsata @greenFlag
+korda (10) korda
+järgmine kostüüm
+end
+oota (0.3) sek</pre>
+        <p class="who">C. Sõber peaks tegelasele vastama</p>
+<pre class="blocks">kui klõpsata @greenFlag
+ütle [Tere!] (2) sek
+teata [vasta v]
+
+kui saan teate [vastus v]
+ütle [Tere-tere!] (2) sek</pre>
+      </div>
+      <div class="code">
+        <p class="who">D. Õunad peaksid kokku lugema</p>
+<pre class="blocks">kui klõpsata @greenFlag
+korda lõputult
+kui &lt;puudutab (Õun v)?&gt; siis
+võta [Õunad v] = (0)
+muuda [Õunad v] (1) võrra
+teata [uus õun v] ja oota
+end
+end</pre>
+        <p class="who">E. Õun peaks kukkuma alla</p>
+<pre class="blocks">kui klõpsata @greenFlag
+mine x: (120) y: (60)
+korda kuni &lt;puudutab (serv v)?&gt;
+muuda y (5) võrra
+end</pre>
+      </div>
+    </div>
+    <div class="review">
+      <details><summary>Vastus A</summary><p>Alla minekuks peab y vähenema: <b>muuda y −10 võrra</b>.</p></details>
+      <details><summary>Vastus B</summary><p><b>oota</b> on korduse all. Kostüümid vahetuvad nii kiiresti, et midagi pole näha. Pane <b>oota 0.3 sek</b> korduse sisse.</p></details>
+      <details><summary>Vastus C</summary><p>Teate nimed ei klapi: saadetakse <b>vasta</b>, aga oodatakse <b>vastus</b>. Vali mõlemas sama teade.</p></details>
+      <details><summary>Vastus D</summary><p><b>võta Õunad = 0</b> on kordamise sees, nii et loendur läheb iga kord nulli ja näitab alati 1. Tõsta see plokk korduse ette.</p></details>
+      <details><summary>Vastus E</summary><p>y kasvab, nii et õun lendab üles ja peatub ülemises servas. Kukkumiseks: <b>muuda y −5 võrra</b>.</p></details>
+    </div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c27a"> Leidsin kõik viis viga enne vastuste vaatamist.</label>
+    </div>
+  </article>
+
+  <article class="task" id="u28">
+    <div class="task-head">
+      <div class="task-no">28</div>
+      <h3>Paranda võõras projekt</h3>
+      <div class="chips"><span class="chip k-control">Testimine</span><span class="chip time">20–25 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Digiõpikus on vigadega projektid. Avame koos kaks neist, leiame vead ja parandame need.</div>
+    <div>
+      <div class="label">Kuidas teha</div>
+      <ol class="steps">
+        <li>Ava projekt <a href="https://scratch.mit.edu/projects/212443202/" target="_blank" rel="noopener">„Testimine 1. Nimi“</a> ja vajuta <span class="ui">Remiksi</span>. Nüüd on sul oma koopia, mida saad muuta.</li>
+        <li>Vajuta rohelist lippu ja vasta:
+          <ol>
+            <li>Mida see projekt teeb?</li>
+            <li>Mis töötab teisiti, kui peaks? (Tähed peaksid ilmuma eri ajal.)</li>
+            <li>Kuidas viga parandada?</li>
+            <li>Mida saaks juurde lisada?</li>
+          </ol>
+        </li>
+        <li>Paranda viga ja lisa üks oma idee.</li>
+        <li>Tee sama projektiga <a href="https://scratch.mit.edu/projects/212443340/" target="_blank" rel="noopener">„Testimine 3. Vee all“</a>. Tegelased peaksid rääkima kordamööda.</li>
+      </ol>
+    </div>
+    <details class="hint"><summary>Vihje</summary><p>Nimes vaata, mitu sekundit iga täht enne ilmumist ootab. Vee all vaata, millal iga tegelane rääkima hakkab. Kas krabil on üldse skript?</p></details>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c28a"> Mõlemas projektis on viga parandatud.</label>
+      <label><input type="checkbox" id="c28b"> Lisasin kummassegi projekti midagi uut.</label>
+    </div>
+  </article>
+
+  <div class="solo-head" id="vead-ise">
+    <h3>Iseseisvad ülesanded: veealune maailm</h3>
+    <p>Need ülesanded harjutavad samu oskusi, aga teises projektis. Tee need ise, ilma järgi vaatamata. Kui jääd hätta, ava vihje või vaata ülevalt sama numbriga ülesannet.</p>
+  </div>
+  <article class="task solo" id="i27">
+    <div class="task-head">
+      <div class="task-no">27</div>
+      <h3>Paranda Digiõpiku projektid</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">25 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Ava Digiõpiku projektid <a href="https://scratch.mit.edu/projects/212443347/" target="_blank" rel="noopener">„Testimine 4. Sport“</a> ja <a href="https://scratch.mit.edu/projects/212443362/" target="_blank" rel="noopener">„Testimine 5. Puuviljad“</a>, remiksi need ja paranda vead. Vasta iga projekti juures neljale küsimusele: mida projekt teeb, mida saaks täiendada, mis oli viga, mida sa lisasid.</div>
+    <details class="hint"><summary>Vihje</summary><p>Spordis: klõpsa järjest igale nupule ja vaata, kas tuleb õige taust. Puuviljades: vasta meelega valesti ja vaata, mis lõpus juhtub.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Proovi ka projekti <a href="https://scratch.mit.edu/projects/212443357/" target="_blank" rel="noopener">„Testimine 6. Hüppa“</a>.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i27a"> Mõlemas projektis on viga parandatud.</label><label><input type="checkbox" id="i27b"> Lisasin kummassegi projekti midagi uut.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i28">
+    <div class="task-head">
+      <div class="task-no">28</div>
+      <h3>Peida viga paarilisele</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Tee oma meri-projektist koopia ja peida sinna üks viga. Jaga koopia stuudiosse. Paariline peab vea üles leidma ja parandama ning sina leiad tema peidetud vea.</div>
+    <details class="hint"><summary>Vihje</summary><p>Hea peidetud viga on väike: vale arv, plokk vales kohas või vale teate nimi. Ära kustuta tervet skripti.</p></details>
+    
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i28a"> Peitsin ühe vea ja paariline leidis selle.</label><label><input type="checkbox" id="i28b"> Leidsin paarilise peidetud vea ja parandasin selle.</label>
+    </div>
+  </article>
+  <div class="share">
+    <b>Jaga oma tööd.</b> Remiksitud Digiõpiku projektile pane nimeks <b>T12</b> ja projekti nimi, näiteks <b>T12 Nimi</b>. Paarilisele tehtud koopiale pane nimeks <b>T12 meri viga</b>. Vajuta <span class="ui">Jaga</span> ja seejärel projekti lehel <span class="ui">Lisa stuudiosse</span> → <b>12 Vigade otsimine</b>. Kirjuta projekti lehel lahtrisse <span class="ui">Märkused ja Autorid</span>, mis viga oli ja kuidas selle parandasid.
+  </div>
+
+
+  <div class="review">
+    <h3>Kordamiseks</h3>
+    <details><summary>Mis vahe on testimisel ja silumisel?</summary><p>Testimisega otsitakse, kas programmis on vigu. Silumisega leitakse vea põhjus ja parandatakse see.</p></details>
+    <details><summary>Miks muuta korraga ainult üht asja?</summary><p>Siis tead, mis muudatus vea parandas või uue vea tekitas.</p></details>
+  </div>
+  <p class="more">Projektid „Testimine 1–6“: Digiõpik, <a href="https://courses.cs.ut.ee/t/digiopik/Programmeerimine/Tund7" target="_blank" rel="noopener">7. tund „Testimine“</a> (CC BY 4.0).</p>
+</section>
+
+<!-- sonastik -->
+<section class="chapter" id="sonastik">
+  <div class="chapter-head">
+    <div class="num">Lisa</div>
+    <h2>Sõnastik</h2>
+  </div>
+  <div class="theory">
+    <dl class="terms">
+      <div><dt>Algoritm</dt><dd>Samm-sammuline juhend mingi töö tegemiseks.</dd></div>
+      <div><dt>Programm</dt><dd>Käskude kogum, millest arvuti saab aru ja mida ta oskab täita.</dd></div>
+      <div><dt>Sprait</dt><dd>Tegelane või asi laval, millel on oma skriptid.</dd></div>
+      <div><dt>Kostüüm</dt><dd>Spraidi üks välimus. Spraidil võib olla mitu kostüümi.</dd></div>
+      <div><dt>Taust</dt><dd>Pilt lava taga.</dd></div>
+      <div><dt>Skript</dt><dd>Kokku pandud plokid, mida täidetakse ülevalt alla.</dd></div>
+      <div><dt>Sündmus</dt><dd>Midagi, mis käivitab skripti: rohelise lipu klõps, klahvivajutus, teade.</dd></div>
+      <div><dt>Koordinaadid</dt><dd>Kaks arvu (x ja y), mis näitavad kohta laval.</dd></div>
+      <div><dt>Animatsioon</dt><dd>Liikumise mulje, mis tekib piltide kiirest vahetumisest.</dd></div>
+      <div><dt>Teade</dt><dd>Märguanne, mille üks sprait saadab ja millele teised saavad reageerida.</dd></div>
+      <div><dt>Kordus ehk tsükkel</dt><dd>Plokk, mis täidab tema sees olevaid plokke mitu korda.</dd></div>
+      <div><dt>Tingimus</dt><dd>Küsimus, mille vastus on jah või ei.</dd></div>
+      <div><dt>Valik ehk tingimuslause</dt><dd>Plokk (kui … siis), mis otsustab tingimuse põhjal, mida teha.</dd></div>
+      <div><dt>Muutuja</dt><dd>Nimega karp, kus programm hoiab väärtust ja saab seda muuta.</dd></div>
+      <div><dt>Juhuslikkus</dt><dd>Tulemust ei saa ette ennustada, nagu täringut veeretades.</dd></div>
+      <div><dt>Laiendus</dt><dd>Lisaplokkide rühm, mille saab Scratchi juurde lisada, näiteks Pliiats.</dd></div>
+      <div><dt>Viga</dt><dd>Koht, kus programm teeb midagi muud, kui pidi.</dd></div>
+      <div><dt>Testimine</dt><dd>Programmi proovimine, et vigu üles leida.</dd></div>
+      <div><dt>Silumine</dt><dd>Vea põhjuse otsimine ja parandamine.</dd></div>
+    </dl>
+  </div>
+</section>
+
+</main>
+</div>
+
+<footer>
+  <p>Õpetused, teooria ja näidisskriptid on kirjutatud selle kursuse jaoks. Lisamaterjalina viidatakse Tartu Ülikooli õppematerjalidele: <a href="https://courses.cs.ut.ee/t/scratch/Main/HomePage" target="_blank" rel="noopener">Scratchi materjalid</a> (CC BY-NC 3.0 EE) ja <a href="https://courses.cs.ut.ee/t/digiopik/Programmeerimine/Programmeerimisest" target="_blank" rel="noopener">Digiõpik. Programmeerimine</a> (CC BY 4.0). Mõistete selgitused põhinevad Digiõpiku sõnastikul.</p>
+  <p>Linnukesed jäävad meelde ainult selles brauseris.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/scratchblocks@3.6.4/build/scratchblocks.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/scratchblocks@3.6.4/build/translations-all.js"></script>
+<script>
+(function(){
+  try{
+    if (window.scratchblocks){
+      scratchblocks.renderMatching('pre.blocks',{style:'scratch3',languages:['et','en'],scale:0.68});
+    }
+  }catch(e){console.error(e)}
+
+  // mobiilne sisukord
+  var nav=document.querySelector('nav.toc'), tg=document.getElementById('toc-toggle');
+  if(tg){ tg.addEventListener('click',function(){ var o=nav.classList.toggle('open'); tg.setAttribute('aria-expanded',o?'true':'false'); }); }
+  document.querySelectorAll('nav.toc a').forEach(function(a){a.addEventListener('click',function(){ nav.classList.remove('open'); if(tg) tg.setAttribute('aria-expanded','false'); });});
+
+  // linnukesed
+  var KEY='scratch5-kontroll';
+  var saved={};
+  try{ saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{}; }catch(e){ saved={}; }
+  document.querySelectorAll('.check input[type=checkbox]').forEach(function(cb){
+    if(saved[cb.id]) cb.checked=true;
+    cb.addEventListener('change',function(){
+      saved[cb.id]=cb.checked;
+      try{ localStorage.setItem(KEY,JSON.stringify(saved)); }catch(e){}
+    });
+  });
+})();
+</script>
