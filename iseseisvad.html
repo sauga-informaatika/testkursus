@@ -1,0 +1,913 @@
+<title>Scratchi iseseisvad ülesanded</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Lexend:wght@400;500;600&display=swap">
+<style>
+/* Layout: õpiku-leht. Laial ekraanil kleepuv sisukord vasakul, kitsal sisukord üleval. Iga teema = peatükk, iga ülesanne = kaart. Värvikoodid on Scratchi plokikategooriate omad. */
+:root{
+  --bg:#f4f5fb; --surface:#ffffff; --fg:#1d2033; --muted:#5b6078; --line:#dfe1ee;
+  --accent:#855cd6; --accent-ink:#5b38a8; --accent-soft:#efe9fc;
+  --theory:#fff7e0; --theory-line:#f0c75a; --tip:#e7f6f1; --tip-line:#3fae8c;
+  --c-motion:#4c97ff; --c-looks:#9966ff; --c-events:#e6a800; --c-control:#ffab19; --c-sensing:#4aa8cc; --c-operators:#59c059; --c-variables:#ff8c1a; --c-draw:#d65cad; --c-pen:#0fbd8c;
+  --solo-soft:#ddf1fb; --solo-ink:#0f5f86; --solo-line:#9fd3ec;
+  --font-display:"Baloo 2","Trebuchet MS",system-ui,sans-serif;
+  --font-body:"Lexend",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --radius:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#15161f; --surface:#1e2030; --fg:#eceefa; --muted:#a3a8c3; --line:#33364c;
+  --accent:#a98bf0; --accent-ink:#c7b4ff; --accent-soft:#2a2442;
+  --theory:#2e2814; --theory-line:#a8862c; --tip:#15302a; --tip-line:#3fae8c; --c-events:#ffbf00;
+  --solo-soft:#123447; --solo-ink:#8fd3f5; --solo-line:#24536b;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#15161f; --surface:#1e2030; --fg:#eceefa; --muted:#a3a8c3; --line:#33364c;
+  --accent:#a98bf0; --accent-ink:#c7b4ff; --accent-soft:#2a2442;
+  --theory:#2e2814; --theory-line:#a8862c; --tip:#15302a; --tip-line:#3fae8c; --c-events:#ffbf00;
+  --solo-soft:#123447; --solo-ink:#8fd3f5; --solo-line:#24536b;
+  color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:16px}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.6;padding-inline:16px;padding-block:0 48px}
+a{color:var(--accent-ink)}
+a:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+h1,h2,h3,h4{font-family:var(--font-display);line-height:1.15;text-wrap:balance;margin:0}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:250px minmax(0,1fr);gap:40px}
+@media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr);gap:0}}
+
+/* Päis */
+.hero{max-width:1180px;margin:0 auto;padding-block:40px 28px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end}
+.hero .eyebrow{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.hero h1{font-size:clamp(40px,7vw,68px);font-weight:800;color:var(--fg);margin-top:6px}
+.hero h1 span{color:var(--accent)}
+.hero p{max-width:60ch;color:var(--muted);margin:10px 0 0}
+.hero-blocks{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.pill{font-family:var(--font-body);font-weight:600;font-size:14px;color:#fff;padding:6px 14px 6px 12px;border-radius:6px 18px 18px 6px;white-space:nowrap}
+@media (max-width:700px){.hero{grid-template-columns:minmax(0,1fr)}.hero-blocks{flex-direction:row;flex-wrap:wrap}}
+
+/* Sisukord */
+nav.toc{position:sticky;top:env(safe-area-inset-top,0px);align-self:start;max-height:100vh;overflow:auto;padding-block:8px 24px}
+nav.toc h2{font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-family:var(--font-body);font-weight:600;margin-bottom:10px}
+nav.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+nav.toc a{display:grid;grid-template-columns:28px 1fr;gap:6px;text-decoration:none;color:var(--fg);padding:6px 8px;border-radius:8px;font-size:15px;line-height:1.35}
+nav.toc a:hover{background:var(--accent-soft)}
+nav.toc .n{font-family:var(--font-display);font-weight:700;color:var(--accent)}
+.toc-toggle{display:none}
+@media (max-width:900px){
+  nav.toc{position:static;max-height:none;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:4px 14px;margin-bottom:24px}
+  nav.toc h2{display:none}
+  .toc-toggle{display:block;width:100%;text-align:left;background:none;border:0;color:var(--fg);font:600 16px var(--font-body);padding:12px 0;cursor:pointer}
+  .toc-toggle::after{content:" ▾";color:var(--accent)}
+  nav.toc:not(.open) ol{display:none}
+  nav.toc ol{padding-bottom:10px}
+}
+
+main{min-width:0;display:grid;gap:56px}
+
+/* Peatükk */
+.chapter{display:grid;gap:22px}
+.chapter-head{display:grid;gap:8px;border-bottom:2px solid var(--line);padding-bottom:14px}
+.chapter-head .num{font-family:var(--font-display);font-weight:700;color:var(--accent);font-size:18px}
+.chapter-head h2{font-size:clamp(30px,4.4vw,42px);font-weight:800}
+.chapter-head p{margin:0;color:var(--muted);max-width:65ch}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:13px;font-weight:600;color:#fff;padding:2px 10px;border-radius:999px;line-height:1.6}
+.chip.time{background:transparent;color:var(--muted);border:1px solid var(--line);font-variant-numeric:tabular-nums}
+.k-motion{background:var(--c-motion)}.k-looks{background:var(--c-looks)}.k-events{background:var(--c-events);color:#3a2b00}.k-control{background:var(--c-control);color:#3a2400}.k-sensing{background:var(--c-sensing)}.k-operators{background:var(--c-operators);color:#0f2e0f}.k-variables{background:var(--c-variables);color:#3a1d00}.k-draw{background:var(--c-draw)}.k-pen{background:var(--c-pen);color:#062d22}
+
+/* Teooria */
+.theory{background:var(--theory);border:1px solid var(--theory-line);border-radius:var(--radius);padding:20px 22px;display:grid;gap:10px}
+.theory h3{font-size:24px}
+.theory h3 small{display:block;font-family:var(--font-body);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:2px}
+.theory p{margin:0;max-width:68ch}
+.theory ul{margin:0;padding-left:1.2em;display:grid;gap:4px;max-width:68ch}
+dl.terms{margin:0;display:grid;gap:8px}
+dl.terms div{display:grid;grid-template-columns:minmax(110px,max-content) 1fr;gap:12px}
+dl.terms dt{font-weight:600}
+dl.terms dd{margin:0}
+@media (max-width:520px){dl.terms div{grid-template-columns:1fr;gap:0}}
+
+/* Ülesanne */
+.task{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px;display:grid;gap:16px;min-width:0}
+.task-head{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:start}
+.task-no{grid-row:span 2;width:46px;height:46px;border-radius:12px;background:var(--accent-soft);color:var(--accent-ink);font-family:var(--font-display);font-weight:800;font-size:24px;display:grid;place-items:center}
+.task-head h3{font-size:24px;font-weight:700}
+.goal{font-size:15px;color:var(--muted)}
+.mission{background:var(--accent-soft);border-radius:10px;padding:12px 16px;font-weight:500}
+.mission b{color:var(--accent-ink)}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
+@media (max-width:760px){.cols{grid-template-columns:minmax(0,1fr)}}
+.label{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:6px}
+ol.steps{margin:0;padding-left:1.4em;display:grid;gap:8px}
+ol.steps li::marker{font-family:var(--font-display);font-weight:700;color:var(--accent)}
+.ui{font-weight:600;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:0 6px;white-space:nowrap}
+.blk{font-weight:600;color:#fff;border-radius:5px;padding:1px 7px;white-space:nowrap;font-size:.92em}
+.code{min-width:0;overflow-x:auto;background:var(--bg);border-radius:10px;padding:14px}
+.code .who{font-size:13px;font-weight:600;color:var(--muted);margin:0 0 4px}
+.code .who:not(:first-child){margin-top:14px}
+pre.blocks{margin:0;font-size:13px;white-space:pre}
+.note{font-size:15px;color:var(--muted);margin:0}
+.lang-box{background:var(--tip);border:1px solid var(--tip-line);border-radius:var(--radius);padding:20px 22px;margin:0 0 36px;display:grid;gap:14px}
+.lang-box h2{font-family:var(--font-display);font-size:28px;margin:0;line-height:1.2}
+.lang-box p{margin:0}
+.lang-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start}
+.lang-grid h3{font-size:17px;margin:0 0 8px}
+.lang-grid ol{margin:0 0 12px;padding-left:22px}
+.lang-grid img{display:block;max-width:100%;height:auto;border-radius:10px;border:1px solid var(--line);background:#fff}
+.check{display:grid;gap:4px}
+.check label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.check input{width:20px;height:20px;margin-top:3px;accent-color:var(--accent);flex:none}
+.extra{background:var(--tip);border-left:4px solid var(--tip-line);border-radius:0 10px 10px 0;padding:10px 14px}
+.extra p{margin:0}
+
+/* Iseseisvad */
+.solo-head{display:grid;gap:6px;margin-top:12px;padding-top:18px;border-top:2px dashed var(--line)}
+.solo-head h3{font-size:26px;font-weight:800;color:var(--solo-ink)}
+.solo-head p{margin:0;color:var(--muted);max-width:68ch}
+.task.solo{border-color:var(--solo-line)}
+.task.solo .task-no{background:var(--solo-soft);color:var(--solo-ink)}
+.chip.solo-chip{background:var(--solo-soft);color:var(--solo-ink)}
+details.hint{background:var(--bg);border-radius:10px;padding:8px 14px}
+details.hint summary{cursor:pointer;font-weight:600;color:var(--solo-ink)}
+details.hint p{margin:6px 0 2px}
+.share{background:var(--accent-soft);border-radius:10px;padding:12px 16px}
+.task ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
+.task > p{margin:0}
+
+/* Kordamine */
+.review{display:grid;gap:8px}
+.review h3{font-size:22px}
+.review details{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.review summary{cursor:pointer;font-weight:500}
+.review details p{margin:8px 0 2px;color:var(--fg)}
+.review details[open] summary{color:var(--accent-ink)}
+.more{font-size:15px;color:var(--muted)}
+.more a{font-weight:500}
+
+/* Scratchi aken ja koordinaadid */
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px;overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto;min-width:320px}
+.figure figcaption{font-size:14px;color:var(--muted);margin-top:8px}
+figure{margin:0}
+.svg-fg{fill:var(--fg)}.svg-muted{fill:var(--muted)}.svg-line{stroke:var(--line)}.svg-surface{fill:var(--bg)}.svg-accent{fill:var(--accent)}
+
+footer{max-width:1180px;margin:56px auto 0;border-top:1px solid var(--line);padding-top:18px;font-size:14px;color:var(--muted);display:grid;gap:6px}
+footer p{margin:0;max-width:80ch}
+</style>
+
+<header class="hero">
+  <div>
+    <div class="eyebrow">Scratch 3 · eesti keeles · algajale</div>
+    <h1>Iseseisvad <span>ülesanded</span></h1>
+    <p>Siin on iga teema iseseisvad ülesanded. Kõik need teed ühes projektis, kus on veealune maailm. Tee ülesanded ise, ilma järgi vaatamata. Kui jääd hätta, ava kõigepealt vihje. Kui sellest ei piisa, vaata sama numbriga ülesannet <a href="index.html">koos tehtud ülesannete lehelt</a>.</p>
+  </div>
+  <div class="hero-blocks" aria-hidden="true">
+    <span class="pill k-events">kui klõpsata 🏁</span>
+    <span class="pill k-motion">liigu 10 punkti</span>
+    <span class="pill k-looks">ütle Tere!</span>
+    <span class="pill k-control">korda 10 korda</span>
+  </div>
+</header>
+
+<div class="wrap">
+<nav class="toc" aria-label="Sisukord">
+  <h2>Sisukord</h2>
+  <button type="button" class="toc-toggle" id="toc-toggle" aria-expanded="false" aria-controls="toc-list">Sisukord</button>
+  <ol id="toc-list">
+    <li><a href="#alusta"><span class="n">0</span><span>Sinu meri-projekt</span></a></li>
+    <li><a href="#pilt"><span class="n">1</span><span>Pilt ja tegelased</span></a></li>
+    <li><a href="#liikumine"><span class="n">2</span><span>Tegelane liigub</span></a></li>
+    <li><a href="#valimus"><span class="n">3</span><span>Kostüümid, peitmine ja näitamine</span></a></li>
+    <li><a href="#taustad"><span class="n">4</span><span>Taustade vahetamine</span></a></li>
+    <li><a href="#dialoog"><span class="n">5</span><span>Dialoog ja teated</span></a></li>
+    <li><a href="#kordused"><span class="n">6</span><span>Kordused</span></a></li>
+    <li><a href="#pliiats"><span class="n">7</span><span>Joonistamine pliiatsiga</span></a></li>
+    <li><a href="#tingimused"><span class="n">8</span><span>Tingimused</span></a></li>
+    <li><a href="#kysimused"><span class="n">9</span><span>Küsimine, arvutamine ja võrdlemine</span></a></li>
+    <li><a href="#muutuja"><span class="n">10</span><span>Muutuja</span></a></li>
+    <li><a href="#juhuslikkus"><span class="n">11</span><span>Juhuslikkus</span></a></li>
+    <li><a href="#vead"><span class="n">12</span><span>Vigade otsimine</span></a></li>
+    <li><a href="#sonastik"><span class="n">?</span><span>Sõnastik</span></a></li>
+  </ol>
+</nav>
+
+<main>
+
+<!-- keel -->
+<section class="lang-box" id="keel">
+  <h2>Muuda Scratch eesti keelde</h2>
+  <p>Kui Scratch on inglise keeles, muuda keel enne alustamist eestikeelseks. Seda saab teha kahes kohas. Vali see, kus sa parajasti oled.</p>
+  <div class="lang-grid">
+    <div>
+      <h3>Scratchi veebilehel</h3>
+      <ol>
+        <li>Keri lehe <b>kõige lõppu</b>.</li>
+        <li>Klõpsa keelekastil, kus on kirjas <b>English</b>.</li>
+        <li>Vali loendist <b>Eesti</b>.</li>
+      </ol>
+      <img src="pildid/keel_veebileht.jpg" alt="Scratchi veebilehe lõpus on keelekast, kus on kirjas English." width="340" height="101" loading="lazy">
+    </div>
+    <div>
+      <h3>Projekti sees</h3>
+      <ol>
+        <li>Klõpsa üleval vasakul <b>hammasratta</b> ikoonil.</li>
+        <li>Vii hiir sõna <b>Language</b> peale.</li>
+        <li>Vali loendist <b>Eesti</b>. Keeled on tähestiku järjekorras ja Eesti on kohe Deutsch'i järel.</li>
+      </ol>
+      <img src="pildid/keel_redaktor.jpg" alt="Projekti sees: hammasratas, siis Language ja loendist Eesti." width="500" height="640" loading="lazy">
+    </div>
+  </div>
+  <p class="note">Tavaliselt jätab brauser keele meelde. Kui Scratch on järgmisel korral jälle inglise keeles, tee sama uuesti.</p>
+</section>
+
+<!-- alusta -->
+<section class="chapter" id="alusta">
+  <div class="chapter-head">
+    <div class="num">Enne alustamist</div>
+    <h2>Sinu meri-projekt</h2>
+    <p>Kõik iseseisvad ülesanded teed ühes projektis nimega <b>meri</b>.</p>
+  </div>
+
+  <article class="task" id="jagamine">
+    <div class="task-head">
+      <div class="task-no">↗</div>
+      <h3>Tee projekt ja jaga tööd õpetajale</h3>
+      <div class="chips"><span class="chip time">loe enne alustamist</span></div>
+    </div>
+    <ol class="steps">
+      <li>Mine aadressile <b>scratch.mit.edu</b> ja logi sisse oma kasutajanime ja parooliga. Kui leht on inglise keeles, vaata <a href="#keel">lehe algusest</a>, kuidas see eesti keelde muuta.</li>
+      <li>Vajuta üleval <span class="ui">Loo</span>. Kirjuta projekti nimeks <b>meri</b>. Oma päris nime pealkirja ära kirjuta.</li>
+      <li>Kassi pole vaja: tee kassil paremklõps ja vali <span class="ui">eemalda</span>.</li>
+    </ol>
+    <div>
+      <div class="label">Jaga iga teema lõpus</div>
+      <ol class="steps">
+        <li>Kui teema iseseisvad ülesanded on tehtud, vali <span class="ui">Fail</span> → <span class="ui">Salvesta koopiana</span>. Scratch avab nüüd koopia.</li>
+        <li>Pane koopiale nimeks teema number ja meri, näiteks <b>T2 meri</b>.</li>
+        <li>Vajuta <span class="ui">Jaga</span>, siis <span class="ui">Vaata projektilehte</span> ja <span class="ui">Lisa stuudiosse</span>. Vali selle teema stuudio, näiteks <b>02 Tegelane liigub</b>.</li>
+        <li>Mine tagasi oma algse meri-projekti juurde: <span class="ui">Minu asjad</span> (kausta ikoon üleval) → <b>meri</b>. Järgmise teema ülesanded teed seal. Nii jääb iga teema koopia muutmata ja õpetaja näeb, mida sa selles teemas tegid.</li>
+      </ol>
+    </div>
+  </article>
+</section>
+
+<!-- pilt -->
+<section class="chapter" id="pilt">
+  <div class="chapter-head">
+    <div class="num">Teema 1 · ülesanded 1–3</div>
+    <h2>Pilt ja tegelased</h2>
+  </div>
+
+  <div class="solo-head" id="pilt-ise">
+    <h3>Iseseisvad ülesanded: veealune maailm</h3>
+    <p>Need ülesanded harjutavad samu oskusi, aga teises projektis. Tee need ise, ilma järgi vaatamata. Kui jääd hätta, ava vihje või vaata sama numbriga ülesannet <a href="index.html#pilt">koos tehtud ülesannete lehelt</a>.</p>
+  </div>
+  <article class="task solo" id="i1">
+    <div class="task-head">
+      <div class="task-no">1</div>
+      <h3>Veealune taust</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Joonista uus taust: veealune maailm. Peab olema sinine vesi, liivane põhi, vähemalt kaks vetikat ja üks kivi.</div>
+    <details class="hint"><summary>Vihje</summary><p>Kasuta samu tööriistu nagu pargi taustal: Ristkülik, Ring ja Täide. Vetika saad joonistada Pintsliga.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Lisa taustale mullid või päikesekiired, mis paistavad läbi vee.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i1a"> Taustal on vesi, liiv, kaks vetikat ja kivi.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i2">
+    <div class="task-head">
+      <div class="task-no">2</div>
+      <h3>Oma kala</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Joonista kala, kellel on silm, saba ja vähemalt kaks uime. Pane spraidi nimeks Kala.</div>
+    <details class="hint"><summary>Vihje</summary><p>Keha saad Ringi tööriistaga, kui joonistad ilma Shift-klahvita (siis tuleb ovaal). Saba on ristkülik, mille nurki muudad Kuju muutmise tööriistaga.</p></details>
+    
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i2a"> Kalal on silm, saba ja kaks uime.</label><label><input type="checkbox" id="i2b"> Spraidi nimi on Kala.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i3">
+    <div class="task-head">
+      <div class="task-no">3</div>
+      <h3>Krabi galeriist</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">5 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Lisa galeriist krabi (otsi sõnaga crab) ja pane ta liivale. Pane talle nimeks Krabi. Lisa veel üks mereloom omal valikul.</div>
+    <details class="hint"><summary>Vihje</summary><p>Galerii nimed on inglise keeles: meritäht on starfish, kala on fish, hai on shark.</p></details>
+    
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i3a"> Liival on krabi nimega Krabi.</label><label><input type="checkbox" id="i3b"> Laval on veel üks mereloom.</label>
+    </div>
+  </article>
+  <div class="share">
+    <b>Jaga oma tööd.</b> Vali <span class="ui">Fail</span> → <span class="ui">Salvesta koopiana</span>, pane koopiale nimeks <b>T1 meri</b>, vajuta <span class="ui">Jaga</span> ja projekti lehel <span class="ui">Lisa stuudiosse</span> → <b>01 Pilt ja tegelased</b>. Seejärel ava uuesti oma algne meri-projekt (<span class="ui">Minu asjad</span> → <b>meri</b>).
+  </div>
+</section>
+
+<!-- liikumine -->
+<section class="chapter" id="liikumine">
+  <div class="chapter-head">
+    <div class="num">Teema 2 · ülesanded 4–7</div>
+    <h2>Tegelane liigub</h2>
+  </div>
+
+  <div class="solo-head" id="liikumine-ise">
+    <h3>Iseseisvad ülesanded: veealune maailm</h3>
+    <p>Need ülesanded harjutavad samu oskusi, aga teises projektis. Tee need ise, ilma järgi vaatamata. Kui jääd hätta, ava vihje või vaata sama numbriga ülesannet <a href="index.html#liikumine">koos tehtud ülesannete lehelt</a>.</p>
+  </div>
+  <article class="task solo" id="i4">
+    <div class="task-head">
+      <div class="task-no">4</div>
+      <h3>Kala ujub nooltega</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Pane kala liikuma nooleklahvidega: nool üles, nool alla, nool vasakule ja nool paremale.</div>
+    <details class="hint"><summary>Vihje</summary><p>Täpselt nagu W A S D ülesandes, aga plokis kui klõpsata klahvi vali rippmenüüst noolte nimed.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Kui kala ujub vasakule, pööra ta ka vasakule: lisa plokk osuta suunas -90 (ja paremale minnes osuta suunas 90).</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i4a"> Kõik neli nooleklahvi liigutavad kala õiges suunas.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i5">
+    <div class="task-head">
+      <div class="task-no">5</div>
+      <h3>Krabi jälitab kala</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Krabi jälitab kala: ta pöörab end kogu aeg kala poole ja liigub korraga 2 punkti.</div>
+    <details class="hint"><summary>Vihje</summary><p>Nagu ülesandes 5, aga plokis osuta …-le vali hiirekursori asemel Kala. Skript tuleb panna krabile, mitte kalale.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Krabi läheb pea alaspidi. Vali krabi suunaks vasak/parem.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i5a"> Krabi liigub aeglaselt kala poole.</label><label><input type="checkbox" id="i5b"> Stoppnupp peatab krabi.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i6">
+    <div class="task-head">
+      <div class="task-no">6</div>
+      <h3>Alguspunktid</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">5 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Kui klõpsata rohelist lippu, läheb kala lava vasakusse ossa x: -150, y: 0 ja krabi paremale alla x: 150, y: -130.</div>
+    <details class="hint"><summary>Vihje</summary><p>Igal spraidil on oma skript. Mõlemal on vaja plokki mine x: … y: …</p></details>
+    
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i6a"> Lohistasin mõlemad spraidid mujale ja pärast rohelist lippu olid nad jälle õiges kohas.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i7">
+    <div class="task-head">
+      <div class="task-no">7</div>
+      <h3>Kala ujub edasi-tagasi</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">5–10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Rohelise lipu peale ujub kala alguspunktist kohta x: 150, y: 100 ja siis tagasi alguspunkti. Mõlemad liuglemised kestavad 2 sekundit.</div>
+    <details class="hint"><summary>Vihje</summary><p>Sul on vaja kahte liugle-plokki üksteise all.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Lisa vahele oota 1 sek, et kala puhkaks enne tagasi ujumist.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i7a"> Kala ujub ühte kohta ja tuleb tagasi.</label>
+    </div>
+  </article>
+  <div class="share">
+    <b>Jaga oma tööd.</b> Vali <span class="ui">Fail</span> → <span class="ui">Salvesta koopiana</span>, pane koopiale nimeks <b>T2 meri</b>, vajuta <span class="ui">Jaga</span> ja projekti lehel <span class="ui">Lisa stuudiosse</span> → <b>02 Tegelane liigub</b>. Seejärel ava uuesti oma algne meri-projekt (<span class="ui">Minu asjad</span> → <b>meri</b>).
+  </div>
+</section>
+
+<!-- valimus -->
+<section class="chapter" id="valimus">
+  <div class="chapter-head">
+    <div class="num">Teema 3 · ülesanded 8–10</div>
+    <h2>Kostüümid, peitmine ja näitamine</h2>
+  </div>
+
+  <div class="solo-head" id="valimus-ise">
+    <h3>Iseseisvad ülesanded: veealune maailm</h3>
+    <p>Need ülesanded harjutavad samu oskusi, aga teises projektis. Tee need ise, ilma järgi vaatamata. Kui jääd hätta, ava vihje või vaata sama numbriga ülesannet <a href="index.html#valimus">koos tehtud ülesannete lehelt</a>.</p>
+  </div>
+  <article class="task solo" id="i8">
+    <div class="task-head">
+      <div class="task-no">8</div>
+      <h3>Kala avab suu</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Joonista kalale teine kostüüm, kus suu on lahti. Pane kostüümidele nimed suu kinni ja suu lahti.</div>
+    <details class="hint"><summary>Vihje</summary><p>Tee kostüümist koopia (paremklõps → paljunda) ja muuda ainult suud.</p></details>
+    
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i8a"> Kalal on kaks kostüümi nimedega suu kinni ja suu lahti.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i9">
+    <div class="task-head">
+      <div class="task-no">9</div>
+      <h3>Suu klahvidega</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">5–10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Klahv L paneb kalale kostüümi suu lahti ja klahv K kostüümi suu kinni.</div>
+    <details class="hint"><summary>Vihje</summary><p>Siin ei sobi järgmine kostüüm. Kasuta plokki võta kostüüm … ja vali kostüümi nimi.</p></details>
+    
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i9a"> L avab suu ja K sulgeb selle, ka siis, kui vajutad sama klahvi mitu korda.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i10">
+    <div class="task-head">
+      <div class="task-no">10</div>
+      <h3>Krabi peidab end</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">5–10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Kui krabile klõpsata, peidab ta end liiva sisse ja tuleb 3 sekundi pärast ise välja.</div>
+    <details class="hint"><summary>Vihje</summary><p>Kõik kolm plokki on ühes skriptis: peida, oota, näita.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Lisa rohelise lipu skripti algusesse näita, et krabi ei jääks peitu.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i10a"> Klõps peidab krabi ja ta ilmub 3 sekundi pärast tagasi.</label>
+    </div>
+  </article>
+  <div class="share">
+    <b>Jaga oma tööd.</b> Vali <span class="ui">Fail</span> → <span class="ui">Salvesta koopiana</span>, pane koopiale nimeks <b>T3 meri</b>, vajuta <span class="ui">Jaga</span> ja projekti lehel <span class="ui">Lisa stuudiosse</span> → <b>03 Kostüümid, peitmine ja näitamine</b>. Seejärel ava uuesti oma algne meri-projekt (<span class="ui">Minu asjad</span> → <b>meri</b>).
+  </div>
+</section>
+
+<!-- taustad -->
+<section class="chapter" id="taustad">
+  <div class="chapter-head">
+    <div class="num">Teema 4 · ülesanded 11–12</div>
+    <h2>Taustade vahetamine</h2>
+  </div>
+
+  <div class="solo-head" id="taustad-ise">
+    <h3>Iseseisvad ülesanded: veealune maailm</h3>
+    <p>Need ülesanded harjutavad samu oskusi, aga teises projektis. Tee need ise, ilma järgi vaatamata. Kui jääd hätta, ava vihje või vaata sama numbriga ülesannet <a href="index.html#taustad">koos tehtud ülesannete lehelt</a>.</p>
+  </div>
+  <article class="task solo" id="i11">
+    <div class="task-head">
+      <div class="task-no">11</div>
+      <h3>Kaks mereala</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Pane oma veealusele taustale nimeks Korallid. Joonista teine taust Vrakk (näiteks põhjas lebav laev). Klahv 1 paneb tausta Korallid ja klahv 2 tausta Vrakk. Rohelise lipuga on alati Korallid.</div>
+    <details class="hint"><summary>Vihje</summary><p>Need skriptid tulevad lavale: kui klõpsata klahvi 1 → võta taust Korallid. Lava skriptiala avaneb, kui klõpsad paremal all Lava peale.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Kui taustaks saab Vrakk, ütleb kala „Siin on kummaline!“.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i11a"> Klahvid 1 ja 2 vahetavad tausta.</label><label><input type="checkbox" id="i11b"> Rohelise lipuga on alati Korallid.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i12">
+    <div class="task-head">
+      <div class="task-no">12</div>
+      <h3>Lõpukuva</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Joonista taust Lõpp, kus on suur tekst „Head aega!“. Kui vajutad klahvi L, vahetub taust Lõpp-iks ning kala ja krabi peidavad end. Rohelise lipuga tulevad loomad tagasi ja taust on Korallid.</div>
+    <details class="hint"><summary>Vihje</summary><p>Lavale: kui klõpsata klahvi l → võta taust Lõpp. Kalale ja krabile: kui taustaks saab Lõpp → peida, ja rohelise lipuga näita.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Lisa ka alguskuva, kus on mängu nimi ja juhend, nagu ülesandes 12.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i12a"> L-klahv toob lõpukuva ja loomi pole näha.</label><label><input type="checkbox" id="i12b"> Rohelise lipuga on mäng jälle alguses.</label>
+    </div>
+  </article>
+  <div class="share">
+    <b>Jaga oma tööd.</b> Vali <span class="ui">Fail</span> → <span class="ui">Salvesta koopiana</span>, pane koopiale nimeks <b>T4 meri</b>, vajuta <span class="ui">Jaga</span> ja projekti lehel <span class="ui">Lisa stuudiosse</span> → <b>04 Taustade vahetamine</b>. Seejärel ava uuesti oma algne meri-projekt (<span class="ui">Minu asjad</span> → <b>meri</b>).
+  </div>
+</section>
+
+<!-- dialoog -->
+<section class="chapter" id="dialoog">
+  <div class="chapter-head">
+    <div class="num">Teema 5 · ülesanne 13</div>
+    <h2>Dialoog ja teated</h2>
+  </div>
+
+  <div class="solo-head" id="dialoog-ise">
+    <h3>Iseseisvad ülesanded: veealune maailm</h3>
+    <p>Need ülesanded harjutavad samu oskusi, aga teises projektis. Tee need ise, ilma järgi vaatamata. Kui jääd hätta, ava vihje või vaata sama numbriga ülesannet <a href="index.html#dialoog">koos tehtud ülesannete lehelt</a>.</p>
+  </div>
+  <article class="task solo" id="i13">
+    <div class="task-head">
+      <div class="task-no">13</div>
+      <h3>Kala ja krabi räägivad</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">15–20 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Kala ja krabi räägivad kordamööda. Kokku on vähemalt 4 lauset ja kasutatud on vähemalt kahte erinevat teadet.</div>
+    <details class="hint"><summary>Vihje</summary><p>Iga kord, kui on teise tegelase kord rääkida, saada teade. Teine tegelane alustab skripti plokiga kui saan teate …</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Lisa kolmas tegelane, kes ütleb vestluse lõpus midagi.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i13a"> Laused tulevad õiges järjekorras ja kõnemullid ei kattu.</label><label><input type="checkbox" id="i13b"> Kasutasin kahte erinevat teadet.</label>
+    </div>
+  </article>
+  <div class="share">
+    <b>Jaga oma tööd.</b> Vali <span class="ui">Fail</span> → <span class="ui">Salvesta koopiana</span>, pane koopiale nimeks <b>T5 meri</b>, vajuta <span class="ui">Jaga</span> ja projekti lehel <span class="ui">Lisa stuudiosse</span> → <b>05 Dialoog ja teated</b>. Seejärel ava uuesti oma algne meri-projekt (<span class="ui">Minu asjad</span> → <b>meri</b>).
+  </div>
+</section>
+
+<!-- kordused -->
+<section class="chapter" id="kordused">
+  <div class="chapter-head">
+    <div class="num">Teema 6 · ülesanded 14–15</div>
+    <h2>Kordused</h2>
+  </div>
+
+  <div class="solo-head" id="kordused-ise">
+    <h3>Iseseisvad ülesanded: veealune maailm</h3>
+    <p>Need ülesanded harjutavad samu oskusi, aga teises projektis. Tee need ise, ilma järgi vaatamata. Kui jääd hätta, ava vihje või vaata sama numbriga ülesannet <a href="index.html#kordused">koos tehtud ülesannete lehelt</a>.</p>
+  </div>
+  <article class="task solo" id="i14">
+    <div class="task-head">
+      <div class="task-no">14</div>
+      <h3>Kala teeb mulli</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Kala avab ja sulgeb suud 5 korda. Iga kostüümivahetuse järel oota 0.2 sekundit. Lõpus ütleb kala Mull-mull!</div>
+    <details class="hint"><summary>Vihje</summary><p>ütle-plokk peab olema korduse all, mitte selle sees.</p></details>
+    
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i14a"> Suu liigub täpselt 5 korda ja siis ütleb kala Mull-mull!</label>
+    </div>
+  </article>
+  <article class="task solo" id="i15">
+    <div class="task-head">
+      <div class="task-no">15</div>
+      <h3>Krabi kõnnib, vetikas kõigub</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Krabi kõnnib liival vasakult paremale ja tagasi ega lähe pea alaspidi. Joonista vetikas eraldi spraidiks ja pane see kõikuma: pööra 10 kraadi ühele poole, oota, pööra 10 kraadi teisele poole, oota.</div>
+    <details class="hint"><summary>Vihje</summary><p>Mõlemal spraidil on oma korda lõputult. Vetika jaoks on vaja mõlemat pööra-plokki: ↻ ja ↺.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Lisa kalale ka korda lõputult, kus ta ujub üles-alla ja põrkab äärelt.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i15a"> Krabi kõnnib edasi-tagasi õiget pidi.</label><label><input type="checkbox" id="i15b"> Vetikas kõigub, kuni vajutad stoppnuppu.</label>
+    </div>
+  </article>
+  <div class="share">
+    <b>Jaga oma tööd.</b> Vali <span class="ui">Fail</span> → <span class="ui">Salvesta koopiana</span>, pane koopiale nimeks <b>T6 meri</b>, vajuta <span class="ui">Jaga</span> ja projekti lehel <span class="ui">Lisa stuudiosse</span> → <b>06 Kordused</b>. Seejärel ava uuesti oma algne meri-projekt (<span class="ui">Minu asjad</span> → <b>meri</b>).
+  </div>
+</section>
+
+<!-- pliiats -->
+<section class="chapter" id="pliiats">
+  <div class="chapter-head">
+    <div class="num">Teema 7 · ülesanded 16–17</div>
+    <h2>Joonistamine pliiatsiga</h2>
+  </div>
+
+  <div class="solo-head" id="pliiats-ise">
+    <h3>Iseseisvad ülesanded: veealune maailm</h3>
+    <p>Need ülesanded harjutavad samu oskusi, aga teises projektis. Tee need ise, ilma järgi vaatamata. Kui jääd hätta, ava vihje või vaata sama numbriga ülesannet <a href="index.html#pliiats">koos tehtud ülesannete lehelt</a>.</p>
+  </div>
+  <article class="task solo" id="i16">
+    <div class="task-head">
+      <div class="task-no">16</div>
+      <h3>Kolmnurk ja kuusnurk</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Joonista pliiatsiga kolmnurk ja selle kõrvale kuusnurk. Mõlema külje pikkus on 80.</div>
+    <details class="hint"><summary>Vihje</summary><p>Kolmnurgal on 3 külge ja iga pööre on 120 kraadi. Kuusnurgal on 6 külge ja pööre on 60 kraadi. Mõlemal juhul tuleb kokku 360 kraadi.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Joonista ka viisnurk. Mitu kraadi peab iga kord pöörama?</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i16a"> Mõlemad kujundid on kinnised (otsad saavad kokku).</label><label><input type="checkbox" id="i16b"> Iga rohelise lipu vajutus kustutab vana joonise.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i17">
+    <div class="task-head">
+      <div class="task-no">17</div>
+      <h3>Sõna HEI</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">25–30 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Kirjuta pliiatsiga trükitähtedega sõna HEI. Tähed on kõrvuti ja ühesuguse kõrgusega.</div>
+    <details class="hint"><summary>Vihje</summary><p>Joonista tähed enne ruudulisele paberile ja kirjuta üles iga joone algus- ja lõpp-punkt. Iga uue joone ette pane pliiats üles, mine x: … y: … ja pliiats alla.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Kirjuta oma nime esitähed. Tee iga täht erinevat värvi.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i17a"> Kõik kolm tähte on loetavad.</label><label><input type="checkbox" id="i17b"> Tähtede vahel ei ole üleliigseid jooni.</label>
+    </div>
+  </article>
+  <div class="share">
+    <b>Jaga oma tööd.</b> Vali <span class="ui">Fail</span> → <span class="ui">Salvesta koopiana</span>, pane koopiale nimeks <b>T7 meri</b>, vajuta <span class="ui">Jaga</span> ja projekti lehel <span class="ui">Lisa stuudiosse</span> → <b>07 Joonistamine pliiatsiga</b>. Seejärel ava uuesti oma algne meri-projekt (<span class="ui">Minu asjad</span> → <b>meri</b>).
+  </div>
+</section>
+
+<!-- tingimused -->
+<section class="chapter" id="tingimused">
+  <div class="chapter-head">
+    <div class="num">Teema 8 · ülesanded 18–20</div>
+    <h2>Tingimused</h2>
+  </div>
+
+  <div class="solo-head" id="tingimused-ise">
+    <h3>Iseseisvad ülesanded: veealune maailm</h3>
+    <p>Need ülesanded harjutavad samu oskusi, aga teises projektis. Tee need ise, ilma järgi vaatamata. Kui jääd hätta, ava vihje või vaata sama numbriga ülesannet <a href="index.html#tingimused">koos tehtud ülesannete lehelt</a>.</p>
+  </div>
+  <article class="task solo" id="i18">
+    <div class="task-head">
+      <div class="task-no">18</div>
+      <h3>Krabi näpistab</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">10–15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Kui kala puudutab krabi, ütleb kala Ai! Krabi näpistas! ja läheb tagasi alguspunkti.</div>
+    <details class="hint"><summary>Vihje</summary><p>korda lõputult → kui puudutab Krabi? siis. Skript tuleb panna kalale.</p></details>
+    
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i18a"> Krabi puudutades räägib kala ja läheb algusesse tagasi.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i19">
+    <div class="task-head">
+      <div class="task-no">19</div>
+      <h3>Suu tühikuga</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Kui tühik on all, on kalal suu lahti. Muidu on suu kinni.</div>
+    <details class="hint"><summary>Vihje</summary><p>Andurite all on plokk klahv tühik all? See sobib kui … siis … muidu tingimuseks.</p></details>
+    
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i19a"> Tühiku all hoidmisel on suu lahti ja lahti laskmisel kinni.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i20">
+    <div class="task-head">
+      <div class="task-no">20</div>
+      <h3>Mull tõuseb</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">10–15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Joonista uus sprait Mull (väike helesinine ring). Rohelise lipu peale läheb mull liivale kohta x: 0, y: -150 ja tõuseb üles (muuda y 3 võrra), kuni puudutab serva. Siis mull kaob ja kala ütleb Mull lõhkes!</div>
+    <details class="hint"><summary>Vihje</summary><p>Pane korda kuni puudutab serv? sisse muuda y 3 võrra. Korduse alla tulevad peida ja teade kalale.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Mull tõuseb vingerdades: lisa kordusesse muuda x juhuarv -2 kuni 2 võrra.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i20a"> Mull tõuseb üles ja kaob ülemises servas.</label><label><input type="checkbox" id="i20b"> Pärast seda ütleb kala Mull lõhkes!</label>
+    </div>
+  </article>
+  <div class="share">
+    <b>Jaga oma tööd.</b> Vali <span class="ui">Fail</span> → <span class="ui">Salvesta koopiana</span>, pane koopiale nimeks <b>T8 meri</b>, vajuta <span class="ui">Jaga</span> ja projekti lehel <span class="ui">Lisa stuudiosse</span> → <b>08 Tingimused</b>. Seejärel ava uuesti oma algne meri-projekt (<span class="ui">Minu asjad</span> → <b>meri</b>).
+  </div>
+</section>
+
+<!-- kysimused -->
+<section class="chapter" id="kysimused">
+  <div class="chapter-head">
+    <div class="num">Teema 9 · ülesanded 21–23</div>
+    <h2>Küsimine, arvutamine ja võrdlemine</h2>
+  </div>
+
+  <div class="solo-head" id="kysimused-ise">
+    <h3>Iseseisvad ülesanded: veealune maailm</h3>
+    <p>Need ülesanded harjutavad samu oskusi, aga teises projektis. Tee need ise, ilma järgi vaatamata. Kui jääd hätta, ava vihje või vaata sama numbriga ülesannet <a href="index.html#kysimused">koos tehtud ülesannete lehelt</a>.</p>
+  </div>
+  <article class="task solo" id="i21">
+    <div class="task-head">
+      <div class="task-no">21</div>
+      <h3>Lemmikvärv</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">10 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Kala küsib Mis on sinu lemmikvärv? ja vastab näiteks sinine on ilus värv!, kus esimene sõna on see, mis kasutaja kirjutas.</div>
+    <details class="hint"><summary>Vihje</summary><p>&amp; plokis on seekord vastus esimeses kastis ja tekst teises. Teksti algusesse pane tühik.</p></details>
+    
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i21a"> Kala kordab minu värvi ja lause on loetav (tühik on õiges kohas).</label>
+    </div>
+  </article>
+  <article class="task solo" id="i22">
+    <div class="task-head">
+      <div class="task-no">22</div>
+      <h3>10 aasta pärast</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">10–15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Krabi küsib Kui vana sa oled? ja ütleb, kui vana oled 10 aasta pärast.</div>
+    <details class="hint"><summary>Vihje</summary><p>Rohelised Tehted: vastus + 10.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Lisa teine lause, mis ütleb, kui vana olid 3 aastat tagasi (lahutamine).</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i22a"> Kui vastan 11, ütleb krabi 21.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i23">
+    <div class="task-head">
+      <div class="task-no">23</div>
+      <h3>Arvamismäng</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">15–20 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Kala mõtles arvu 7. Ta küsib: Arva ära, mis arvu ma mõtlen (1–10)! Kui vastus on väiksem kui 7, ütleb kala Liiga väike!. Kui suurem, siis Liiga suur!. Kui võrdne, siis Arvasid ära!</div>
+    <details class="hint"><summary>Vihje</summary><p>Sama ülesehitus nagu vanuse võrdlemisel: kolm kui … siis plokki.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Kala küsib seni, kuni arvatakse ära: kasuta korda kuni vastus = 7.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i23a"> Proovisin arvudega 3, 7 ja 9 ning iga kord tuli õige vastus.</label>
+    </div>
+  </article>
+  <div class="share">
+    <b>Jaga oma tööd.</b> Vali <span class="ui">Fail</span> → <span class="ui">Salvesta koopiana</span>, pane koopiale nimeks <b>T9 meri</b>, vajuta <span class="ui">Jaga</span> ja projekti lehel <span class="ui">Lisa stuudiosse</span> → <b>09 Küsimine, arvutamine ja võrdlemine</b>. Seejärel ava uuesti oma algne meri-projekt (<span class="ui">Minu asjad</span> → <b>meri</b>).
+  </div>
+</section>
+
+<!-- muutuja -->
+<section class="chapter" id="muutuja">
+  <div class="chapter-head">
+    <div class="num">Teema 10 · ülesanne 24</div>
+    <h2>Muutuja</h2>
+  </div>
+
+  <div class="solo-head" id="muutuja-ise">
+    <h3>Iseseisvad ülesanded: veealune maailm</h3>
+    <p>Need ülesanded harjutavad samu oskusi, aga teises projektis. Tee need ise, ilma järgi vaatamata. Kui jääd hätta, ava vihje või vaata sama numbriga ülesannet <a href="index.html#muutuja">koos tehtud ülesannete lehelt</a>.</p>
+  </div>
+  <article class="task solo" id="i24">
+    <div class="task-head">
+      <div class="task-no">24</div>
+      <h3>Mullide loendur</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">20 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Loo muutuja Mullid. Mängu alguses on see 0. Kui kala puudutab mulli, suureneb Mullid 1 võrra ja mull ilmub uude juhuslikku kohta.</div>
+    <details class="hint"><summary>Vihje</summary><p>Ülesehitus on sama nagu õunte loenduril. Kui mulli ülesande 20 skript segab, lohista see kõrvale.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Kui Mullid = 10, ütleb kala Võitsin! ja mäng peatub (stopp kõik).</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i24a"> Mängu alguses on Mullid 0.</label><label><input type="checkbox" id="i24b"> Iga puudutus annab ühe punkti ja mull liigub mujale.</label>
+    </div>
+  </article>
+  <div class="share">
+    <b>Jaga oma tööd.</b> Vali <span class="ui">Fail</span> → <span class="ui">Salvesta koopiana</span>, pane koopiale nimeks <b>T10 meri</b>, vajuta <span class="ui">Jaga</span> ja projekti lehel <span class="ui">Lisa stuudiosse</span> → <b>10 Muutuja</b>. Seejärel ava uuesti oma algne meri-projekt (<span class="ui">Minu asjad</span> → <b>meri</b>).
+  </div>
+</section>
+
+<!-- juhuslikkus -->
+<section class="chapter" id="juhuslikkus">
+  <div class="chapter-head">
+    <div class="num">Teema 11 · ülesanded 25–26</div>
+    <h2>Juhuslikkus</h2>
+  </div>
+
+  <div class="solo-head" id="juhuslikkus-ise">
+    <h3>Iseseisvad ülesanded: veealune maailm</h3>
+    <p>Need ülesanded harjutavad samu oskusi, aga teises projektis. Tee need ise, ilma järgi vaatamata. Kui jääd hätta, ava vihje või vaata sama numbriga ülesannet <a href="index.html#juhuslikkus">koos tehtud ülesannete lehelt</a>.</p>
+  </div>
+  <article class="task solo" id="i25">
+    <div class="task-head">
+      <div class="task-no">25</div>
+      <h3>Kala mõtleb arvu</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Tee arvamismäng, kus kala mõtleb iga mängu alguses uue salaarvu 1 ja 10 vahel. Kala küsib arvu ja ütleb Liiga väike!, Liiga suur! või Arvasid ära!.</div>
+    <details class="hint"><summary>Vihje</summary><p>Loo muutuja Salaarv. Mängu alguses: võta Salaarv = juhuarv 1 kuni 10. Võrdlustes kasuta arvu 7 asemel muutujat Salaarv.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Kala küsib seni, kuni arvatakse ära, ja ütleb lõpus, mitu korda pakuti.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i25a"> Mängisin kolm korda ja salaarv oli iga kord erinev.</label><label><input type="checkbox" id="i25b"> Kõik kolm vastust töötavad.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i26">
+    <div class="task-head">
+      <div class="task-no">26</div>
+      <h3>Mullid tõusevad juhuslikest kohtadest</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">10–15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Mull ilmub liivale juhuslikku kohta (x on −220 ja 220 vahel, y on −150), tõuseb üles ja ilmub siis uuesti juhuslikus kohas all. See kordub lõputult.</div>
+    <details class="hint"><summary>Vihje</summary><p>Sama ülesehitus nagu õunasajul, aga y muutub plussi poole ja mull alustab all.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> Iga mull on erineva suurusega: võta suuruseks juhuarv 50 kuni 150 %.</p></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i26a"> Mull tõuseb iga kord erinevast kohast.</label>
+    </div>
+  </article>
+  <div class="share">
+    <b>Jaga oma tööd.</b> Vali <span class="ui">Fail</span> → <span class="ui">Salvesta koopiana</span>, pane koopiale nimeks <b>T11 meri</b>, vajuta <span class="ui">Jaga</span> ja projekti lehel <span class="ui">Lisa stuudiosse</span> → <b>11 Juhuslikkus</b>. Seejärel ava uuesti oma algne meri-projekt (<span class="ui">Minu asjad</span> → <b>meri</b>).
+  </div>
+</section>
+
+<!-- vead -->
+<section class="chapter" id="vead">
+  <div class="chapter-head">
+    <div class="num">Teema 12 · ülesanded 27–28</div>
+    <h2>Vigade otsimine</h2>
+  </div>
+
+  <div class="solo-head" id="vead-ise">
+    <h3>Iseseisvad ülesanded: veealune maailm</h3>
+    <p>Need ülesanded harjutavad samu oskusi, aga teises projektis. Tee need ise, ilma järgi vaatamata. Kui jääd hätta, ava vihje või vaata sama numbriga ülesannet <a href="index.html#vead">koos tehtud ülesannete lehelt</a>.</p>
+  </div>
+  <article class="task solo" id="i27">
+    <div class="task-head">
+      <div class="task-no">27</div>
+      <h3>Paranda Digiõpiku projektid</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">25 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Ava Digiõpiku projektid <a href="https://scratch.mit.edu/projects/212443347/" target="_blank" rel="noopener">„Testimine 4. Sport“</a> ja <a href="https://scratch.mit.edu/projects/212443362/" target="_blank" rel="noopener">„Testimine 5. Puuviljad“</a>, remiksi need ja paranda vead. Vasta iga projekti juures neljale küsimusele: mida projekt teeb, mida saaks täiendada, mis oli viga, mida sa lisasid.
+      <ul>
+        <li><b>Sport:</b> kuidas teha nii, et nuppu JALGPALL klõpsates avaneks ka vastav taust?</li>
+        <li><b>Puuviljad:</b> kuidas teha nii, et programm ütleks, kas tegemist on õige vastusega?</li>
+      </ul></div>
+    <details class="hint"><summary>Vihje</summary><p>Spordis: klõpsa järjest igale nupule ja vaata, kas tuleb õige taust. Puuviljades: vasta meelega valesti ja vaata, mis lõpus juhtub.</p></details>
+    <div class="extra"><p><b>Kiirematele:</b> proovi ka neid projekte.</p>
+      <ul>
+        <li><a href="https://scratch.mit.edu/projects/212443336/" target="_blank" rel="noopener">„Testimine 2. Tegevus“</a>: kuidas teha nii, et laulja liiguks mikrofoni juurde ja kordaks oma laulu?</li>
+        <li><a href="https://scratch.mit.edu/projects/212443357/" target="_blank" rel="noopener">„Testimine 6. Hüppa“</a>: kuidas teha nii, et kui klots liikudes punast värvi puudutab, siis mäng lõppeks? Kuidas teha nii, et ühe tegelase kõik tegevused algaksid ühest rohelise lipu plokist?</li>
+      </ul></div>
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i27a"> Mõlemas projektis on viga parandatud.</label><label><input type="checkbox" id="i27b"> Lisasin kummassegi projekti midagi uut.</label>
+    </div>
+  </article>
+  <article class="task solo" id="i28">
+    <div class="task-head">
+      <div class="task-no">28</div>
+      <h3>Peida viga paarilisele</h3>
+      <div class="chips"><span class="chip solo-chip">iseseisev</span><span class="chip time">15 min</span></div>
+    </div>
+    <div class="mission"><b>Ülesanne:</b> Tee oma meri-projektist koopia ja peida sinna üks viga. Jaga koopia stuudiosse. Paariline peab vea üles leidma ja parandama ning sina leiad tema peidetud vea.</div>
+    <details class="hint"><summary>Vihje</summary><p>Hea peidetud viga on väike: vale arv, plokk vales kohas või vale teate nimi. Ära kustuta tervet skripti.</p></details>
+    
+    <div class="check">
+      <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="i28a"> Peitsin ühe vea ja paariline leidis selle.</label><label><input type="checkbox" id="i28b"> Leidsin paarilise peidetud vea ja parandasin selle.</label>
+    </div>
+  </article>
+  <div class="share">
+    <b>Jaga oma tööd.</b> Remiksitud Digiõpiku projektile pane nimeks <b>T12</b> ja projekti nimi, näiteks <b>T12 Sport</b>. Paarilisele tehtud koopiale pane nimeks <b>T12 meri viga</b>. Vajuta <span class="ui">Jaga</span> ja seejärel projekti lehel <span class="ui">Lisa stuudiosse</span> → <b>12 Vigade otsimine</b>. Kirjuta projekti lehel lahtrisse <span class="ui">Märkused ja Autorid</span>, mis viga oli ja kuidas selle parandasid.
+  </div>
+</section>
+
+<!-- sonastik -->
+<section class="chapter" id="sonastik">
+  <div class="chapter-head">
+    <div class="num">Lisa</div>
+    <h2>Sõnastik</h2>
+  </div>
+  <div class="theory">
+    <dl class="terms">
+      <div><dt>Algoritm</dt><dd>Samm-sammuline juhend mingi töö tegemiseks.</dd></div>
+      <div><dt>Programm</dt><dd>Käskude kogum, millest arvuti saab aru ja mida ta oskab täita.</dd></div>
+      <div><dt>Sprait</dt><dd>Tegelane või asi laval, millel on oma skriptid.</dd></div>
+      <div><dt>Kostüüm</dt><dd>Spraidi üks välimus. Spraidil võib olla mitu kostüümi.</dd></div>
+      <div><dt>Taust</dt><dd>Pilt lava taga.</dd></div>
+      <div><dt>Skript</dt><dd>Kokku pandud plokid, mida täidetakse ülevalt alla.</dd></div>
+      <div><dt>Sündmus</dt><dd>Midagi, mis käivitab skripti: rohelise lipu klõps, klahvivajutus, teade.</dd></div>
+      <div><dt>Koordinaadid</dt><dd>Kaks arvu (x ja y), mis näitavad kohta laval.</dd></div>
+      <div><dt>Animatsioon</dt><dd>Liikumise mulje, mis tekib piltide kiirest vahetumisest.</dd></div>
+      <div><dt>Teade</dt><dd>Märguanne, mille üks sprait saadab ja millele teised saavad reageerida.</dd></div>
+      <div><dt>Kordus ehk tsükkel</dt><dd>Plokk, mis täidab tema sees olevaid plokke mitu korda.</dd></div>
+      <div><dt>Tingimus</dt><dd>Küsimus, mille vastus on jah või ei.</dd></div>
+      <div><dt>Valik ehk tingimuslause</dt><dd>Plokk (kui … siis), mis otsustab tingimuse põhjal, mida teha.</dd></div>
+      <div><dt>Muutuja</dt><dd>Nimega karp, kus programm hoiab väärtust ja saab seda muuta.</dd></div>
+      <div><dt>Juhuslikkus</dt><dd>Tulemust ei saa ette ennustada, nagu täringut veeretades.</dd></div>
+      <div><dt>Laiendus</dt><dd>Lisaplokkide rühm, mille saab Scratchi juurde lisada, näiteks Pliiats.</dd></div>
+      <div><dt>Viga</dt><dd>Koht, kus programm teeb midagi muud, kui pidi.</dd></div>
+      <div><dt>Testimine</dt><dd>Programmi proovimine, et vigu üles leida.</dd></div>
+      <div><dt>Silumine</dt><dd>Vea põhjuse otsimine ja parandamine.</dd></div>
+    </dl>
+  </div>
+</section>
+
+</main>
+</div>
+
+<footer>
+  <p>Õpetused, teooria ja näidisskriptid on kirjutatud selle kursuse jaoks. Lisamaterjalina viidatakse Tartu Ülikooli õppematerjalidele: <a href="https://courses.cs.ut.ee/t/scratch/Main/HomePage" target="_blank" rel="noopener">Scratchi materjalid</a> (CC BY-NC 3.0 EE) ja <a href="https://courses.cs.ut.ee/t/digiopik/Programmeerimine/Programmeerimisest" target="_blank" rel="noopener">Digiõpik. Programmeerimine</a> (CC BY 4.0). Mõistete selgitused põhinevad Digiõpiku sõnastikul.</p>
+  <p>Linnukesed jäävad meelde ainult selles brauseris.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/scratchblocks@3.6.4/build/scratchblocks.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/scratchblocks@3.6.4/build/translations-all.js"></script>
+<script>
+(function(){
+  try{
+    if (window.scratchblocks){
+      scratchblocks.renderMatching('pre.blocks',{style:'scratch3',languages:['et','en'],scale:0.68});
+    }
+  }catch(e){console.error(e)}
+
+  // mobiilne sisukord
+  var nav=document.querySelector('nav.toc'), tg=document.getElementById('toc-toggle');
+  if(tg){ tg.addEventListener('click',function(){ var o=nav.classList.toggle('open'); tg.setAttribute('aria-expanded',o?'true':'false'); }); }
+  document.querySelectorAll('nav.toc a').forEach(function(a){a.addEventListener('click',function(){ nav.classList.remove('open'); if(tg) tg.setAttribute('aria-expanded','false'); });});
+
+  // linnukesed
+  var KEY='scratch5-kontroll';
+  var saved={};
+  try{ saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{}; }catch(e){ saved={}; }
+  document.querySelectorAll('.check input[type=checkbox]').forEach(function(cb){
+    if(saved[cb.id]) cb.checked=true;
+    cb.addEventListener('change',function(){
+      saved[cb.id]=cb.checked;
+      try{ localStorage.setItem(KEY,JSON.stringify(saved)); }catch(e){}
+    });
+  });
+})();
+</script>

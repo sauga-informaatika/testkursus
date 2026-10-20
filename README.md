@@ -1,6 +1,6 @@
 # Scratchi algkursus – 5. klass
 
-Õppematerjal Scratch 3 algkursuse jaoks 5. klassile, kes alustab programmeerimisega esimest korda. Kursusel on 13 teemat (0–12) ja 28 ülesannet. Iga teema juures on teooria, samm-sammult õpetus, valmis skriptid ja iseseisvad ülesanded.
+Õppematerjal Scratch 3 algkursuse jaoks 5. klassile, kes alustab programmeerimisega esimest korda. Kursusel on 13 teemat (0–12) ja 28 ülesannet. Iga teema juures on teooria, samm-sammult õpetus ja valmis skriptid. Iseseisvad ülesanded on eraldi lehel.
 
 **Leht:** https://sauga-informaatika.github.io/testkursus/
 
