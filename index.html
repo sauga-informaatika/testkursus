@@ -351,7 +351,10 @@ footer p{margin:0;max-width:80ch}
     </div>
     <div class="check" data-task="1">
       <div class="label">Kontrolli</div>
-      <label><input type="checkbox" id="c1a"> Taustal on muru, lill, puu ja päike.</label>
+      <label><input type="checkbox" id="c1a"> Taustal on muru.</label>
+      <label><input type="checkbox" id="c1a2"> Taustal on lill.</label>
+      <label><input type="checkbox" id="c1a3"> Taustal on puu.</label>
+      <label><input type="checkbox" id="c1a4"> Taustal on päike.</label>
       <label><input type="checkbox" id="c1b"> Joonistasin <b>tausta</b> (Taustad), mitte uue spraidi.</label>
     </div>
   </article>
@@ -376,7 +379,9 @@ footer p{margin:0;max-width:80ch}
     <div class="extra"><p><b>Nipp:</b> kui tegelane on liiga suur, muuda spraidi alas välja <span class="ui">Suurus</span> väärtust (näiteks 50).</p></div>
     <div class="check" data-task="2">
       <div class="label">Kontrolli</div>
-      <label><input type="checkbox" id="c2a"> Tegelasel on särk, pikad püksid ja tutimüts.</label>
+      <label><input type="checkbox" id="c2a"> Tegelasel on seljas särk.</label>
+      <label><input type="checkbox" id="c2a2"> Tegelasel on jalas pikad püksid.</label>
+      <label><input type="checkbox" id="c2a3"> Tegelasel on peas tutimüts.</label>
       <label><input type="checkbox" id="c2b"> Spraidi nimi on <b>Tegelane</b>.</label>
     </div>
   </article>
@@ -399,7 +404,8 @@ footer p{margin:0;max-width:80ch}
     </div>
     <div class="check" data-task="3">
       <div class="label">Kontrolli</div>
-      <label><input type="checkbox" id="c3a"> Õun on puu otsas ja selle nimi on <b>Õun</b>.</label>
+      <label><input type="checkbox" id="c3a"> Õun on puu otsas.</label>
+      <label><input type="checkbox" id="c3a2"> Spraidi nimi on <b>Õun</b>.</label>
     </div>
   </article>
 
@@ -486,7 +492,10 @@ muuda x (10) võrra</pre>
     <div class="extra"><p><b>Nipp:</b> plokki saad kopeerida, kui teed sellel paremklõpsu ja valid <span class="ui">Paljunda</span>. Siis tuleb ainult klahv ja arv ära muuta.</p></div>
     <div class="check" data-task="4">
       <div class="label">Kontrolli</div>
-      <label><input type="checkbox" id="c4a"> Kõik neli klahvi liigutavad tegelast õiges suunas.</label>
+      <label><input type="checkbox" id="c4a"> W viib tegelase üles.</label>
+      <label><input type="checkbox" id="c4a2"> S viib tegelase alla.</label>
+      <label><input type="checkbox" id="c4a3"> A viib tegelase vasakule.</label>
+      <label><input type="checkbox" id="c4a4"> D viib tegelase paremale.</label>
     </div>
   </article>
 
@@ -533,7 +542,8 @@ end</pre>
     </div>
     <div class="check" data-task="5">
       <div class="label">Kontrolli</div>
-      <label><input type="checkbox" id="c5a"> Liblikas liigub hiire poole ja peatub stoppnupuga.</label>
+      <label><input type="checkbox" id="c5a"> Liblikas liigub hiire poole.</label>
+      <label><input type="checkbox" id="c5a2"> Stoppnupp peatab liblika.</label>
       <label><input type="checkbox" id="c5b"> Tegelane liigub endiselt W, A, S ja D klahviga.</label>
     </div>
   </article>
@@ -593,7 +603,8 @@ liugle (2) sekundiga x: (150) y: (150)</pre>
     </div>
     <div class="check" data-task="7">
       <div class="label">Kontrolli</div>
-      <label><input type="checkbox" id="c7a"> Tegelane alustab keskelt ja liugleb paremale üles.</label>
+      <label><input type="checkbox" id="c7a"> Tegelane alustab lava keskelt.</label>
+      <label><input type="checkbox" id="c7a2"> Tegelane liugleb paremale üles.</label>
     </div>
   </article>
 
@@ -643,7 +654,9 @@ liugle (2) sekundiga x: (150) y: (150)</pre>
     </div>
     <div class="check" data-task="8">
       <div class="label">Kontrolli</div>
-      <label><input type="checkbox" id="c8a"> Tegelasel on kaks kostüümi nimedega <b>käed all</b> ja <b>käed üleval</b>.</label>
+      <label><input type="checkbox" id="c8a"> Tegelasel on kaks kostüümi.</label>
+      <label><input type="checkbox" id="c8a2"> Ühe kostüümi nimi on <b>käed all</b>.</label>
+      <label><input type="checkbox" id="c8a3"> Teise kostüümi nimi on <b>käed üleval</b>.</label>
     </div>
   </article>
 
@@ -704,7 +717,8 @@ näita</pre>
     <div class="extra"><p><b>Hea tava:</b> lisa rohelise lipu skripti algusesse ka <b>näita</b>. Muidu võib juhtuda, et järgmisel käivitusel on tegelane ikka peidus.</p></div>
     <div class="check" data-task="10">
       <div class="label">Kontrolli</div>
-      <label><input type="checkbox" id="c10a"> Klõps peidab tegelase ja tühik toob ta tagasi.</label>
+      <label><input type="checkbox" id="c10a"> Klõps peidab tegelase.</label>
+      <label><input type="checkbox" id="c10a2"> Tühik toob tegelase tagasi.</label>
     </div>
   </article>
 
@@ -778,8 +792,10 @@ järgmine taust</pre>
     </div>
     <div class="check">
       <div class="label">Kontrolli</div>
-      <label><input type="checkbox" id="c11c"> Taustade vahekaardil on kaks tausta: päev ja öö.</label>
-      <label><input type="checkbox" id="c11a"> Lavale klõpsates vahetub päev ööks ja öö päevaks.</label>
+      <label><input type="checkbox" id="c11c"> Taustade vahekaardil on taust <b>päev</b>.</label>
+      <label><input type="checkbox" id="c11c2"> Taustade vahekaardil on taust <b>öö</b>.</label>
+      <label><input type="checkbox" id="c11a"> Lavale klõpsates vahetub päev ööks.</label>
+      <label><input type="checkbox" id="c11a2"> Uuesti klõpsates vahetub öö päevaks.</label>
       <label><input type="checkbox" id="c11b"> Rohelise lipuga on alati päev.</label>
     </div>
   </article>
@@ -820,8 +836,10 @@ näita</pre>
     <div class="extra"><p><b>Kiirematele:</b> peida alguskuval ka õun ja teised spraidid.</p></div>
     <div class="check">
       <div class="label">Kontrolli</div>
-      <label><input type="checkbox" id="c12a"> Mäng algab alguskuvaga ja tegelast pole näha.</label>
-      <label><input type="checkbox" id="c12b"> Tühiku järel tuleb park ja tegelane ilmub.</label>
+      <label><input type="checkbox" id="c12a"> Mäng algab alguskuvaga.</label>
+      <label><input type="checkbox" id="c12a2"> Alguskuval pole tegelast näha.</label>
+      <label><input type="checkbox" id="c12b"> Tühiku järel tuleb park.</label>
+      <label><input type="checkbox" id="c12b2"> Tühiku järel ilmub tegelane.</label>
     </div>
   </article>
 
@@ -887,7 +905,8 @@ teata [vasta 2 v]</pre>
     <div class="extra"><p><b>Kiirematele:</b> tee vestlus vähemalt kuue lausega. Proovi ka plokki <b>mõtle …</b>, mis näitab mõttemulli.</p></div>
     <div class="check" data-task="11">
       <div class="label">Kontrolli</div>
-      <label><input type="checkbox" id="c13a"> Tegelased räägivad kordamööda ja kõnemullid ei kattu.</label>
+      <label><input type="checkbox" id="c13a"> Tegelased räägivad kordamööda.</label>
+      <label><input type="checkbox" id="c13a2"> Kõnemullid ei kattu.</label>
       <label><input type="checkbox" id="c13b"> Kasutasin vähemalt ühte teadet.</label>
     </div>
   </article>
@@ -951,7 +970,8 @@ end</pre>
     </div>
     <div class="check" data-task="12">
       <div class="label">Kontrolli</div>
-      <label><input type="checkbox" id="c14a"> Tegelane lehvitab ja jääb siis seisma.</label>
+      <label><input type="checkbox" id="c14a"> Tegelane lehvitab.</label>
+      <label><input type="checkbox" id="c14a2"> Pärast lehvitamist jääb tegelane seisma.</label>
       <label><input type="checkbox" id="c14b"> Korduste arvu muutmine muudab lehvitamiste arvu.</label>
     </div>
   </article>
@@ -991,8 +1011,10 @@ end</pre>
     <div class="extra"><p><b>Kiirematele:</b> lisa tegelase kordusesse ka <b>järgmine kostüüm</b> ja <b>oota 0.2 sek</b>. Nüüd ta lehvitab kõndides.</p></div>
     <div class="check" data-task="13">
       <div class="label">Kontrolli</div>
-      <label><input type="checkbox" id="c15a"> Tegelane kõnnib edasi-tagasi ega jää serva kinni.</label>
-      <label><input type="checkbox" id="c15b"> Päike pöörleb ja kõik peatub stoppnupuga.</label>
+      <label><input type="checkbox" id="c15a"> Tegelane kõnnib edasi-tagasi.</label>
+      <label><input type="checkbox" id="c15a2"> Tegelane ei jää serva kinni.</label>
+      <label><input type="checkbox" id="c15b"> Päike pöörleb.</label>
+      <label><input type="checkbox" id="c15b2"> Stoppnupp peatab kõik.</label>
     </div>
   </article>
 
@@ -1062,7 +1084,8 @@ pliiats üles</pre>
     </div>
     <div class="check">
       <div class="label">Kontrolli</div>
-      <label><input type="checkbox" id="c16a"> Ruut on kinnine ja iga uus käivitus kustutab vana.</label>
+      <label><input type="checkbox" id="c16a"> Ruut on kinnine (otsad saavad kokku).</label>
+      <label><input type="checkbox" id="c16a2"> Iga uus käivitus kustutab vana ruudu.</label>
     </div>
   </article>
 
@@ -1105,7 +1128,9 @@ pliiats üles</pre>
     </div>
     <div class="check">
       <div class="label">Kontrolli</div>
-      <label><input type="checkbox" id="c17a"> T ja L on loetavad ja nende vahel pole üleliigset joont.</label>
+      <label><input type="checkbox" id="c17a"> Täht T on loetav.</label>
+      <label><input type="checkbox" id="c17a2"> Täht L on loetav.</label>
+      <label><input type="checkbox" id="c17a3"> Tähtede vahel pole üleliigset joont.</label>
     </div>
   </article>
 
@@ -1180,7 +1205,8 @@ peida</pre>
     </div>
     <div class="check" data-task="14">
       <div class="label">Kontrolli</div>
-      <label><input type="checkbox" id="c18a"> Õuna puudutades räägib tegelane ja õun kaob.</label>
+      <label><input type="checkbox" id="c18a"> Õuna puudutades tegelane räägib.</label>
+      <label><input type="checkbox" id="c18a2"> Õuna puudutades õun kaob.</label>
       <label><input type="checkbox" id="c18b"> Rohelise lipuga on õun jälle näha.</label>
     </div>
   </article>
@@ -1218,7 +1244,8 @@ end</pre>
     <div class="extra"><p><b>Kiirematele:</b> tegelane ütleb lisaks „Hurraa!“, aga ainult siis, kui käed on üleval.</p></div>
     <div class="check" data-task="15">
       <div class="label">Kontrolli</div>
-      <label><input type="checkbox" id="c19a"> Hiirenupp all tõstab käed üles ja lahti laskmisel lähevad käed alla.</label>
+      <label><input type="checkbox" id="c19a"> Hiirenupu all hoidmisel on tegelasel käed üleval.</label>
+      <label><input type="checkbox" id="c19a2"> Hiirenupu lahti laskmisel lähevad käed alla.</label>
     </div>
   </article>
 
@@ -1388,7 +1415,9 @@ end</pre>
     </div>
     <div class="check" data-task="19">
       <div class="label">Kontrolli</div>
-      <label><input type="checkbox" id="c23a"> Proovisin vastuseid 9, 12 ja 15 ning iga kord tuli õige lause.</label>
+      <label><input type="checkbox" id="c23a"> Vastusega 9 tuli õige lause.</label>
+      <label><input type="checkbox" id="c23a2"> Vastusega 12 tuli õige lause.</label>
+      <label><input type="checkbox" id="c23a3"> Vastusega 15 tuli õige lause.</label>
     </div>
   </article>
 
@@ -1463,7 +1492,8 @@ mine (juhuslik asukoht v)</pre>
     <div class="check" data-task="20">
       <div class="label">Kontrolli</div>
       <label><input type="checkbox" id="c24a"> Mängu alguses on Õunad 0.</label>
-      <label><input type="checkbox" id="c24b"> Iga puudutus annab ühe õuna ja õun liigub uude kohta.</label>
+      <label><input type="checkbox" id="c24b"> Iga puudutus annab ühe õuna.</label>
+      <label><input type="checkbox" id="c24b2"> Pärast puudutust liigub õun uude kohta.</label>
       <label><input type="checkbox" id="c24c"> Näidik on laval näha.</label>
     </div>
   </article>
@@ -1521,7 +1551,8 @@ mine (juhuslik asukoht v)</pre>
     </div>
     <div class="check">
       <div class="label">Kontrolli</div>
-      <label><input type="checkbox" id="c25a"> Tuleb erinevaid arve 1 kuni 6 ja kunagi ei tule 0 ega 7.</label>
+      <label><input type="checkbox" id="c25a"> Tuleb erinevaid arve 1 kuni 6.</label>
+      <label><input type="checkbox" id="c25a2"> Kunagi ei tule 0 ega 7.</label>
     </div>
   </article>
 
@@ -1669,7 +1700,8 @@ end</pre>
     <div class="check">
       <div class="label">Kontrolli</div>
       <label><input type="checkbox" id="c27a"> Leidsin kõik viis viga enne vastuste vaatamist.</label>
-      <label><input type="checkbox" id="c27b"> Parandasin vead oma remiksis ja kõik viis skripti töötavad.</label>
+      <label><input type="checkbox" id="c27b"> Parandasin vead oma remiksis.</label>
+      <label><input type="checkbox" id="c27b2"> Kõik viis skripti töötavad.</label>
     </div>
   </article>
 
@@ -1699,8 +1731,10 @@ end</pre>
     <details class="hint"><summary>Vihje</summary><p>Nimes vaata, mitu sekundit iga täht enne ilmumist ootab. Vee all vaata, millal iga tegelane rääkima hakkab. Kas krabil on üldse skript?</p></details>
     <div class="check">
       <div class="label">Kontrolli</div>
-      <label><input type="checkbox" id="c28a"> Mõlemas projektis on viga parandatud.</label>
-      <label><input type="checkbox" id="c28b"> Lisasin kummassegi projekti midagi uut.</label>
+      <label><input type="checkbox" id="c28a"> Projektis „Nimi“ on viga parandatud.</label>
+      <label><input type="checkbox" id="c28a2"> Projektis „Vee all“ on viga parandatud.</label>
+      <label><input type="checkbox" id="c28b"> Lisasin projekti „Nimi“ midagi uut.</label>
+      <label><input type="checkbox" id="c28b2"> Lisasin projekti „Vee all“ midagi uut.</label>
     </div>
   </article>
 
