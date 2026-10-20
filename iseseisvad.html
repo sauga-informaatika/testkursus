@@ -110,6 +110,8 @@ pre.blocks{margin:0;font-size:13px;white-space:pre}
 .note{font-size:15px;color:var(--muted);margin:0}
 .lang-box{background:var(--tip);border:1px solid var(--tip-line);border-radius:var(--radius);padding:20px 22px;margin:0 0 36px;display:grid;gap:14px}
 .lang-box h2{font-family:var(--font-display);font-size:28px;margin:0;line-height:1.2}
+.lang-box h4{font-family:var(--font-display);font-size:22px;margin:0;line-height:1.2}
+.task .lang-box{margin:0;padding:16px 18px}
 .lang-box p{margin:0}
 .lang-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start}
 .lang-grid h3{font-size:17px;margin:0 0 8px}
@@ -194,33 +196,6 @@ footer p{margin:0;max-width:80ch}
 
 <main>
 
-<!-- keel -->
-<section class="lang-box" id="keel">
-  <h2>Muuda Scratch eesti keelde</h2>
-  <p>Kui Scratch on inglise keeles, muuda keel enne alustamist eestikeelseks. Seda saab teha kahes kohas. Vali see, kus sa parajasti oled.</p>
-  <div class="lang-grid">
-    <div>
-      <h3>Scratchi veebilehel</h3>
-      <ol>
-        <li>Keri lehe <b>kõige lõppu</b>.</li>
-        <li>Klõpsa keelekastil, kus on kirjas <b>English</b>.</li>
-        <li>Vali loendist <b>Eesti</b>.</li>
-      </ol>
-      <img src="pildid/keel_veebileht.jpg" alt="Scratchi veebilehe lõpus on keelekast, kus on kirjas English." width="340" height="101" loading="lazy">
-    </div>
-    <div>
-      <h3>Projekti sees</h3>
-      <ol>
-        <li>Klõpsa üleval vasakul <b>hammasratta</b> ikoonil.</li>
-        <li>Vii hiir sõna <b>Language</b> peale.</li>
-        <li>Vali loendist <b>Eesti</b>. Keeled on tähestiku järjekorras ja Eesti on kohe Deutsch'i järel.</li>
-      </ol>
-      <img src="pildid/keel_redaktor.jpg" alt="Projekti sees: hammasratas, siis Language ja loendist Eesti." width="500" height="640" loading="lazy">
-    </div>
-  </div>
-  <p class="note">Tavaliselt jätab brauser keele meelde. Kui Scratch on järgmisel korral jälle inglise keeles, tee sama uuesti.</p>
-</section>
-
 <!-- alusta -->
 <section class="chapter" id="alusta">
   <div class="chapter-head">
@@ -236,7 +211,36 @@ footer p{margin:0;max-width:80ch}
       <div class="chips"><span class="chip time">loe enne alustamist</span></div>
     </div>
     <ol class="steps">
-      <li>Mine aadressile <b>scratch.mit.edu</b> ja logi sisse oma kasutajanime ja parooliga. Kui leht on inglise keeles, vaata <a href="#keel">lehe algusest</a>, kuidas see eesti keelde muuta.</li>
+      <li>Mine aadressile <b>scratch.mit.edu</b> ja logi sisse oma kasutajanime ja parooliga.</li>
+    </ol>
+    <!-- keel algus -->
+    <div class="lang-box" id="keel">
+      <h4>Muuda Scratch eesti keelde</h4>
+      <p>Kui Scratch on pärast sisselogimist inglise keeles, muuda see eesti keelde. Seda saab teha kahes kohas. Vali see, kus sa parajasti oled.</p>
+      <div class="lang-grid">
+        <div>
+          <h3>Scratchi veebilehel</h3>
+          <ol>
+            <li>Keri lehe <b>kõige lõppu</b>.</li>
+            <li>Klõpsa keelekastil, kus on kirjas <b>English</b>.</li>
+            <li>Vali loendist <b>Eesti</b>.</li>
+          </ol>
+          <img src="pildid/keel_veebileht.jpg" alt="Scratchi veebilehe lõpus on keelekast, kus on kirjas English." width="340" height="101" loading="lazy">
+        </div>
+        <div>
+          <h3>Projekti sees</h3>
+          <ol>
+            <li>Klõpsa üleval vasakul <b>hammasratta</b> ikoonil.</li>
+            <li>Vii hiir sõna <b>Language</b> peale.</li>
+            <li>Vali loendist <b>Eesti</b>. Keeled on tähestiku järjekorras ja Eesti on kohe Deutsch'i järel.</li>
+          </ol>
+          <img src="pildid/keel_redaktor.jpg" alt="Projekti sees: hammasratas, siis Language ja loendist Eesti." width="500" height="640" loading="lazy">
+        </div>
+      </div>
+      <p class="note">Tavaliselt jätab brauser keele meelde. Kui Scratch on järgmisel korral jälle inglise keeles, tee sama uuesti.</p>
+    </div>
+    <!-- keel lõpp -->
+    <ol class="steps" start="2">
       <li>Vajuta üleval <span class="ui">Loo</span>. Kirjuta projekti nimeks <b>meri</b>. Oma päris nime pealkirja ära kirjuta.</li>
       <li>Kassi pole vaja: tee kassil paremklõps ja vali <span class="ui">eemalda</span>.</li>
     </ol>
