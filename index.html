@@ -905,17 +905,28 @@ näita</pre>
     <div class="task-head">
       <div class="task-no">11</div>
       <h3>Päev ja öö</h3>
-      <div class="chips"><span class="chip k-looks">Välimus</span><span class="chip k-events">Sündmused</span><span class="chip time">15 min</span></div>
+      <div class="chips"><span class="chip k-looks">Välimus</span><span class="chip k-events">Sündmused</span><span class="chip time">15–20 min</span></div>
     </div>
-    <div class="mission"><b>Ülesanne:</b> pargil on kaks tausta, päev ja öö. Kui klõpsad laval, vahetub taust.</div>
+    <div class="mission"><b>Ülesanne:</b> tee oma pargist kaks tausta, <b>päev</b> ja <b>öö</b>. Kui klõpsad laval, vahetub päev ööks ja öö päevaks.</div>
     <div class="cols">
       <div>
-        <div class="label">Kuidas teha</div>
+        <div class="label">1. osa: loo taustad</div>
         <ol class="steps">
-          <li>Klõpsa paremal all <b>Lava</b> peale ja ava vahekaart <span class="ui">Taustad</span>.</li>
-          <li>Pane oma pargi taustale nimeks <b>päev</b>. Tee sellel paremklõps → <span class="ui">paljunda</span> ja pane koopiale nimeks <b>öö</b>.</li>
-          <li>Muuda öö taevas <span class="ui">Täide</span> tööriistaga tumesiniseks ja tee päikesest kollane kuu.</li>
-          <li>Mine tagasi <span class="ui">Kood</span> vahekaardile (Lava on endiselt valitud). Tee skriptid: rohelise lipu peale <b>võta taust päev</b> ja <b>kui lava klõpsata</b> peale <b>järgmine taust</b>.</li>
+          <li>Klõpsa paremal all <b>Lava</b> peale ja ava vahekaart <span class="ui">Taustad</span>. Seal on pargi taust, mille joonistasid ülesandes 1.</li>
+          <li>Pane sellele taustale nimeks <b>päev</b> (nimeväli on pildi kohal).</li>
+          <li>Tee vasakul taustade loendis pargil paremklõps → <span class="ui">paljunda</span>. Tekib samasugune koopia. Pane koopiale nimeks <b>öö</b>.</li>
+          <li>Tee öö taevas tumedaks.
+            <ul>
+              <li><b>Kui joonistasid pargile sinise taeva:</b> vali <span class="ui">Täide</span>, vali tumesinine värv ja klõpsa taevale.</li>
+              <li><b>Kui taevas on valge:</b> vali <span class="ui">Ristkülik</span> ja tumesinine värv ning joonista üle kogu pildi suur ristkülik. Vajuta siis <span class="ui">Tahaplaanile</span>, et muru, puu ja lill jääksid selle peale.</li>
+            </ul>
+          </li>
+          <li>Tee päikesest kuu: vali tööriist <span class="ui">Vali</span>, klõpsa päikesel ja muuda <span class="ui">Täide</span> helekollaseks või valgeks. Soovi korral lisa taevasse mõni täht (väikesed valged ringid).</li>
+        </ol>
+        <div class="label">2. osa: pane taustad vahetuma</div>
+        <ol class="steps" start="6">
+          <li>Mine tagasi <span class="ui">Kood</span> vahekaardile (Lava on endiselt valitud).</li>
+          <li>Tee skriptid: rohelise lipu peale <b>võta taust päev</b> ja <b>kui lava klõpsata</b> peale <b>järgmine taust</b>.</li>
         </ol>
       </div>
       <div class="code">
@@ -929,6 +940,7 @@ järgmine taust</pre>
     </div>
     <div class="check">
       <div class="label">Kontrolli</div>
+      <label><input type="checkbox" id="c11c"> Taustade vahekaardil on kaks tausta: päev ja öö.</label>
       <label><input type="checkbox" id="c11a"> Lavale klõpsates vahetub päev ööks ja öö päevaks.</label>
       <label><input type="checkbox" id="c11b"> Rohelise lipuga on alati päev.</label>
     </div>
